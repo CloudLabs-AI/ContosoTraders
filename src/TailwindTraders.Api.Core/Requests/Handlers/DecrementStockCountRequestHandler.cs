@@ -13,9 +13,9 @@ internal class DecrementStockCountRequestHandler : IRequestPreProcessor<Decremen
 
     public async Task<IActionResult> Handle(DecrementStockCountRequest request, CancellationToken cancellationToken)
     {
-        var stockCount = await _stockService.DecrementStockCountAsync(request.ProductId, cancellationToken);
+        var stockCountDto = await _stockService.DecrementStockCountAsync(request.ProductId, cancellationToken);
 
-        return new OkObjectResult(stockCount);
+        return new OkObjectResult(stockCountDto);
     }
 
     public async Task Process(DecrementStockCountRequest request, CancellationToken cancellationToken)
