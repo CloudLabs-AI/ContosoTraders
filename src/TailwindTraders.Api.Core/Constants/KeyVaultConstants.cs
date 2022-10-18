@@ -10,6 +10,8 @@ internal class KeyVaultConstants
 
     public static readonly string SecretNameProductsDbConnectionString = "productsDbConnectionString";
 
+    public static readonly string SecretNameProfilesDbConnectionString = "profilesDbConnectionString";
+
     public static readonly string SecretNameStocksDbConnectionString = "stocksDbConnectionString";
 
     #endregion

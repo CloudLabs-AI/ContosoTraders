@@ -60,9 +60,12 @@ public class DependencyInjection : FunctionsStartup
         // inject mediatr
         services.AddMediatR(Assembly.GetExecutingAssembly());
 
-        // inject ef-core dbcontext (after fetching connection string from azure keyvault).
+        // inject ef-core dbcontexts (after fetching connection string from azure keyvault).
         var productsDbConnectionString = configuration[KeyVaultConstants.SecretNameProductsDbConnectionString];
         services.AddDbContext<ProductsDbContext>(options => options.UseSqlServer(productsDbConnectionString), ServiceLifetime.Singleton);
+
+        var profilesDbConnectionString = configuration[KeyVaultConstants.SecretNameProfilesDbConnectionString];
+        services.AddDbContext<ProfilesDbContext>(options => options.UseSqlServer(profilesDbConnectionString), ServiceLifetime.Singleton);
 
         // injecting the cosmosdb clients
         var stocksDbConnectionString = configuration[KeyVaultConstants.SecretNameStocksDbConnectionString];
