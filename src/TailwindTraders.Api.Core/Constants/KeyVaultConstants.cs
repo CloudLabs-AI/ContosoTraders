@@ -6,6 +6,8 @@ internal class KeyVaultConstants
 
     public static readonly string SecretNameImagesEndpoint = "imagesEndpoint";
 
+    public static readonly string SecretNameCartsDbConnectionString = "cartsDbConnectionString";
+
     public static readonly string SecretNameProductsDbConnectionString = "productsDbConnectionString";
 
     public static readonly string SecretNameStocksDbConnectionString = "stocksDbConnectionString";

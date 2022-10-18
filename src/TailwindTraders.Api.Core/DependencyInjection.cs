@@ -64,17 +64,22 @@ public class DependencyInjection : FunctionsStartup
         var productsDbConnectionString = configuration[KeyVaultConstants.SecretNameProductsDbConnectionString];
         services.AddDbContext<ProductsDbContext>(options => options.UseSqlServer(productsDbConnectionString), ServiceLifetime.Singleton);
 
-        // injecting the cosmosdb client
+        // injecting the cosmosdb clients
         var stocksDbConnectionString = configuration[KeyVaultConstants.SecretNameStocksDbConnectionString];
-        services.AddSingleton(_ => new CosmosClient(stocksDbConnectionString).GetDatabase(CosmosConstants.DatabaseName));
+        services.AddSingleton(_ => new CosmosClient(stocksDbConnectionString).GetDatabase(CosmosConstants.DatabaseNameStocks));
+
+        var cartsDbConnectionString = configuration[KeyVaultConstants.SecretNameCartsDbConnectionString];
+        services.AddSingleton(_ => new CosmosClient(cartsDbConnectionString).GetDatabase(CosmosConstants.DatabaseNameCarts));
 
         // inject services
         services
+            .AddSingleton<ICartService, CartService>()
             .AddSingleton<IProductService, ProductService>()
             .AddSingleton<IStockService, StockService>();
 
         // inject repositories
         services
+            .AddSingleton<ICartRepository, CartRepository>()
             .AddSingleton<IStockRepository, StockRepository>();
 
         // @TODO: figure these out later. They are specific to aspnetcore
