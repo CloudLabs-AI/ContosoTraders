@@ -6,10 +6,8 @@ public class UpdateCartItemQuantityRequestValidator : AbstractValidator<UpdateCa
     {
         RuleFor(x => x.CartItem.CartItemId)
             .NotNull()
-            .NotEmpty()
             .WithMessage("CartItemId cannot be null/empty.");
         RuleFor(x => x.CartItem.Quantity)
-            .NotEmpty()
             .NotNull()
             .WithMessage("Quantity cannot be null/empty.");
     }
