@@ -1,5 +1,5 @@
 ﻿using Profile = AutoMapper.Profile;
-
+using ProfileDao = TailwindTraders.Api.Core.Models.Implementations.Dao.Profile;
 namespace TailwindTraders.Api.Core.Models;
 
 public class AutoMapperProfile : Profile
@@ -10,6 +10,7 @@ public class AutoMapperProfile : Profile
 
         CreateMap<StockDao, StockDto>()
             .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => Convert.ToInt32(src.id)));
+        CreateMap<ProfileDao, ProfileDto>();
 
         CreateMap<CartDao, CartDto>()
             .ForMember(dest => dest.CartItemId, opt => opt.MapFrom(src => src.id));
@@ -27,6 +28,8 @@ public class AutoMapperProfile : Profile
 
         CreateMap<CartDto, CartDao>()
             .ForMember(dest => dest.id, opt => opt.MapFrom(src => src.CartItemId));
+
+        CreateMap<ProfileDto, ProfileDao>();
 
         #endregion
     }
