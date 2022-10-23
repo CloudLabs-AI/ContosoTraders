@@ -12,7 +12,7 @@ internal class CartService : TailwindTradersServiceBase, ICartService
     public async Task<List<CartDto>> GetCartAsync(string email, CancellationToken cancellationToken = default)
     {
         var allCartItemsDao = await _cartRepository.ListAsync(null, cancellationToken);
-            
+
         var cartItemsDao = allCartItemsDao.Where(cart => cart.Email == email).ToList();
 
         if (cartItemsDao is null) throw new CartNotFoundException(email);

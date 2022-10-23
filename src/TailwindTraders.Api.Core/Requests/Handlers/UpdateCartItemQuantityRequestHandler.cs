@@ -17,7 +17,7 @@ internal class UpdateCartItemQuantityRequestHandler : IRequestPreProcessor<Updat
 
         var responseMessage = $"Product quantity updated, id: {request.CartItem.ProductId}";
 
-        return new ObjectResult(responseMessage) { StatusCode = 201 };
+        return new ObjectResult(responseMessage) {StatusCode = 201};
     }
 
     public async Task Process(UpdateCartItemQuantityRequest request, CancellationToken cancellationToken)
@@ -27,4 +27,3 @@ internal class UpdateCartItemQuantityRequestHandler : IRequestPreProcessor<Updat
         await validator.ValidateAndThrowAsync(request, cancellationToken);
     }
 }
-

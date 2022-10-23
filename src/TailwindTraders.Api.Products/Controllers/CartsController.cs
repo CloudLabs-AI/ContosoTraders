@@ -10,24 +10,23 @@ public class CartsController : TailwindTradersControllerBase
     }
 
     /// <summary>
-    ///
     /// </summary>
     /// <returns></returns>
-    [HttpGet()]
+    [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetCart()
     {
-        var email = this.Request.Headers["x-tt-name"].ToString();
+        var email = Request.Headers["x-tt-name"].ToString();
 
         var request = new GetCartRequest
-        {            
+        {
             Email = email
         };
 
         return await ProcessHttpRequestAsync(request);
     }
 
-    [HttpPost()]
+    [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<IActionResult> AddItemToCart([FromBody] CartDto cartDto)
     {

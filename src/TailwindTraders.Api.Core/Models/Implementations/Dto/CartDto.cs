@@ -4,7 +4,7 @@ public class CartDto
 {
     public string CartItemId { get; set; }
 
-    public string Email { get; set; }    
+    public string Email { get; set; }
 
     public int ProductId { get; set; }
 

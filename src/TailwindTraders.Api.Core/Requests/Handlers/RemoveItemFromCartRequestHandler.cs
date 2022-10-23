@@ -25,4 +25,3 @@ internal class RemoveItemFromCartRequestHandler : IRequestPreProcessor<RemoveIte
         await validator.ValidateAndThrowAsync(request, cancellationToken);
     }
 }
-
