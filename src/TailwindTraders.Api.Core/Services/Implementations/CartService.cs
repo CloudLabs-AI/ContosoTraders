@@ -9,7 +9,7 @@ internal class CartService : TailwindTradersServiceBase, ICartService
         _cartRepository = cartRepository;
     }
 
-    public async Task<List<CartDto>> GetCartAsync(string email, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<CartDto>> GetCartAsync(string email, CancellationToken cancellationToken = default)
     {
         var allCartItemsDao = await _cartRepository.ListAsync(null, cancellationToken);
 

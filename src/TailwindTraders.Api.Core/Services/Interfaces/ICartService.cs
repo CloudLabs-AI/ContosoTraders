@@ -7,7 +7,8 @@ internal interface ICartService
     /// <param name="email"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task<List<CartDto>> GetCartAsync(string email, CancellationToken cancellationToken);
+    /// <exception cref="CartNotFoundException"></exception>
+    Task<IEnumerable<CartDto>> GetCartAsync(string email, CancellationToken cancellationToken);
 
     /// <summary>
     /// </summary>
