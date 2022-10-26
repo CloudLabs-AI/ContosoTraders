@@ -1,7 +1,6 @@
-﻿namespace TailwindTraders.Api.Core.Services.Implementations;
+﻿using Profile = TailwindTraders.Api.Core.Models.Implementations.Dao.Profile;
 
-using TailwindTraders.Api.Core.Models.Implementations.Dto;
-
+namespace TailwindTraders.Api.Core.Services.Implementations;
 
 internal class ProfileService : TailwindTradersServiceBase, IProfileService
 {
@@ -11,15 +10,18 @@ internal class ProfileService : TailwindTradersServiceBase, IProfileService
     {
         _profileRepository = profileRepository;
     }
-    public IEnumerable<Models.Implementations.Dao.Profile> GetAllProfiles()
+
+    public IEnumerable<Profile> GetAllProfiles()
     {
         return _profileRepository.Profiles.ToList();
     }
-    public ProfileDto GetProfile(string emailid)
+
+    public Profile GetProfile(string email)
     {
-        var profileDao = _profileRepository.Profiles.SingleOrDefault(profile => profile.Email == emailid);      
-        var profileDto = Mapper.Map<ProfileDto>(profileDao);
-        return profileDto;
+        var profile = _profileRepository.Profiles.SingleOrDefault(profile => profile.Email == email);
+
+        if (profile is null) throw new ProfileNotFoundException(email);
+
+        return profile;
     }
-    
 }

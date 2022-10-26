@@ -1,8 +1,10 @@
-﻿namespace TailwindTraders.Api.Core.Services.Interfaces;
-using Profile = TailwindTraders.Api.Core.Models.Implementations.Dao.Profile;
+﻿using Profile = TailwindTraders.Api.Core.Models.Implementations.Dao.Profile;
+
+namespace TailwindTraders.Api.Core.Services.Interfaces;
 
 internal interface IProfileService
 {
     IEnumerable<Profile> GetAllProfiles();
-    ProfileDto GetProfile(string emailid);
+
+    Profile GetProfile(string email);
 }

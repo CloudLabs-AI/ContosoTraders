@@ -1,4 +1,4 @@
-﻿namespace TailwindTraders.Api.Products.Controllers;
+﻿namespace TailwindTraders.Api.Carts.Controllers;
 
 [Route("v1/[controller]")]
 public class ProfilesController : TailwindTradersControllerBase
@@ -18,13 +18,13 @@ public class ProfilesController : TailwindTradersControllerBase
 
     [HttpGet("me")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetProfile()
+    public async Task<IActionResult> GetProfile([FromHeader(Name = RequestHeaderConstants.HeaderNameUserEmail)] string userEmail)
     {
-        var email = "admin@tailwindtraders.com";
         var request = new GetProfileRequest
         {
-            Email = email
-        };
+            Email = userEmail
+        }; 
+        
         return await ProcessHttpRequestAsync(request);
     }
 }
