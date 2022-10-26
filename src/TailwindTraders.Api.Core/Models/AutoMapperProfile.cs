@@ -10,6 +10,7 @@ public class AutoMapperProfile : Profile
 
         CreateMap<StockDao, StockDto>()
             .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => Convert.ToInt32(src.id)));
+
         CreateMap<ProfileDao, ProfileDto>();
 
         CreateMap<CartDao, CartDto>()
