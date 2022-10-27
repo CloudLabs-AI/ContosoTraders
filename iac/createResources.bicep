@@ -6,26 +6,31 @@ targetScope = 'resourceGroup'
 
 // common
 param resourceLocation string = resourceGroup().location
-
 param suffix string = '8644'
+
+// tenant
+param tenantId string = '6d7e0652-b03d-4ed2-bf86-f1999cecde17'
 
 // variables
 ////////////////////////////////////////////////////////////////////////////////
 
+// key vault
+var keyVaultName = 'tailwind-traders-kv${suffix}'
+
 // cosmos db (stocks db)
-var stocksDbAcctName = 'tailwind-traders-stocks'
+var stocksDbAcctName = 'tailwind-traders-stocks${suffix}'
 var stocksDbName = 'stocksdb'
 var stocksDbStocksContainerName = 'stocks'
 
 // sql azure (products db)
-var productsDbServerName = 'tailwind-traders-products'
+var productsDbServerName = 'tailwind-traders-products${suffix}'
 var productsDbName = 'productsdb'
 var productsDbServerAdminLogin = 'localadmin'
 var productsDbServerAdminPassword = 'Password123!'
 
 // app service plan (products api)
-var productsApiAppSvcPlanName = 'tailwind-traders-products'
-var productsApiAppSvcName = 'tailwind-traders-products'
+var productsApiAppSvcPlanName = 'tailwind-traders-products${suffix}'
+var productsApiAppSvcName = 'tailwind-traders-products${suffix}'
 
 // tags
 var resourceTags = {
@@ -37,12 +42,32 @@ var resourceTags = {
 ////////////////////////////////////////////////////////////////////////////////
 
 //
+// key vault
+//
+
+resource symbolicname 'Microsoft.KeyVault/vaults@2022-07-01' = {
+  name: keyVaultName
+  location: resourceLocation
+  tags: resourceTags
+  properties: {
+    sku: {
+      family: 'A'
+      name: 'standard'
+    }
+    accessPolicies: [
+    ]
+    softDeleteRetentionInDays: 7
+    tenantId: tenantId
+  }
+}
+
+//
 // stocks db
 //
 
 // cosmos db account
 resource stocksdba 'Microsoft.DocumentDB/databaseAccounts@2022-02-15-preview' = {
-  name: '${stocksDbAcctName}${suffix}'
+  name: stocksDbAcctName
   location: resourceLocation
   tags: resourceTags
   properties: {
@@ -97,7 +122,7 @@ resource stocksdba 'Microsoft.DocumentDB/databaseAccounts@2022-02-15-preview' = 
 
 // sql azure server
 resource productsdbsrv 'Microsoft.Sql/servers@2022-05-01-preview' = {
-  name: '${productsDbServerName}${suffix}'
+  name: productsDbServerName
   location: resourceLocation
   tags: resourceTags
   properties: {
@@ -135,7 +160,7 @@ resource productsdbsrv 'Microsoft.Sql/servers@2022-05-01-preview' = {
 
 // app service plan (linux)
 resource productsapiappsvcplan 'Microsoft.Web/serverfarms@2022-03-01' = {
-  name: '${productsApiAppSvcPlanName}${suffix}'
+  name: productsApiAppSvcPlanName
   location: resourceLocation
   tags: resourceTags
   sku: {
@@ -149,13 +174,14 @@ resource productsapiappsvcplan 'Microsoft.Web/serverfarms@2022-03-01' = {
 
 // app service
 resource productsapiappsvc 'Microsoft.Web/sites@2022-03-01' = {
-  name: '${productsApiAppSvcName}${suffix}'
+  name: productsApiAppSvcName
   location: resourceLocation
   tags: resourceTags
   identity: {
     type: 'SystemAssigned'
   }
   properties: {
+    clientAffinityEnabled: false
     httpsOnly: true
     serverFarmId: productsapiappsvcplan.id
     siteConfig: {
