@@ -25,6 +25,7 @@ var productsDbServerAdminPassword = 'Password123!'
 
 // app service plan (products api)
 var productsApiAppSvcPlanName = 'tailwind-traders-products'
+var productsApiAppSvcName = 'tailwind-traders-products'
 
 // tags
 var resourceTags = {
@@ -133,7 +134,7 @@ resource productsdbsrv 'Microsoft.Sql/servers@2022-05-01-preview' = {
 //
 
 // app service plan (linux)
-resource symbolicname 'Microsoft.Web/serverfarms@2022-03-01' = {
+resource productsapiappsvcplan 'Microsoft.Web/serverfarms@2022-03-01' = {
   name: '${productsApiAppSvcPlanName}${suffix}'
   location: resourceLocation
   tags: resourceTags
@@ -144,6 +145,24 @@ resource symbolicname 'Microsoft.Web/serverfarms@2022-03-01' = {
     reserved: true
   }
   kind: 'linux'
+}
+
+// app service
+resource productsapiappsvc 'Microsoft.Web/sites@2022-03-01' = {
+  name: '${productsApiAppSvcName}${suffix}'
+  location: resourceLocation
+  tags: resourceTags
+  identity: {
+    type: 'SystemAssigned'
+  }
+  properties: {
+    httpsOnly: true
+    serverFarmId: productsapiappsvcplan.id
+    siteConfig: {
+      linuxFxVersion: 'DOTNETCORE|6.0'
+      alwaysOn: true
+    }
+  }
 }
 
 // outputs
