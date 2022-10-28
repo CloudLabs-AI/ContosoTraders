@@ -9,13 +9,15 @@ param resourceLocation string = resourceGroup().location
 param suffix string = '8644'
 
 // tenant
-param tenantId string = '6d7e0652-b03d-4ed2-bf86-f1999cecde17'
+param tenantId string = subscription().tenantId
 
 // variables
 ////////////////////////////////////////////////////////////////////////////////
 
 // key vault
-var keyVaultName = 'tailwind-traders-kv${suffix}'
+var kvName = 'tailwind-traders-kv${suffix}'
+var kvSecretNameProductsDbConnStr = 'productsDbConnectionString'
+var kvSecretNameStocksDbConnStr = 'stocksDbConnectionString'
 
 // cosmos db (stocks db)
 var stocksDbAcctName = 'tailwind-traders-stocks${suffix}'
@@ -32,6 +34,15 @@ var productsDbServerAdminPassword = 'Password123!'
 var productsApiAppSvcPlanName = 'tailwind-traders-products${suffix}'
 var productsApiAppSvcName = 'tailwind-traders-products${suffix}'
 
+// storage account (product images)
+var productImagesStgAccName = 'tailwindtradersimgs${suffix}'
+var productImagesProductDetailsContainerName = 'product-details'
+var productImagesProductListContainerName = 'product-list'
+
+// cdn
+var cdnProfileName = 'tailwind-traders-cdn${suffix}'
+var cdnEndpointName = 'tailwind-traders-images${suffix}'
+
 // tags
 var resourceTags = {
   Product: 'tailwind-traders'
@@ -45,19 +56,46 @@ var resourceTags = {
 // key vault
 //
 
-resource symbolicname 'Microsoft.KeyVault/vaults@2022-07-01' = {
-  name: keyVaultName
+resource kv 'Microsoft.KeyVault/vaults@2022-07-01' = {
+  name: kvName
   location: resourceLocation
   tags: resourceTags
   properties: {
+    accessPolicies: [
+      {
+        tenantId: tenantId
+        objectId: productsapiappsvc.identity.principalId
+        permissions: {
+          secrets: [ 'get', 'list' ]
+        }
+      }
+    ]
     sku: {
       family: 'A'
       name: 'standard'
     }
-    accessPolicies: [
-    ]
     softDeleteRetentionInDays: 7
     tenantId: tenantId
+  }
+
+  // secret 
+  resource kv_secretProductsDbConnStr 'secrets' = {
+    name: kvSecretNameProductsDbConnStr
+    tags: resourceTags
+    properties: {
+      contentType: 'connection string to the products db'
+      value: 'Server=tcp:${productsDbServerName}.database.windows.net,1433;Initial Catalog=${productsDbName};Persist Security Info=False;User ID=${productsDbServerAdminLogin};Password=${productsDbServerAdminPassword};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;'
+    }
+  }
+
+  // secret 
+  resource kv_secretStocksDbConnStr 'secrets' = {
+    name: kvSecretNameStocksDbConnStr
+    tags: resourceTags
+    properties: {
+      contentType: 'connection string to the stocks db'
+      value: stocksdba.listConnectionStrings().connectionStrings[0].connectionString
+    }
   }
 }
 
@@ -112,7 +150,6 @@ resource stocksdba 'Microsoft.DocumentDB/databaseAccounts@2022-02-15-preview' = 
         }
       }
     }
-
   }
 }
 
@@ -151,7 +188,6 @@ resource productsdbsrv 'Microsoft.Sql/servers@2022-05-01-preview' = {
       startIpAddress: '0.0.0.0'
     }
   }
-
 }
 
 //
@@ -187,6 +223,74 @@ resource productsapiappsvc 'Microsoft.Web/sites@2022-03-01' = {
     siteConfig: {
       linuxFxVersion: 'DOTNETCORE|6.0'
       alwaysOn: true
+    }
+  }
+}
+
+// storage account (product images)
+resource productimagesstgacc 'Microsoft.Storage/storageAccounts@2022-05-01' = {
+  name: productImagesStgAccName
+  location: resourceLocation
+  tags: resourceTags
+  sku: {
+    name: 'Standard_LRS'
+  }
+  kind: 'StorageV2'
+
+  // blob service
+  resource productimagesstgacc_blobsvc 'blobServices' = {
+    name: 'default'
+
+    // container
+    resource productimagesstgacc_blobsvc_productdetailscontainer 'containers' = {
+      name: productImagesProductDetailsContainerName
+      properties: {
+        publicAccess: 'Container'
+      }
+    }
+
+    // container
+    resource productimagesstgacc_blobsvc_productlistcontainer 'containers' = {
+      name: productImagesProductListContainerName
+      properties: {
+        publicAccess: 'Container'
+      }
+    }
+  }
+}
+
+//
+// cdn
+//
+
+resource cdnprofile 'Microsoft.Cdn/profiles@2022-05-01-preview' = {
+  name: cdnProfileName
+  location: 'global'
+  tags: resourceTags
+  sku: {
+    name: 'Standard_Microsoft'
+  }
+
+  // endpoint
+  resource cdnprofile_endpoint 'endpoints' = {
+    name: cdnEndpointName
+    location: 'global'
+    tags: resourceTags
+    properties: {
+      isCompressionEnabled: true
+      contentTypesToCompress: [
+        'image/svg+xml'
+      ]
+      originHostHeader: '${productImagesStgAccName}.blob.core.windows.net'
+      origins: [
+        {
+          name: '${productImagesStgAccName}-blob-core-windows-net'
+          properties: {
+            hostName: '${productImagesStgAccName}.blob.core.windows.net'
+            originHostHeader: '${productImagesStgAccName}.blob.core.windows.net'
+          }
+        }
+      ]
     }
   }
 }
