@@ -18,17 +18,29 @@ param tenantId string = subscription().tenantId
 var kvName = 'tailwind-traders-kv${suffix}'
 var kvSecretNameProductsDbConnStr = 'productsDbConnectionString'
 var kvSecretNameStocksDbConnStr = 'stocksDbConnectionString'
+var kvSecretNameCartsDbConnStr = 'cartsDbConnectionString'
 
 // cosmos db (stocks db)
 var stocksDbAcctName = 'tailwind-traders-stocks${suffix}'
 var stocksDbName = 'stocksdb'
 var stocksDbStocksContainerName = 'stocks'
 
+// cosmos db (carts db)
+var cartsDbAcctName = 'tailwind-traders-carts${suffix}'
+var cartsDbName = 'cartsdb'
+var cartsDbStocksContainerName = 'carts'
+
 // sql azure (products db)
 var productsDbServerName = 'tailwind-traders-products${suffix}'
 var productsDbName = 'productsdb'
 var productsDbServerAdminLogin = 'localadmin'
 var productsDbServerAdminPassword = 'Password123!'
+
+// sql azure (profiles db)
+var profilesDbServerName = 'tailwind-traders-profiles${suffix}'
+var profilesDbName = 'profilesdb'
+var profilesDbServerAdminLogin = 'localadmin'
+var profilesDbServerAdminPassword = 'Password123!'
 
 // app service plan (products api)
 var productsApiAppSvcPlanName = 'tailwind-traders-products${suffix}'
@@ -97,6 +109,16 @@ resource kv 'Microsoft.KeyVault/vaults@2022-07-01' = {
       value: stocksdba.listConnectionStrings().connectionStrings[0].connectionString
     }
   }
+
+  // secret
+  resource kv_secretCartsDbConnStr 'secrets' = {
+    name: kvSecretNameCartsDbConnStr
+    tags: resourceTags
+    properties: {
+      contentType: 'connection string to the carts db'
+      value: cartsdba.listConnectionStrings().connectionStrings[0].connectionString
+    }
+  }
 }
 
 //
@@ -154,6 +176,60 @@ resource stocksdba 'Microsoft.DocumentDB/databaseAccounts@2022-02-15-preview' = 
 }
 
 //
+// carts db
+//
+
+// cosmos db account
+resource cartsdba 'Microsoft.DocumentDB/databaseAccounts@2022-02-15-preview' = {
+  name: cartsDbAcctName
+  location: resourceLocation
+  tags: resourceTags
+  properties: {
+    databaseAccountOfferType: 'Standard'
+    enableFreeTier: false
+    capabilities: [
+      {
+        name: 'EnableServerless'
+      }
+    ]
+    locations: [
+      {
+        locationName: resourceLocation
+      }
+    ]
+  }
+
+  // cosmos db database
+  resource cartsdba_db 'sqlDatabases' = {
+    name: cartsDbName
+    location: resourceLocation
+    tags: resourceTags
+    properties: {
+      resource: {
+        id: cartsDbName
+      }
+    }
+
+    // cosmos db collection
+    resource cartsdba_db_c1 'containers' = {
+      name: cartsDbStocksContainerName
+      location: resourceLocation
+      tags: resourceTags
+      properties: {
+        resource: {
+          id: cartsDbStocksContainerName
+          partitionKey: {
+            paths: [
+              '/Email'
+            ]
+          }
+        }
+      }
+    }
+  }
+}
+
+//
 // products db
 //
 
@@ -182,6 +258,43 @@ resource productsdbsrv 'Microsoft.Sql/servers@2022-05-01-preview' = {
 
   // sql azure firewall rule (allow access from all azure resources/services)
   resource productsdbsrv_db_fwl 'firewallRules' = {
+    name: 'AllowAllWindowsAzureIps'
+    properties: {
+      endIpAddress: '0.0.0.0'
+      startIpAddress: '0.0.0.0'
+    }
+  }
+}
+
+//
+// profiles db
+//
+
+// sql azure server
+resource profilesdbsrv 'Microsoft.Sql/servers@2022-05-01-preview' = {
+  name: profilesDbServerName
+  location: resourceLocation
+  tags: resourceTags
+  properties: {
+    administratorLogin: profilesDbServerAdminLogin
+    administratorLoginPassword: profilesDbServerAdminPassword
+    publicNetworkAccess: 'Enabled'
+  }
+
+  // sql azure database
+  resource profilesdbsrv_db 'databases' = {
+    name: profilesDbName
+    location: resourceLocation
+    tags: resourceTags
+    sku: {
+      capacity: 5
+      tier: 'Basic'
+      name: 'Basic'
+    }
+  }
+
+  // sql azure firewall rule (allow access from all azure resources/services)
+  resource profilesdbsrv_db_fwl 'firewallRules' = {
     name: 'AllowAllWindowsAzureIps'
     properties: {
       endIpAddress: '0.0.0.0'
