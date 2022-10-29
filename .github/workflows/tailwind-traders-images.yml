@@ -22,13 +22,6 @@ jobs:
     steps:
     - name: checkout code
       uses: actions/checkout@v3
-    - name: install dotnet
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 6.0.x
-    - name: dotnet publish
-      run: dotnet publish -o ../Publish/TailwindTraders.Api.Images -c release
-      working-directory: src/TailwindTraders.Api.Images
     - name: azure login
       uses: azure/login@v1.1
       with:
