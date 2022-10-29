@@ -13,6 +13,9 @@ env:
   STORAGE_ACCOUNT_NAME: tailwindtradersimgs8644
   PRODUCT_DETAILS_CONTAINER_NAME: product-details
   PRODUCT_LIST_CONTAINER_NAME: product-list
+  CDN_PROFILE_NAME: tailwind-traders-cdn8644
+  CDN_ENDPOINT_NAME: tailwind-traders-images8644
+  CDN_RESOURCE_GROUP_NAME: tailwind-traders-rg
 
 jobs:
   build:
@@ -30,7 +33,11 @@ jobs:
       uses: azure/CLI@v1
       with:
         inlineScript: az storage blob sync --account-name '${{ env.STORAGE_ACCOUNT_NAME }}' -c '${{ env.PRODUCT_DETAILS_CONTAINER_NAME }}' -s 'src/TailwindTraders.Api.Images/product-details'
-    # - name: purge CDN endpoint
-    #   uses: azure/CLI@v1
-    #   with:
-    #     inlineScript: az cdn endpoint purge --no-wait --content-paths '/*' -n 'cloudlabs-vmagent' -g 'cloudlabs-vmagent-rg' --profile-name 'cloudlabs-vmagent'
+    - name: deploy to storage - product list
+      uses: azure/CLI@v1
+      with:
+        inlineScript: az storage blob sync --account-name '${{ env.STORAGE_ACCOUNT_NAME }}' -c '${{ env.PRODUCT_LIST_CONTAINER_NAME }}' -s 'src/TailwindTraders.Api.Images/product-list'
+    - name: purge CDN endpoint
+      uses: azure/CLI@v1
+      with:
+        inlineScript: az cdn endpoint purge --no-wait --content-paths '/*' -n '${{ env.CDN_ENDPOINT_NAME }}' -g '${{ env.CDN_RESOURCE_GROUP_NAME }}' --profile-name '${{ env.CDN_PROFILE_NAME }}'
