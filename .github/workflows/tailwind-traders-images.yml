@@ -29,8 +29,7 @@ jobs:
     - name: deploy to storage - product details
       uses: azure/CLI@v1
       with:
-        working-directory: src/TailwindTraders.Api.Images
-        inlineScript: az storage blob sync --account-name '${{ env.STORAGE_ACCOUNT_NAME }}' -c '${{ env.PRODUCT_DETAILS_CONTAINER_NAME }}' -s 'product-details'
+        inlineScript: az storage blob sync --account-name '${{ env.STORAGE_ACCOUNT_NAME }}' -c '${{ env.PRODUCT_DETAILS_CONTAINER_NAME }}' -s 'src/TailwindTraders.Api.Images/product-details'
     # - name: purge CDN endpoint
     #   uses: azure/CLI@v1
     #   with:
