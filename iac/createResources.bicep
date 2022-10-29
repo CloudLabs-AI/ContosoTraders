@@ -17,6 +17,7 @@ param tenantId string = subscription().tenantId
 // key vault
 var kvName = 'tailwind-traders-kv${suffix}'
 var kvSecretNameProductsDbConnStr = 'productsDbConnectionString'
+var kvSecretNameProfilesDbConnStr = 'profilesDbConnectionString'
 var kvSecretNameStocksDbConnStr = 'stocksDbConnectionString'
 var kvSecretNameCartsDbConnStr = 'cartsDbConnectionString'
 
@@ -45,6 +46,10 @@ var profilesDbServerAdminPassword = 'Password123!'
 // app service plan (products api)
 var productsApiAppSvcPlanName = 'tailwind-traders-products${suffix}'
 var productsApiAppSvcName = 'tailwind-traders-products${suffix}'
+
+// app service plan (carts api)
+var cartsApiAppSvcPlanName = 'tailwind-traders-carts${suffix}'
+var cartsApiAppSvcName = 'tailwind-traders-carts${suffix}'
 
 // storage account (product images)
 var productImagesStgAccName = 'tailwindtradersimgs${suffix}'
@@ -81,6 +86,13 @@ resource kv 'Microsoft.KeyVault/vaults@2022-07-01' = {
           secrets: [ 'get', 'list' ]
         }
       }
+      {
+        tenantId: tenantId
+        objectId: cartsapiappsvc.identity.principalId
+        permissions: {
+          secrets: [ 'get', 'list' ]
+        }
+      }
     ]
     sku: {
       family: 'A'
@@ -97,6 +109,16 @@ resource kv 'Microsoft.KeyVault/vaults@2022-07-01' = {
     properties: {
       contentType: 'connection string to the products db'
       value: 'Server=tcp:${productsDbServerName}.database.windows.net,1433;Initial Catalog=${productsDbName};Persist Security Info=False;User ID=${productsDbServerAdminLogin};Password=${productsDbServerAdminPassword};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;'
+    }
+  }
+
+  // secret 
+  resource kv_secretProfilesDbConnStr 'secrets' = {
+    name: kvSecretNameProfilesDbConnStr
+    tags: resourceTags
+    properties: {
+      contentType: 'connection string to the profiles db'
+      value: 'Server=tcp:${profilesDbServerName}.database.windows.net,1433;Initial Catalog=${profilesDbName};Persist Security Info=False;User ID=${profilesDbServerAdminLogin};Password=${profilesDbServerAdminPassword};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;'
     }
   }
 
@@ -339,6 +361,47 @@ resource productsapiappsvc 'Microsoft.Web/sites@2022-03-01' = {
     }
   }
 }
+
+//
+// carts api
+//
+
+// app service plan (linux)
+resource cartsapiappsvcplan 'Microsoft.Web/serverfarms@2022-03-01' = {
+  name: cartsApiAppSvcPlanName
+  location: resourceLocation
+  tags: resourceTags
+  sku: {
+    name: 'B1'
+  }
+  properties: {
+    reserved: true
+  }
+  kind: 'linux'
+}
+
+// app service
+resource cartsapiappsvc 'Microsoft.Web/sites@2022-03-01' = {
+  name: cartsApiAppSvcName
+  location: resourceLocation
+  tags: resourceTags
+  identity: {
+    type: 'SystemAssigned'
+  }
+  properties: {
+    clientAffinityEnabled: false
+    httpsOnly: true
+    serverFarmId: cartsapiappsvcplan.id
+    siteConfig: {
+      linuxFxVersion: 'DOTNETCORE|6.0'
+      alwaysOn: true
+    }
+  }
+}
+
+//
+// product images
+//
 
 // storage account (product images)
 resource productimagesstgacc 'Microsoft.Storage/storageAccounts@2022-05-01' = {
