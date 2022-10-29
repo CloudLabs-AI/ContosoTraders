@@ -9,6 +9,11 @@ on:
     branches: [ "master" ]
     paths: [ 'src/TailwindTraders.Api.Images/**', 'src/TailwindTraders.Api.Core/**' ]
 
+env:
+  STORAGE_ACCOUNT_NAME: tailwindtradersimgs8644
+  PRODUCT_DETAILS_CONTAINER_NAME: product-details
+  PRODUCT_LIST_CONTAINER_NAME: product-list
+
 jobs:
   build:
 
@@ -28,3 +33,12 @@ jobs:
       uses: azure/login@v1.1
       with:
         creds: ${{ secrets.TAILWINDTRADERS_TESTING_SERVICEPRINCIPAL }}
+    - name: deploy to storage - product details
+      uses: azure/CLI@v1
+      working-directory: src/TailwindTraders.Api.Images
+      with:
+        inlineScript: az storage blob sync --account-name '${{ env.STORAGE_ACCOUNT_NAME }}' -c '${{ env.PRODUCT_DETAILS_CONTAINER_NAME }}' -s 'product-details'
+    # - name: purge CDN endpoint
+    #   uses: azure/CLI@v1
+    #   with:
+    #     inlineScript: az cdn endpoint purge --no-wait --content-paths '/*' -n 'cloudlabs-vmagent' -g 'cloudlabs-vmagent-rg' --profile-name 'cloudlabs-vmagent'
