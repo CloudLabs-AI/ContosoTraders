@@ -31,9 +31,8 @@ jobs:
       uses: azure/login@v1.1
       with:
         creds: ${{ secrets.TAILWINDTRADERS_TESTING_SERVICEPRINCIPAL }}
-
-    - run: ls -la ./src/Publish
-    - run: ls -la ./src/Publish/TailwindTraders.Api.Products
+    - name: diagnostic output
+      run: ls -la ./src/Publish/TailwindTraders.Api.Products
     - name: deploy to app service
       uses: Azure/webapps-deploy@v2
       with:
