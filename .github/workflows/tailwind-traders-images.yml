@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
   push:
     branches: [ "master" ]
-    paths: [ 'src/TailwindTraders.Api.Images/**', 'src/TailwindTraders.Api.Core/**' ]
+    paths: [ 'src/TailwindTraders.Api.Images/**' ]
 
 env:
   STORAGE_ACCOUNT_NAME: tailwindtradersimg
