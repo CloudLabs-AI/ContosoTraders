@@ -10,7 +10,8 @@ on:
     paths: [ 'src/TailwindTraders.Api.Products/**', 'src/TailwindTraders.Api.Core/**' ]
 
 env:
-  WEBAPP_NAME: 'tailwind-traders-products${{ secrets.TAILWINDTRADERS_SUFFIX }}'
+  SUFFIX: ${{ secrets.TAILWINDTRADERS_SUFFIX }}
+  WEBAPP_NAME: 'tailwind-traders-products${{ env.SUFFIX }}'
 
 jobs:
   build:
