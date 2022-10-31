@@ -3,8 +3,10 @@ import axios from "axios";
 require("dotenv").config();
 const settingsUrl = "/api/settings";
 
-const APIUrl = process.env.REACT_APP_DEV_API_URL;
-const APIUrlShoppingCart = process.env.REACT_APP_API_URL_SHOPPINGCART;
+// const APIUrl = process.env.REACT_APP_DEV_API_URL;
+// const APIUrlShoppingCart = process.env.REACT_APP_API_URL_SHOPPINGCART;
+const APIUrl = 'https://tailwind-traders-products123456.azurewebsites.net/v1';
+const APIUrlShoppingCart = 'https://tailwind-traders-carts123456.azurewebsites.net/v1';
 const UseB2C = process.env.REACT_APP_USEB2C;
 const B2cAuthority = process.env.REACT_APP_B2CAUTHORITY;
 const B2cClientId = process.env.REACT_APP_B2CCLIENTID;
