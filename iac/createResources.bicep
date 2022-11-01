@@ -480,14 +480,6 @@ resource uistgacc 'Microsoft.Storage/storageAccounts@2022-05-01' = {
   // blob service
   resource uistgacc_blobsvc 'blobServices' = {
     name: 'default'
-
-    // container
-    resource uistgacc_blobsvc_websiteuploadscontainer 'containers' = {
-      name: imageClassifierWebsiteUploadsContainerName
-      properties: {
-        publicAccess: 'Container'
-      }
-    }
   }
 }
 
@@ -508,6 +500,14 @@ resource imageclassifierstgacc 'Microsoft.Storage/storageAccounts@2022-05-01' = 
   // blob service
   resource imageclassifierstgacc_blobsvc 'blobServices' = {
     name: 'default'
+
+    // container
+    resource uistgacc_blobsvc_websiteuploadscontainer 'containers' = {
+      name: imageClassifierWebsiteUploadsContainerName
+      properties: {
+        publicAccess: 'Container'
+      }
+    }
   }
 }
 
