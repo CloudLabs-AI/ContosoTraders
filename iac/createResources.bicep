@@ -67,7 +67,8 @@ var imageClassifierWebsiteUploadsContainerName = 'website-uploads'
 
 // cdn
 var cdnProfileName = 'tailwind-traders-cdn${suffix}'
-var cdnEndpointName = 'tailwind-traders-images${suffix}'
+var cdnImagesEndpointName = 'tailwind-traders-images${suffix}'
+var cdnUiEndpointName = 'tailwind-traders-ui${suffix}'
 
 // tags
 var resourceTags = {
@@ -524,8 +525,8 @@ resource cdnprofile 'Microsoft.Cdn/profiles@2022-05-01-preview' = {
   }
 
   // endpoint
-  resource cdnprofile_endpoint 'endpoints' = {
-    name: cdnEndpointName
+  resource cdnprofile_imagesendpoint 'endpoints' = {
+    name: cdnImagesEndpointName
     location: 'global'
     tags: resourceTags
     properties: {
