@@ -30,7 +30,6 @@ internal class ImageSearchService : IImageSearchService
             Name = p.Name,
             Price = p.Price
         });
-
         result.SearchResults = searchResults;
 
         return result;
