@@ -50,10 +50,15 @@ internal class ProductService : TailwindTradersServiceBase, IProductService
 
     public IEnumerable<ProductDto> GetProducts(string searchTerm)
     {
-        var typeId = _productRepository.Types.Where(type => type.Name == searchTerm).FirstOrDefault().Id;
-        
-        var responseDtos = GetProducts(Array.Empty<int>(), new int[] { typeId });
+        var responseDtos = new List<ProductDto>().AsEnumerable();
+        var matchingTypes = _productRepository.Types.Where(type => type.Code == searchTerm);
 
+        if (matchingTypes.Any())
+        {
+            var typeId = matchingTypes.FirstOrDefault().Id;
+            responseDtos = GetProducts(Array.Empty<int>(), new int[] { typeId });
+        }
+        
         return responseDtos;
     }
 

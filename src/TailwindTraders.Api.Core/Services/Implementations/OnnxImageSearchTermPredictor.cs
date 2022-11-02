@@ -1,3 +1,6 @@
+using SixLabors.ImageSharp.Advanced;
+using SixLabors.Primitives;
+
 namespace TailwindTraders.Api.Core.Services.Implementations;
 
 public class OnnxImageSearchTermPredictor : IImageSearchTermPredictor
@@ -8,8 +11,7 @@ public class OnnxImageSearchTermPredictor : IImageSearchTermPredictor
     public OnnxImageSearchTermPredictor(IWebHostEnvironment environment, ILogger<OnnxImageSearchTermPredictor> logger)
     {
         this.logger = logger;
-        var filePath = Path.Combine(environment.ContentRootPath, "Models/OnnxModels/products.onnx");
-        //var file = System.IO.File.ReadAllBytes(filePath);
+        var filePath = Path.Combine(environment.ContentRootPath, "Models\\OnnxModels\\products.onnx");
         session = new InferenceSession(filePath);
     }
 

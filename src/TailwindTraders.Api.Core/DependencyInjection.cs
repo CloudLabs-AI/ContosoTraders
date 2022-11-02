@@ -82,7 +82,9 @@ public class DependencyInjection : FunctionsStartup
             .AddSingleton<ICartService, CartService>()
             .AddSingleton<IProductService, ProductService>()
             .AddSingleton<IStockService, StockService>()
-            .AddSingleton<IProfileService, ProfileService>();
+            .AddSingleton<IProfileService, ProfileService>()
+            .AddSingleton<IImageSearchService, ImageSearchService>()
+            .AddSingleton<IImageSearchTermPredictor, OnnxImageSearchTermPredictor>();
 
         // inject repositories
         services
