@@ -33,7 +33,7 @@ jobs:
     - name: deploy to storage
       uses: azure/CLI@v1
       with:
-        inlineScript: az storage blob sync --account-name '${{ env.STORAGE_ACCOUNT_NAME }}${{ secrets.TAILWINDTRADERS_SUFFIX }}' -c '$web' -s 'src/TailwindTraders.Ui.Website/build'
+        inlineScript: az storage blob sync --account-name '${{ env.STORAGE_ACCOUNT_NAME }}${{ secrets.TAILWINDTRADERS_SUFFIX }}' -c 'website-uploads' -s 'src/TailwindTraders.Ui.Website/build'
     # - name: purge CDN endpoint
     #   uses: azure/CLI@v1
     #   with:
