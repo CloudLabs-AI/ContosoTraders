@@ -20,12 +20,12 @@ jobs:
     steps:
     - name: checkout code
       uses: actions/checkout@v3
-    # - name: npm install
-    #   run: npm install
-    #   working-directory: src/TailwindTraders.Ui.Website
-    # - name: npm run build
-    #   run: npm run build
-    #   working-directory: src/TailwindTraders.Ui.Website
+    - name: npm install
+      run: npm install
+      working-directory: src/TailwindTraders.Ui.Website
+    - name: npm run build
+      run: npm run build
+      working-directory: src/TailwindTraders.Ui.Website
     - name: azure login
       uses: azure/login@v1.1
       with:
@@ -33,7 +33,7 @@ jobs:
     - name: deploy to storage
       uses: azure/CLI@v1
       with:
-        inlineScript: az storage blob sync --account-name '${{ env.STORAGE_ACCOUNT_NAME }}${{ secrets.TAILWINDTRADERS_SUFFIX }}' -c '$web' -s 'src/TailwindTraders.Ui.Website/public'
+        inlineScript: az storage blob sync --account-name '${{ env.STORAGE_ACCOUNT_NAME }}${{ secrets.TAILWINDTRADERS_SUFFIX }}' -c '$web' -s 'src/TailwindTraders.Ui.Website/build'
     # - name: purge CDN endpoint
     #   uses: azure/CLI@v1
     #   with:
