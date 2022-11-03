@@ -2,25 +2,26 @@ namespace TailwindTraders.Api.Core.Services.Implementations;
 
 internal class ImageSearchService : IImageSearchService
 {
-    private readonly IImageSearchTermPredictor predictor;
-    private readonly IProductService productService;
+    private readonly IImageSearchTermPredictor _predictor;
 
-    public ImageSearchService(
-        IImageSearchTermPredictor predictor, IProductService productService)
+    private readonly IProductService _productService;
+
+    public ImageSearchService(IImageSearchTermPredictor predictor, IProductService productService)
     {
-        this.predictor = predictor;
-        this.productService = productService;
+        _predictor = predictor;
+        _productService = productService;
     }
 
-    public async Task<ImageSearchResult> GetProducts(Stream imageStream)
+    public async Task<ImageSearchResult> GetProductsAsync(Stream imageStream, CancellationToken cancellationToken = default)
     {
-        var searchTerm = await predictor.PredictSearchTerm(imageStream);
+        var searchTerm = await _predictor.PredictSearchTermAsync(imageStream, cancellationToken);
 
-        var result = new ImageSearchResult {
+        var result = new ImageSearchResult
+        {
             PredictedSearchTerm = searchTerm
         };
 
-        var products = productService.GetProducts(searchTerm);
+        var products = _productService.GetProducts(searchTerm);
 
         var searchResults = products.Select(p => new ProductDto
         {
@@ -29,6 +30,7 @@ internal class ImageSearchService : IImageSearchService
             Name = p.Name,
             Price = p.Price
         });
+
         result.SearchResults = searchResults;
 
         return result;

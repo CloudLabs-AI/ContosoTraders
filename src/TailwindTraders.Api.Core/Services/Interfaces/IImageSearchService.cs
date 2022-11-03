@@ -1,5 +1,6 @@
 namespace TailwindTraders.Api.Core.Services.Interfaces;
+
 public interface IImageSearchService
 {
-    Task<ImageSearchResult> GetProducts(Stream imageStream);
+    Task<ImageSearchResult> GetProductsAsync(Stream imageStream, CancellationToken cancellationToken = default);
 }

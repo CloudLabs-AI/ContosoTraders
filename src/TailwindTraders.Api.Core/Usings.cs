@@ -24,6 +24,3 @@ global using TailwindTraders.Api.Core.Requests.Definitions;
 global using TailwindTraders.Api.Core.Requests.Validators;
 global using TailwindTraders.Api.Core.Services.Implementations;
 global using TailwindTraders.Api.Core.Services.Interfaces;
-
-
-

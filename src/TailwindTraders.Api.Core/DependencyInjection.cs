@@ -14,6 +14,8 @@ namespace TailwindTraders.Api.Core;
 
 public class DependencyInjection : FunctionsStartup
 {
+    private const string _allowSpecificOrigins = "allowSpecificOrigins";
+
     public static void ConfigureServices(HostBuilderContext context, IServiceCollection services)
     {
         ConfigureServicesInternal(services, context.Configuration);
@@ -99,6 +101,11 @@ public class DependencyInjection : FunctionsStartup
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
 
+        // @TODO: Temporary. Fix later.
+        services.AddCors(options => 
+            options.AddPolicy(name: _allowSpecificOrigins,
+                policy => policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
+
         IdentityModelEventSource.ShowPII = true;
     }
 
@@ -113,12 +120,11 @@ public class DependencyInjection : FunctionsStartup
         app.UseSwaggerUI();
 
         app.UseHttpsRedirection();
+        app.UseCors(_allowSpecificOrigins);
 
 #if TODO_INVESTIGATE_LATER
-        app.UseCors();
         app.UseAuthorization(); // very important, else [Authorize] will not work in controllers.
         app.UseAuthentication();
-
 #endif
 
         app.MapControllers();

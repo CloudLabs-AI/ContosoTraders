@@ -2,5 +2,5 @@ namespace TailwindTraders.Api.Core.Services.Interfaces;
 
 public interface IImageSearchTermPredictor
 {
-    Task<string> PredictSearchTerm(Stream imageStream);
+    Task<string> PredictSearchTermAsync(Stream imageStream, CancellationToken cancellationToken = default);
 }

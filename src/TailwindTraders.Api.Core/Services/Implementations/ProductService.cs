@@ -50,15 +50,18 @@ internal class ProductService : TailwindTradersServiceBase, IProductService
 
     public IEnumerable<ProductDto> GetProducts(string searchTerm)
     {
-        var responseDtos = new List<ProductDto>().AsEnumerable();
+        var responseDtos = new List<ProductDto>();
+
         var matchingTypes = _productRepository.Types.Where(type => type.Code == searchTerm);
 
-        if (matchingTypes.Any())
-        {
-            var typeId = matchingTypes.FirstOrDefault().Id;
-            responseDtos = GetProducts(Array.Empty<int>(), new int[] { typeId });
-        }
+        if (!matchingTypes.Any()) return responseDtos;
+
+        var typeId = matchingTypes.FirstOrDefault().Id;
         
+        var products = GetProducts(Array.Empty<int>(), new[] {typeId});
+        
+        responseDtos.AddRange(products);
+
         return responseDtos;
     }
 
