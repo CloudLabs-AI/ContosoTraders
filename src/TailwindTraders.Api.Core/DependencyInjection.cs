@@ -102,8 +102,8 @@ public class DependencyInjection : FunctionsStartup
         services.AddSwaggerGen();
 
         // @TODO: Temporary. Fix later.
-        services.AddCors(options => 
-            options.AddPolicy(name: _allowSpecificOrigins,
+        services.AddCors(options =>
+            options.AddPolicy(_allowSpecificOrigins,
                 policy => policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
 
         IdentityModelEventSource.ShowPII = true;

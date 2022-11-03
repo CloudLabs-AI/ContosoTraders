@@ -57,9 +57,9 @@ internal class ProductService : TailwindTradersServiceBase, IProductService
         if (!matchingTypes.Any()) return responseDtos;
 
         var typeId = matchingTypes.FirstOrDefault().Id;
-        
+
         var products = GetProducts(Array.Empty<int>(), new[] {typeId});
-        
+
         responseDtos.AddRange(products);
 
         return responseDtos;

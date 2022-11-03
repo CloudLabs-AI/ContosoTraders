@@ -47,7 +47,7 @@ public class ProductsController : TailwindTradersControllerBase
 
         return await ProcessHttpRequestAsync(request);
     }
-    
+
 
     [HttpPost("imageclassifier")]
     [ProducesResponseType(StatusCodes.Status200OK)]
