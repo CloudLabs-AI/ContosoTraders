@@ -3,7 +3,7 @@ name: tailwind-traders-carts
 on:
   workflow_dispatch:
   push:
-    branches: [ "master" ]
+    branches: [ 'master', 'mithun/push-to-acr' ]
     paths: [ 'src/TailwindTraders.Api.Carts/**', 'src/TailwindTraders.Api.Core/**' ]
 
 env:
@@ -29,8 +29,10 @@ jobs:
         login-server: ${{ env.ACR_NAME }}${{ secrets.TAILWINDTRADERS_SUFFIX }}.azurecr.io
         username: ${{ env.ACR_NAME }}${{ secrets.TAILWINDTRADERS_SUFFIX }}
         password: ${{ secrets.TAILWINDTRADERS_ACR_PASSWORD }}
-    - name: docker build
-      run: docker build . -f ./src/TailwindTraders.Api.Carts/Dockerfile -t ${{ env.ACR_NAME }}${{ secrets.TAILWINDTRADERS_SUFFIX }}.azurecr.io/${{ env.ACR_REPOSITORY_NAME }}:latest
+    - name: diagnostic output
+      run: pwd
+    # - name: docker build
+    #   run: docker build . -f ./src/TailwindTraders.Api.Carts/Dockerfile -t ${{ env.ACR_NAME }}${{ secrets.TAILWINDTRADERS_SUFFIX }}.azurecr.io/${{ env.ACR_REPOSITORY_NAME }}:latest
       
     # - run: |
     #     docker build . -t ${{ env.ACR_NAME }}${{ secrets.TAILWINDTRADERS_SUFFIX }}.azurecr.io/k8sdemo:latest
