@@ -58,7 +58,11 @@ export default function Product({prodImg}) {
       />
       <CardContent>
         <div style={{display:'flex',alignItems:'center'}}>
+            <Typography variant="h6" color="initial" component="h6" style={{marginRight:'auto'}}>
                 Lunar Shift Special Edition
+            </Typography>
+            <IconButton aria-label="add to favorites">
+                {/* <FavoriteIcon /> */}
                 <img src={WishlistIcon} />
             </IconButton>
         </div>
