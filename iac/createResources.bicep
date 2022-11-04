@@ -66,6 +66,9 @@ var productImagesProductListContainerName = 'product-list'
 // storage account (main website)
 var uiStgAccName = 'tailwindtradersui${suffix}'
 
+// storage account (new website)
+var ui2StgAccName = 'tailwindtradersui2${suffix}'
+
 // storage account (image classifier)
 var imageClassifierStgAccName = 'tailwindtradersic${suffix}'
 var imageClassifierWebsiteUploadsContainerName = 'website-uploads'
@@ -520,6 +523,7 @@ resource productimagesstgacc 'Microsoft.Storage/storageAccounts@2022-05-01' = {
 
 //
 // main website / ui
+// new website / ui
 //
 
 // storage account (main website)
@@ -595,6 +599,82 @@ resource deploymentScript 'Microsoft.Resources/deploymentScripts@2020-10-01' = {
     ]
   }
 }
+
+// storage account (new website)
+resource ui2stgacc 'Microsoft.Storage/storageAccounts@2022-05-01' = {
+  name: ui2StgAccName
+  location: resourceLocation
+  tags: resourceTags
+  sku: {
+    name: 'Standard_LRS'
+  }
+  kind: 'StorageV2'
+
+  // blob service
+  resource ui2stgacc_blobsvc 'blobServices' = {
+    name: 'default'
+  }
+}
+
+resource ui2stgacc_mi 'Microsoft.ManagedIdentity/userAssignedIdentities@2022-01-31-preview' = {
+  name: 'DeploymentScript2'
+  location: resourceLocation
+  tags: resourceTags
+}
+
+resource ui2stgacc_roledefinition 'Microsoft.Authorization/roleDefinitions@2022-04-01' existing = {
+  scope: subscription()
+  // This is the Storage Account Contributor role, which is the minimum role permission we can give. 
+  // See https://docs.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#:~:text=17d1049b-9a84-46fb-8f53-869881c3d3ab
+  name: '17d1049b-9a84-46fb-8f53-869881c3d3ab'
+}
+
+// @TODO: Unfortunately, this requires the service principal to be in the owner role for the subscription.
+// This is just a temporary mitigation, and needs to be fixed using a custom role.
+// Details: https://learn.microsoft.com/en-us/answers/questions/287573/authorization-failed-when-when-writing-a-roleassig.html
+resource roleAssignment2 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  scope: ui2stgacc
+  name: guid(resourceGroup().id, ui2stgacc_mi.id, ui2stgacc_roledefinition.id)
+  properties: {
+    roleDefinitionId: ui2stgacc_roledefinition.id
+    principalId: ui2stgacc_mi.properties.principalId
+    principalType: 'ServicePrincipal'
+  }
+}
+
+resource deploymentScript2 'Microsoft.Resources/deploymentScripts@2020-10-01' = {
+  name: 'DeploymentScript2'
+  location: resourceLocation
+  kind: 'AzurePowerShell'
+  identity: {
+    type: 'UserAssigned'
+    userAssignedIdentities: {
+      '${ui2stgacc_mi.id}': {
+      }
+    }
+  }
+  dependsOn: [
+    // we need to ensure we wait for the role assignment to be deployed before trying to access the storage account
+    roleAssignment
+  ]
+  properties: {
+    azPowerShellVersion: '3.0'
+    scriptContent: loadTextContent('./scripts/enable-static-website.ps1')
+    retentionInterval: 'PT4H'
+    environmentVariables: [
+      {
+        name: 'ResourceGroupName'
+        value: resourceGroup().name
+      }
+      {
+        name: 'StorageAccountName'
+        value: ui2stgacc.name
+      }
+    ]
+  }
+}
+
+
 
 //
 // image classifier
