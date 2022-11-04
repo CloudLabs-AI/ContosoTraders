@@ -2,6 +2,8 @@ import React, { Component } from "react";
 
 import { NamespacesConsumer } from "react-i18next";
 
+import { ReactComponent as Freeshipping } from "../../../../assets/images/icon-freeshipping.svg";
+import Herobg from "../../../../assets/images/herobg.jpg";
 import Corousel from "./Corousel";
 class Hero extends Component {
     constructor(props) {

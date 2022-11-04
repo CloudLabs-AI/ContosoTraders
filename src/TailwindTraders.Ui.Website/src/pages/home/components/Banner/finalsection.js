@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Grid } from '@material-ui/core';
+import { Grid,Box } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 
 const Finalsection = () => {

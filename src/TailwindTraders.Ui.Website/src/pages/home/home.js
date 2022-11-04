@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { Hero, Popular } from "./components";
+import { Hero, Recommended, Getapp, Popular, Menu } from "./components";
 import ChatBubble from './components/chatBubble/chatBubble';
 import { ConfigService } from './../../services'
 import Slider from "./components/slider/slider";

@@ -5,7 +5,7 @@ import { CartService } from "./services";
 import { ConfigService } from "./services";
 import Meeting from './pages/home/components/videoCall/Meeting';
 
-import { Header, Footer ,Appbar } from "./shared";
+import { Header, Footer, DebugHeader,Appbar } from "./shared";
 import {
   Home,
   List,

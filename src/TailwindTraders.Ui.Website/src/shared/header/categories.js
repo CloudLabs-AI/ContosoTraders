@@ -8,6 +8,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import DraftsIcon from '@material-ui/icons/Drafts';
 import SendIcon from '@material-ui/icons/Send';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import MenuIcon from '@material-ui/icons/Menu';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';

@@ -3,6 +3,7 @@ import {
   Card,
   CardContent,
   Grid,
+  CardMedia,
   CardActionArea,
 } from "@material-ui/core";
 import laptopgirl from "../../../../assets/images/original/Contoso_Assets/Grid_Products_Collection/banner_1.jpg";
