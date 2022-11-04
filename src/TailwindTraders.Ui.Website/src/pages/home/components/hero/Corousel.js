@@ -1,6 +1,6 @@
 import React from 'react';
 import Carousel from 'react-material-ui-carousel'
-import { Paper, Button, Grid } from '@material-ui/core'
+import { Button, Grid } from '@material-ui/core'
 import LocalMallIcon from '@material-ui/icons/LocalMall';
 export default function Corousel(props)
 {

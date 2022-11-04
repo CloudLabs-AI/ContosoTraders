@@ -1,8 +1,6 @@
 import React from 'react'
 
-import { Grid,Box } from '@material-ui/core';
-import LocalPhoneIcon from '@material-ui/icons/LocalPhone';
-import EmailIcon from '@material-ui/icons/Email';
+import { Grid } from '@material-ui/core';
 
 import phoneLogo from '../../assets/images/original/Contoso_Assets/Icons/telephone_icon.svg'
 import emailLogo from '../../assets/images/original/Contoso_Assets/Icons/email_icon.svg'

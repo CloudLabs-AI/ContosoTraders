@@ -4,7 +4,6 @@ import { withRouter } from "react-router-dom";
 import Alert from "react-s-alert";
 import { ProductService } from '../../services';
 
-import { ReactComponent as PhotoImg } from "../../assets/images/icon-photo.svg";
 import SearchIconNew from '../../assets/images/original/Contoso_Assets/Icons/image_search_icon.svg'
 
 class UploadFile extends Component {
@@ -61,7 +60,7 @@ class UploadFile extends Component {
                     onClick={this.resetFileValue}
                 />
                 <label className="upload__label" htmlFor="upload_image">
-                    <img src={SearchIconNew}/>
+                    <img src={SearchIconNew} alt="upload"/>
                     <span className="upload__info">
                         {subtitle ? <small className="upload__subtitle" style={{color:'black',fontSize:'14px'}}>{subtitle}</small> : null}
                         <span className="upload__title">{title}</span>
