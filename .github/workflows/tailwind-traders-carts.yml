@@ -3,7 +3,7 @@ name: tailwind-traders-carts
 on:
   workflow_dispatch:
   push:
-    branches: [ 'master', 'mithun/push-to-acr' ]
+    branches: [ 'master' ]
     paths: [ 'src/TailwindTraders.Api.Carts/**', 'src/TailwindTraders.Api.Core/**' ]
 
 env:
