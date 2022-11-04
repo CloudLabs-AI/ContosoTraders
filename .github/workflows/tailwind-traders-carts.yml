@@ -31,6 +31,8 @@ jobs:
         password: ${{ secrets.TAILWINDTRADERS_ACR_PASSWORD }}
     - name: diagnostic output
       run: pwd
+    - name: diagnostic output
+      run: ls -la
     # - name: docker build
     #   run: docker build . -f ./src/TailwindTraders.Api.Carts/Dockerfile -t ${{ env.ACR_NAME }}${{ secrets.TAILWINDTRADERS_SUFFIX }}.azurecr.io/${{ env.ACR_REPOSITORY_NAME }}:latest
       
