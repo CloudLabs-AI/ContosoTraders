@@ -1,33 +1,12 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
-@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap"); */
-@import url('https://fonts.googleapis.com/css2?family=Heebo&family=Inter&family=Poppins&family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
 body {
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: 'Roboto'!important;
-}
-.fs-12{
-  font-size: 12px!important;
-}
-.fs-14{
-  font-size: 14px!important;
-}
-.fs-16{
-  font-size: 16px!important;
-}
-.fs-18{
-  font-size: 18px!important;
-}
-.fs-20{
-  font-size: 20px!important;
-}
-.fs-22{
-  font-size: 22px!important;
-}
-.fs-24{
-  font-size: 24px!important;
 }
 .p-0{
   padding: 0 !important;
@@ -41,53 +20,12 @@ body {
 .mr-1{
   margin-right: 10px !important;
 }
-.mb-1{
-  margin-bottom: 10px !important;
-}
-.mt-1{
-  margin-top: 10px !important;
-}
-.mt-2{
-  margin-top: 20px !important;
-}
 .fw-regular{
   font-weight: 400 !important;
 }
 .text-danger{
   color: red !important;
 }
-.outlined-primary-btn{
-  text-align: center;
-  font: normal normal medium 16px/21px "Roboto";
-  /* letter-spacing: -0.36px; */
-  color: #302f2f;
-  text-transform: capitalize;
-  opacity: 1;
-  border: 1px solid #707070;
-  cursor: pointer;
-  min-width: 112px;
-  height: 53px;
-  background: none;
-  border-radius: 5px;
-  font-weight: 500;
-  font-size: 16px;
-  font-family: "Roboto";
-}
-.outlined-primary-btn:hover{
-  border-color: #2874F0 !important;
-  color: #2874F0 !important;
-}
-.box-shadow-0{
-  box-shadow: none !important;
-}
-.justify-content-end{
-  justify-content: end;
-}
-.text-transform-capitalize{
-  text-transform: capitalize !important;
-}
-
-
 /* mainHeader */
 .mainHeader{
   background-color: #fff;
@@ -106,17 +44,6 @@ body {
   padding-right: 70px;
   padding-top: 31px;
 }
-.appbar .searchBar input{
-  font-family: 'Roboto' !important;
-  font-size: 14px !important;
-  font-weight: 300 !important;
-}
-.appbar .searchBar input::placeholder{
-  font-family: 'Roboto' !important;
-  font-size: 14px !important;
-  font-weight: 300 !important;
-  color: #686868 !important;
-}
 .appbar .searchbar-upload{
   position: absolute;
   z-index: 110;
@@ -129,108 +56,92 @@ body {
 .appbar .searchbar-upload .upload{
   margin: auto;
   max-width: 100%;
-  border: 2px dotted #C7C7C7;
+  border: 1px dotted;
   padding: 30px;
   margin-top: 10px;
-  background: #FAFAFA !important;
 }
 .appbar .searchbar-upload .upload .upload__label{
   box-shadow: none;
-  background: #FAFAFA !important;
-}
-.appbar .searchbar-upload .upload .upload__label img{
-  width: 50px;
 }
 .appbar .iconButton{
   padding: 12px 18px;
-}
-.appbar .iconButton:focus{
-  outline: none !important;
 }
 .appbar svg {
   fill: #2f4b66;
   /* height: 1.75rem; */
 }
-.appbar .searchBtn{
-  border-radius: 5px;
+.box-shadow-0{
+  box-shadow: none !important;
 }
-.appbar .searchBtn:focus{
-  outline: none;
+.justify-content-end{
+  justify-content: end;
 }
-.appbar .upload__subtitle{
-  font-family: 'Roboto' !important;
-}
-.main-nav{
-  margin-left: 50px;
+.text-transform-capitalize{
+  text-transform: capitalize !important;
 }
 .main-nav__item{
-  text-decoration: none!important;
-  text-transform: capitalize !important;
-  text-align: left;
-  font-family: 'Roboto' !important;
-  /* letter-spacing: 0px !important; */
-  color: #302F2F !important;
-  opacity: 0.92 !important;
-  font-size: 14px !important;
-  font-weight: 400 !important;
-  padding: 14px 24px 20px 24px;
-  /* min-width: 120px; */
-  text-align: center;
-}
-.main-nav__item_active{
-  text-decoration: none!important;
   text-transform: capitalize !important;
   text-align: left;
   font-family: 'Roboto', sans-serif !important;
-  /* letter-spacing: 0px !important; */
+  letter-spacing: 0px !important;
+  color: #000000 !important;
+  opacity: 0.92 !important;
+  font-size: 14px;
+  font-weight: 400;
+  padding: 14px 24px;
+  margin: 0 10px;
+  min-width: 120px;
+  text-align: center;
+}
+.main-nav__item_active{
+  text-transform: capitalize !important;
+  text-align: left;
+  font-family: 'Roboto', sans-serif !important;
+  letter-spacing: 0px !important;
   color: #2F4B66 !important;
   opacity: 0.92 !important;
   font-size: 14px;
   font-weight: 500;
-  padding: 14px 24px 20px 24px;
+  padding: 14px 24px;
   border-bottom: 5px solid #2874F0 !important;
   background: rgba(40, 116, 240 , 0.1) !important;
-  /* min-width: 120px; */
+  margin: 0 10px 0 50px;
+  min-width: 120px;
   text-align: center;
-}
-/* Button test */
-button[aria-label='Previous'] {
-  margin-left: 70px;
-}
-button[aria-label='Next'] {
-  margin-right: 70px;
 }
 .courousel-style{
   padding: 70px;
-  /* background-image: url('./assets/images/original/Contoso_Assets/Slider_section/hero_banner.jpg') !important; */
+  background-image: url('./assets/images/original/Contoso_Assets/Slider_section/hero_banner.jpg') !important;
   background-repeat: no-repeat !important;
   background-size: cover !important;
   background-position: right !important;
-  min-height: 594px;
+  min-height: 750px;
 }
 .courousel-style {
-  background: #000000;
+  background: blue;
   cursor: pointer;
-  max-height: 594px;
+  height: 541px;
 }
 .courousel-style .BannerGrid{
-  padding: 100px 100px 0px 70px !important;
+  padding: 150px 100px 0px 70px !important;
 }
 .courousel-style .BannerHeading {
-  font-family: 'Inter' !important;
-  font-size: 34px !important;
-  font-weight: 600 !important;
+  font: var(--unnamed-font-style-normal) normal 600 34px/36px "Poppins";
+  color: var(--unnamed-color-ffffff);
   text-align: left;
+  font: normal normal 600 34px/36px "Poppins";
+  letter-spacing: -1.59px;
   color: #ffffff;
   opacity: 1;
   padding: 0px 0px 0px 0px;
-  text-transform: capitalize;
 }
 .courousel-style .BannerContent {
-  font-family: 'Heebo' !important;
-  font-size: 16px !important;
-  font-weight: 400 !important;
+  font: var(--unnamed-font-style-normal) normal
+    var(--unnamed-font-weight-normal) 16px/24px "Poppins";
+  color: var(--unnamed-color-ffffff);
   text-align: left;
+  font: normal normal normal 16px/24px "Poppins";
+  letter-spacing: -0.75px;
   color: #ffffff;
   opacity: 1;
   padding: 16px 0px 0px 0px;
@@ -239,7 +150,7 @@ button[aria-label='Next'] {
   padding: 50px 0px 0px 0px;
 }
 .courousel-style .BannerButton1 {
-  max-width: 142px;
+  max-width: 134px;
   opacity: 1;
   width: 224px;
   height: 49px;
@@ -247,15 +158,14 @@ button[aria-label='Next'] {
   border-radius: 5px;
   cursor: pointer;
   text-align: center;
-  font-family: "Heebo" !important;
-  font-size: 16px !important;
-  font-weight: 500 !important;
+  font: normal normal medium 16px/21px "Roboto";
+  letter-spacing: -0.36px;
   color: #ffffff;
   box-shadow: none;
   margin-right: 24px;
 }
 .courousel-style .BannerButton2 {
-  max-width: 142px;
+  max-width: 134px;
   opacity: 1;
   width: 224px;
   height: 49px;
@@ -263,9 +173,8 @@ button[aria-label='Next'] {
   border-radius: 5px;
   cursor: pointer;
   text-align: center;
-  font-family: "Heebo" !important;
-  font-size: 16px !important;
-  font-weight: 500 !important;
+  font: normal normal medium 16px/21px "Roboto";
+  letter-spacing: -0.36px;
   color: #ffffff;
   box-shadow: none;
   margin-right: 24px;
@@ -274,96 +183,46 @@ button[aria-label='Next'] {
 
 /* product slider */
 .slider-style{
-  padding: 40px 70px;
-}
-.slider-style .topSection{
-  display: flex;
-  padding-bottom: 30px;
-  align-items: center;
+  padding: 40px 90px;
 }
 .slider-style .LapHeadSection{
-  margin-right: auto;
-}
-.slider-style .LapButtonSection{
-  display: flex;
+  padding-bottom: 30px;
 }
 .slider-style .LapSectionContent .MuiCard-root{
   margin: auto !important;
 }
 .slider-style .LapHead {
   font: normal normal normal 14px/21px "Poppins";
-  /* letter-spacing: -0.31px; */
+  letter-spacing: -0.31px;
   color: #302f2f;
-  text-transform: capitalize;
+  text-transform: uppercase;
   opacity: 1;
 }
 .slider-style .LapHeadmain {
-  line-height: unset !important;
-  font: normal normal 600 25px/56px "Poppins";
-  /* letter-spacing: -1.44px; */
+  font: normal normal 600 30px/56px "Poppins";
+  letter-spacing: -1.44px;
   color: #111111;
   text-transform: uppercase;
   opacity: 1;
 }
-.slider-style .productCard{
-  box-shadow: none !important;
-}
-.slider-style .productCard:hover{
-  border: 1px solid #0000001A;
-  box-shadow: 1px 5px 5px #aaaaaa !important;
-  /* box-shadow: 0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%) !important; */
-}
-.productName{
-  font-family: 'Inter' !important;
-  font-weight: 600 !important;
-  font-size: 16px !important;
-  color: #171520 !important;
-}
 
-.productType{
-  font-family: 'Inter' !important;
-  font-weight: 400 !important;
-  font-size: 14px !important;
-  color: #626262 !important;
-}
-.productOrgPrice{
-  font-family: 'Inter' !important;
-  font-weight: 500 !important;
-  font-size: 20px !important;
-  color: #171520 !important;
-}
-.productOldPrice{
-  font-family: 'Inter' !important;
-  font-weight: 400 !important;
-  font-size: 14px !important;
-  color: #626262 !important;
-  text-decoration: line-through;
 
-}
-.productOffer{
-  font-family: 'Inter' !important;
-  font-weight: 400 !important;
-  font-size: 14px !important;
-  color: #E21D1D !important;
-}
+
 /* ********************************* */
 .BannerSection {
   background-image: url("./assets/images/original/Contoso_Assets/Static_Banner/banner_controller.jpg");
   background-repeat: no-repeat;
-  background-size: 100%;
+  background-size: cover;
   cursor: pointer;
-  min-height: 540px;
+  height: 541px;
 }
 
 .BannerSection .BannerHeading {
-  font-family: 'Poppins' !important;
-  font-weight: 600 !important;
-  font-size: 34px !important;
   font: var(--unnamed-font-style-normal) normal 600 34px/36px "Poppins";
   color: var(--unnamed-color-ffffff);
   text-align: left;
   font: normal normal 600 34px/36px "Poppins";
-  /* letter-spacing: -1.59px; */
+  letter-spacing: -1.59px;
   color: #ffffff;
   opacity: 1;
   padding: 144px 0px 0px 150px;
@@ -374,7 +233,7 @@ button[aria-label='Next'] {
   color: var(--unnamed-color-ffffff);
   text-align: left;
   font: normal normal normal 16px/24px "Poppins";
-  /* letter-spacing: -0.75px; */
+  letter-spacing: -0.75px;
   color: #ffffff;
   opacity: 1;
   padding: 16px 0px 0px 150px;
@@ -394,12 +253,12 @@ button[aria-label='Next'] {
   color: var(--unnamed-color-ffffff);
   text-align: center;
   font: normal normal medium 16px/21px "Roboto";
-  /* letter-spacing: -0.36px; */
+  letter-spacing: -0.36px;
   color: #ffffff;
 
   font-weight: 500;
-  font-size: 16px;
-  font-family: "Roboto";
+font-size: 16px;
+font-family: "Roboto";
 }
 
 
@@ -416,7 +275,7 @@ button[aria-label='Next'] {
 .LaptopSection .LapHead {
   text-align: center;
   font: normal normal normal 14px/21px "Poppins";
-  /* letter-spacing: -0.31px; */
+  letter-spacing: -0.31px;
   color: #302f2f;
   text-transform: uppercase;
   opacity: 1;
@@ -424,13 +283,13 @@ button[aria-label='Next'] {
 .LaptopSection .LapHeadmain {
   text-align: center;
   font: normal normal 600 30px/56px "Poppins";
-  /* letter-spacing: -1.44px; */
+  letter-spacing: -1.44px;
   color: #111111;
   text-transform: uppercase;
   opacity: 1;
 }
 .LaptopSection .ProductSection {
-  margin: 30px 38px 70px 70px;
+  margin: 30px 70px 70px 70px;
 }
 .LaptopSection .LaptopButtondiv {
   text-align: center;
@@ -439,7 +298,7 @@ button[aria-label='Next'] {
 .LaptopSection .LaptopButton {
   text-align: center;
   font: normal normal medium 16px/21px "Roboto";
-  /* letter-spacing: -0.36px; */
+  letter-spacing: -0.36px;
   color: #302f2f;
   text-transform: capitalize;
   opacity: 1;
@@ -450,8 +309,8 @@ button[aria-label='Next'] {
   background: none;
   border-radius: 5px;
   font-weight: 500;
-  font-size: 16px;
-  font-family: "Roboto";
+font-size: 16px;
+font-family: "Roboto";
 }
 .LaptopSection .lapsecimage {
   border-radius: 5px;
@@ -461,29 +320,28 @@ button[aria-label='Next'] {
   width: 75%;
   margin: auto;
   display: block;
-  margin-bottom: 23px !important;
-  margin-top: 2px !important;
+  margin-bottom: 30px !important;
+  margin-top: 30px !important;
 }
 .LaptopSection .cardlap {
-  min-height: 310px;
+  min-height: 405px;
   background: #f5f5f580 0% 0% no-repeat padding-box;
   border-radius: 10px;
   opacity: 1;
-  box-shadow: none;
 }
 .LaptopSection .Productname {
   font: var(--unnamed-font-style-normal) normal 600 18px /
     var(--unnamed-line-spacing-32) "Poppins";
   text-align: center;
   font: normal normal 600 18px/32px "Poppins";
-  /* letter-spacing: -0.33px; */
+  letter-spacing: -0.33px;
   color: #111111;
   opacity: 1;
   margin-right: auto;
 }
 .LaptopSection .price {
   text-align: center;
-  /* letter-spacing: -0.36px; */
+  letter-spacing: -0.36px;
   color: #2874f0;
   opacity: 1;
   background-color: white !important;
@@ -514,12 +372,12 @@ button[aria-label='Next'] {
 
 /* sha********************* */
 .footer-container {
-  padding: 60px 70px;
+  padding: 60px;
   font-size: smaller;
 }
-/* .footer-container .MuiGrid-container {
+.footer-container .MuiGrid-container {
   justify-content: space-around;
-} */
+}
 .footer-container .footer-grid-container ul {
   list-style: none;
 }
@@ -535,7 +393,7 @@ button[aria-label='Next'] {
   padding-left: 20px;
 }
 .footer-container .section-3 {
-  padding-left: 60px;
+  padding-left: 100px;
 }
 .footer-container .section-4 {
   padding-left: 100px;
@@ -579,15 +437,15 @@ button[aria-label='Next'] {
   max-height: 100%;
 }
 .final-section-container  .content-section {
-  padding-top: 170px;
-  padding-right: 70px;
+  padding-top: 140px;
+  padding-left: 60px;
+  padding-right: 140px;
 }
 .final-section-container  .content-section h1{
   font-family: 'Poppins' !important;
   font-size: 34px !important;
   color: #000000 !important;
-  font-weight: 600;
-  margin: 16px 0;
+  font-weight: 500;
 }
 .final-section-container  .content-section p{
   font-family: 'Poppins' !important;
@@ -596,18 +454,8 @@ button[aria-label='Next'] {
   font-weight: 400;
 }
 .final-section-container  .start-btn {
-  text-align: center;
-  color: #302f2f;
-  text-transform: capitalize;
-  opacity: 1;
-  border: 1px solid #707070;
-  cursor: pointer;
-  width: 224px;
-  height: 56px;
-  background: none;
-  border-radius: 5px;
-  font-weight: 500;
-  font-size: 16px;
-  font-family: "Roboto" !important;
-  margin-top: 34px;
+  margin-top: 20px !important;
+  padding: 7px 30px !important;
+  border: 1px solid #000000  !important;
+  text-transform: unset !important;
 }

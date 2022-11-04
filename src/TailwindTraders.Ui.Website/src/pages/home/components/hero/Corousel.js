@@ -1,46 +1,18 @@
 import React from 'react';
 import Carousel from 'react-material-ui-carousel'
-import { Button, Grid } from '@material-ui/core'
-// import LocalMallIcon from '@material-ui/icons/LocalMall';
-import heroBg from '../../../../assets/images/original/Contoso_Assets/Slider_section/hero_banner.jpg'
-import LocalMallIcon from '../../../../assets/images/original/Contoso_Assets/Icons/cart-icon-copy.svg'
+import { Paper, Button, Grid } from '@material-ui/core'
+import LocalMallIcon from '@material-ui/icons/LocalMall';
 export default function Corousel(props)
 {
     var items = [
         {
             name: "The Fastest, Most Powerful Xbox Ever.",
-            description: "Elevate your game with the all-new Xbox Wireless Controller - Lunar Shift Special Edition",
-            bg: heroBg
+            description: "Elevate your game with the all-new Xbox Wireless Controller - Lunar Shift Special Edition"
         },
-        {
-            name: "The Fastest, Most Powerful Xbox Ever.",
-            description: "Elevate your game with the all-new Xbox Wireless Controller - Lunar Shift Special Edition",
-            bg: heroBg
-        },
-        {
-            name: "The Fastest, Most Powerful Xbox Ever.",
-            description: "Elevate your game with the all-new Xbox Wireless Controller - Lunar Shift Special Edition",
-            bg: heroBg
-        },
-        {
-            name: "The Fastest, Most Powerful Xbox Ever.",
-            description: "Elevate your game with the all-new Xbox Wireless Controller - Lunar Shift Special Edition",
-            bg: heroBg
-        },
-        
     ]
 
     return (
         <Carousel
-            navButtonsAlwaysVisible={true}
-            autoPlay={false}
-            navButtonsProps={{
-                style: {
-                    border: '1px solid #C4C4C4',
-                    background: 'rgba(255, 255, 255, 0.2)',
-                    color: '#000'
-                }
-            }}
             indicatorContainerProps={{
                 style: {
                     zIndex:'1',
@@ -48,22 +20,6 @@ export default function Corousel(props)
                     position:'absolute',
                     justifyContent:'center',
                     bottom:'20px'
-                }
-        
-            }}
-            indicatorIconButtonProps={{
-                style: {
-                    color:'white',
-                    backgroundColor:'white',
-                    margin:'0 2px'
-                }
-        
-            }}
-            activeIndicatorIconButtonProps={{
-                style: {
-                    color:'#2874F0',
-                    backgroundColor:'#2874F0',
-                    margin:'0 2px'
                 }
         
             }}
@@ -78,9 +34,9 @@ export default function Corousel(props)
 function Item(props)
 {
     return (
-        <div className="courousel-style" style={{ backgroundImage: 'url('+props.item.bg+')'}}>
+        <div className="courousel-style">
             <Grid container spacing={3}>
-                <Grid item xs={6} className="BannerGrid">
+                <Grid item xs={5} className="BannerGrid">
                     <div className="BannerHeading">
                         {props.item.name}
                     </div>
@@ -94,7 +50,7 @@ function Item(props)
                             variant="contained"
                             color="primary"
                             className="box-shadow-0 text-transform-capitalize fw-regular BannerButton1"
-                            endIcon={<img src={LocalMallIcon} width={25} height='auto' alt=""/>}
+                            endIcon={<LocalMallIcon />}
                             size="large"
                         >
                             Buy Now
@@ -111,7 +67,7 @@ function Item(props)
                         </Button>
                     </div>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={7}>
                 </Grid>
             </Grid>
         </div>

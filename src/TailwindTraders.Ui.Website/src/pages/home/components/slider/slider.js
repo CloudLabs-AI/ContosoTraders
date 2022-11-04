@@ -1,6 +1,7 @@
 import React from 'react';
 import Carousel from 'react-material-ui-carousel'
-import { Grid } from '@material-ui/core'
+import { Paper, Button, Grid, Card } from '@material-ui/core'
+import LocalMallIcon from '@material-ui/icons/LocalMall';
 import Product from '../product/product';
 import productImg1 from '../../../../assets/images/original/Contoso_Assets/Caurosal/product_1.jpg'
 import productImg2 from '../../../../assets/images/original/Contoso_Assets/Caurosal/product_2.jpg'
@@ -8,7 +9,7 @@ import productImg3 from '../../../../assets/images/original/Contoso_Assets/Cauro
 import productImg4 from '../../../../assets/images/original/Contoso_Assets/Caurosal/product_4.jpg'
 import productImg5 from '../../../../assets/images/original/Contoso_Assets/Caurosal/product_5.jpg'
 
-export default function Slider(props)
+export default function Corousel(props)
 {
     var items = [
         {
@@ -25,17 +26,9 @@ export default function Slider(props)
 
     return (
         <Carousel
-            navButtonsAlwaysVisible={true} autoPlay={true} indicators={false}
-            navButtonsProps={{
-                style: {
-                    border: '1px solid #C4C4C4',
-                    background: 'rgba(255, 255, 255, 0.5)',
-                    color: '#000'
-                }
-            }}
             >
             {
-                items.map( (item, i) => <Item key={i} item={item} {...props}/> )
+                items.map( (item, i) => <Item key={i} item={item} /> )
             }
         </Carousel>
     )
@@ -47,18 +40,13 @@ function Item(props)
         <div className="slider-style">
             <Grid container spacing={1} className="slider-grid">
                 <Grid item xs={12}>
-                    <div className='topSection'>
-                        <div className="LapHeadSection">
-                            <div className="LapHead">{props.firstHeading}</div>
-                            <p className="LapHeadmain">{props.secondHeading}</p>
-                        </div>
-                        <div className='LapButtonSection'>
-                            <button className='outlined-primary-btn'>See All</button>
-                        </div>
+                    <div className="LapHeadSection">
+                        <div className="LapHead">Explore Awesome Products</div>
+                        <div className="LapHeadmain">RECOMMENTED FOR YOU</div>
                     </div>
                     <div className="LapSectionContent">
-                        {props.item.page === 1 ?
-                        <Grid container justifyContent="center" spacing={5}>
+                        {props.item.page == 1 ?
+                        <Grid container justifyContent="center" spacing={1}>
                             <Grid item xs={3}>
                                 <Product prodImg={productImg1}/>
                             </Grid>
@@ -73,16 +61,16 @@ function Item(props)
                             </Grid>
                         </Grid>
                         :null}
-                        {props.item.page === 2 ?
-                        <Grid container justifyContent="center" spacing={5}>
+                        {props.item.page == 2 ?
+                        <Grid container justifyContent="center" spacing={1}>
                             <Grid item xs={3}>
                                 <Product prodImg={productImg5}/>
                             </Grid>
-                            <Grid item xs={3} >
-                                <Product prodImg={productImg3}/>
-                            </Grid>
                             <Grid item xs={3}>
                                 <Product prodImg={productImg2}/>
+                            </Grid>
+                            <Grid item xs={3} >
+                                <Product prodImg={productImg3}/>
                             </Grid>
                             <Grid item xs={3}>
                                 <Product prodImg={productImg4}/>

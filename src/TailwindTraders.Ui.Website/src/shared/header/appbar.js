@@ -4,9 +4,13 @@ import { alpha, makeStyles } from '@material-ui/core/styles';
 import {AppBar, InputAdornment, TextField} from '@material-ui/core';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+import InputBase from '@material-ui/core/InputBase';
 import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+import MenuIcon from '@material-ui/icons/Menu';
+import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
@@ -41,13 +45,11 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: alpha(theme.palette.common.white, 0.25),
     },
     marginRight: theme.spacing(2),
-    marginLeft: 67,
+    marginLeft: 0,
     width: '100%',
     [theme.breakpoints.up('sm')]: {
-      marginLeft: 67,
+      marginLeft: theme.spacing(3),
       width: '50%',
-      maxWidth: '650px',
-      maxHeight: '48px'
     },
   },
   searchIcon: {
@@ -176,17 +178,17 @@ export default function PrimarySearchAppBar() {
             <Link to="/">
                 <Logo />
             </Link>
-          <div className={`${classes.search} searchBar`}>
+          <div className={classes.search} style={{marginLeft:'65px',position:'relative'}}>
             <TextField
-                // label="Search by product name or search by image"
-                placeholder='Search by product name or search by image'
+                label="Search by product name or search by image"
                 variant="outlined"
                 fullWidth
                 InputProps={{
                     endAdornment: (
                     <InputAdornment>
-                        <IconButton onClick={()=>setSearchUpload(!searchUpload)} className="searchBtn">
-                          <img src={SearchIconNew} alt="iconimage"/>
+                        <IconButton onClick={()=>setSearchUpload(!searchUpload)}>
+                        {/* <SearchIcon /> */}
+                        <img src={SearchIconNew}/>
                         </IconButton>
                     </InputAdornment>
                     )
@@ -207,7 +209,7 @@ export default function PrimarySearchAppBar() {
             <IconButton className='iconButton' aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="secondary">
                 {/* <MailIcon /> */}
-                <img src={WishlistIcon} alt="iconimage"/>
+                <img src={WishlistIcon}/>
               </Badge>
             </IconButton>
             <IconButton
@@ -220,12 +222,12 @@ export default function PrimarySearchAppBar() {
               color="inherit"
             >
               {/* <AccountCircle /> */}
-              <img src={ProfileIcon} alt="iconimage"/>
+              <img src={ProfileIcon}/>
             </IconButton>
             <IconButton className='iconButton' aria-label="show 17 new notifications" color="inherit">
               <Badge badgeContent={17} color="secondary">
                 {/* <NotificationsIcon /> */}
-                <img src={BagIcon} alt="iconimage"/>
+                <img src={BagIcon}/>
               </Badge>
             </IconButton>
           </div>
