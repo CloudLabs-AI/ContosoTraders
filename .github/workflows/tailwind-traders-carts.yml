@@ -8,6 +8,7 @@ on:
 
 env:
   ACR_NAME: tailwindtradersacr
+  ACR_REPOSITORY_NAME: tailwindtradersapicarts
   WEBAPP_NAME: tailwind-traders-carts
 
 jobs:
@@ -22,11 +23,16 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 6.0.x
-    - uses: azure/docker-login@v1
+    - name: azure container registry login
+      uses: azure/docker-login@v1
       with:
         login-server: ${{ env.ACR_NAME }}${{ secrets.TAILWINDTRADERS_SUFFIX }}.azurecr.io
         username: ${{ env.ACR_NAME }}${{ secrets.TAILWINDTRADERS_SUFFIX }}
         password: ${{ secrets.TAILWINDTRADERS_ACR_PASSWORD }}
+    - name: docker build
+      run: docker build . -t ${{ env.ACR_NAME }}${{ secrets.TAILWINDTRADERS_SUFFIX }}.azurecr.io/${{ env.ACR_REPOSITORY_NAME }}:latest
+      working-directory: src/TailwindTraders.Api.Carts
+      
     # - run: |
     #     docker build . -t ${{ env.ACR_NAME }}${{ secrets.TAILWINDTRADERS_SUFFIX }}.azurecr.io/k8sdemo:latest
     #     docker push ${{ env.ACR_NAME }}${{ secrets.TAILWINDTRADERS_SUFFIX }}.azurecr.io/k8sdemo:latest
