@@ -4,13 +4,9 @@ import { alpha, makeStyles } from '@material-ui/core/styles';
 import {AppBar, InputAdornment, TextField} from '@material-ui/core';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
 import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
@@ -188,7 +184,7 @@ export default function PrimarySearchAppBar() {
                     <InputAdornment>
                         <IconButton onClick={()=>setSearchUpload(!searchUpload)}>
                         {/* <SearchIcon /> */}
-                        <img src={SearchIconNew}/>
+                        <img src={SearchIconNew} alt="iconimage"/>
                         </IconButton>
                     </InputAdornment>
                     )
@@ -209,7 +205,7 @@ export default function PrimarySearchAppBar() {
             <IconButton className='iconButton' aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="secondary">
                 {/* <MailIcon /> */}
-                <img src={WishlistIcon}/>
+                <img src={WishlistIcon} alt="iconimage"/>
               </Badge>
             </IconButton>
             <IconButton
@@ -222,12 +218,12 @@ export default function PrimarySearchAppBar() {
               color="inherit"
             >
               {/* <AccountCircle /> */}
-              <img src={ProfileIcon}/>
+              <img src={ProfileIcon} alt="iconimage"/>
             </IconButton>
             <IconButton className='iconButton' aria-label="show 17 new notifications" color="inherit">
               <Badge badgeContent={17} color="secondary">
                 {/* <NotificationsIcon /> */}
-                <img src={BagIcon}/>
+                <img src={BagIcon} alt="iconimage"/>
               </Badge>
             </IconButton>
           </div>
