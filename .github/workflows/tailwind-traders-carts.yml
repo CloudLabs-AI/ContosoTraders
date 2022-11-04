@@ -29,17 +29,10 @@ jobs:
         login-server: ${{ env.ACR_NAME }}${{ secrets.TAILWINDTRADERS_SUFFIX }}.azurecr.io
         username: ${{ env.ACR_NAME }}${{ secrets.TAILWINDTRADERS_SUFFIX }}
         password: ${{ secrets.TAILWINDTRADERS_ACR_PASSWORD }}
-    - name: diagnostic output
-      run: pwd
-    - name: diagnostic output
-      run: ls -la
-    # - name: docker build
-    #   run: docker build . -f ./src/TailwindTraders.Api.Carts/Dockerfile -t ${{ env.ACR_NAME }}${{ secrets.TAILWINDTRADERS_SUFFIX }}.azurecr.io/${{ env.ACR_REPOSITORY_NAME }}:latest
-      
-    # - run: |
-    #     docker build . -t ${{ env.ACR_NAME }}${{ secrets.TAILWINDTRADERS_SUFFIX }}.azurecr.io/k8sdemo:latest
-    #     docker push ${{ env.ACR_NAME }}${{ secrets.TAILWINDTRADERS_SUFFIX }}.azurecr.io/k8sdemo:latest
-
+    - name: docker build
+      run: docker build src -f ./src/TailwindTraders.Api.Carts/Dockerfile -t ${{ env.ACR_NAME }}${{ secrets.TAILWINDTRADERS_SUFFIX }}.azurecr.io/${{ env.ACR_REPOSITORY_NAME }}:latest
+    - name: docker push
+      run: docker push ${{ env.ACR_NAME }}${{ secrets.TAILWINDTRADERS_SUFFIX }}.azurecr.io/${{ env.ACR_REPOSITORY_NAME }}:latest
     # - name: dotnet publish
     #   run: dotnet publish -o ../Publish/TailwindTraders.Api.Carts -c release
     #   working-directory: src/TailwindTraders.Api.Carts
