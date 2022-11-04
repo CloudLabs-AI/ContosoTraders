@@ -12,7 +12,6 @@ import LoginContainer from './components/loginContainer';
 import LoginComponent from './components/loginComponent';
 import UserPortrait from './components/userPortrait';
 
-import { ReactComponent as Logo } from '../../assets/images/logo-horizontal.svg';
 import { ReactComponent as Close } from '../../assets/images/icon-close.svg';
 import { ReactComponent as Hamburger } from '../../assets/images/icon-menu.svg';
 import { ReactComponent as Cart } from '../../assets/images/icon-cart.svg';
@@ -104,7 +103,7 @@ class Header extends Component {
                     <header className="header">
                         <Categories />
                         <nav className={this.state.isopened ? 'main-nav is-opened' : 'main-nav'}>
-                            <Link className={window.location.pathname == '/' ? "main-nav__item_active" : "main-nav__item"} to="/list/homeappliances">
+                            <Link className={window.location.pathname === '/' ? "main-nav__item_active" : "main-nav__item"} to="/list/homeappliances">
                                 {t('shared.header.home')}
                             </Link>
                             <Link className="main-nav__item" to="/list/sink">

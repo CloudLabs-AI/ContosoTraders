@@ -1,7 +1,6 @@
 import React from 'react';
 import Carousel from 'react-material-ui-carousel'
-import { Paper, Button, Grid, Card } from '@material-ui/core'
-import LocalMallIcon from '@material-ui/icons/LocalMall';
+import { Grid } from '@material-ui/core'
 import Product from '../product/product';
 import productImg1 from '../../../../assets/images/original/Contoso_Assets/Caurosal/product_1.jpg'
 import productImg2 from '../../../../assets/images/original/Contoso_Assets/Caurosal/product_2.jpg'
@@ -45,7 +44,7 @@ function Item(props)
                         <div className="LapHeadmain">RECOMMENTED FOR YOU</div>
                     </div>
                     <div className="LapSectionContent">
-                        {props.item.page == 1 ?
+                        {props.item.page === 1 ?
                         <Grid container justifyContent="center" spacing={1}>
                             <Grid item xs={3}>
                                 <Product prodImg={productImg1}/>
@@ -61,7 +60,7 @@ function Item(props)
                             </Grid>
                         </Grid>
                         :null}
-                        {props.item.page == 2 ?
+                        {props.item.page === 2 ?
                         <Grid container justifyContent="center" spacing={1}>
                             <Grid item xs={3}>
                                 <Product prodImg={productImg5}/>
