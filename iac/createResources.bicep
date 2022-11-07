@@ -80,6 +80,7 @@ var redisCacheName = 'tailwind-traders-cache${suffix}'
 
 // azure container registry
 var acrName = 'tailwindtradersacr${suffix}'
+var acrCartsApiRepositoryName = 'tailwindtradersapicarts'
 
 // tags
 var resourceTags = {
@@ -469,7 +470,7 @@ resource cartsapiaca 'Microsoft.App/containerApps@2022-06-01-preview' = {
               value: kv.properties.vaultUri
             }
           ]
-          image: 'mcr.microsoft.com/azuredocs/containerapps-helloworld:latest'
+          image: '${acr.properties.loginServer}/${acrCartsApiRepositoryName}:latest'
           name: 'todotempchangelater'
           resources: {
             cpu: json('0.5')
