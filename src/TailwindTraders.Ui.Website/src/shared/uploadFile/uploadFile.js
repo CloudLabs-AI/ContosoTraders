@@ -62,7 +62,7 @@ class UploadFile extends Component {
                 <label className="upload__label" htmlFor="upload_image">
                     <img src={SearchIconNew} alt="upload"/>
                     <span className="upload__info">
-                        {subtitle ? <small className="upload__subtitle" style={{color:'black',fontSize:'14px'}}>{subtitle}</small> : null}
+                        {subtitle ? <span className="upload__subtitle fs-14" style={{color:'black',fontSize:'14px'}}>{subtitle}</span> : null}
                         <span className="upload__title">{title}</span>
                     </span>
                 </label>
