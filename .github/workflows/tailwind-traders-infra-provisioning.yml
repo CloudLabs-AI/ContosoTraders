@@ -17,3 +17,9 @@ jobs:
       uses: azure/login@v1.1
       with:
         creds: ${{ secrets.TAILWINDTRADERS_TESTING_SERVICEPRINCIPAL }}
+    - name: create resource group
+      uses: Azure/arm-deploy@v1.0.8
+      with:
+        scope: subscription
+        region: eastus
+        template: ./iac/createResourceGroup.bicep
