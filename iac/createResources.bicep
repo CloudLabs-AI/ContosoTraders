@@ -78,6 +78,9 @@ var cdnUiEndpointName = 'tailwind-traders-ui${suffix}'
 // redis cache
 var redisCacheName = 'tailwind-traders-cache${suffix}'
 
+// azure container registry
+var acrName = 'tailwindtradersacr${suffix}'
+
 // tags
 var resourceTags = {
   Product: 'tailwind-traders'
@@ -707,11 +710,8 @@ resource rediscache 'Microsoft.Cache/redis@2022-06-01' = {
 }
 
 //
-// EXPERIMENTAL: CONTAINERIZATRION
+// container registry
 //
-
-// azure container registry
-var acrName = 'tailwindtradersacr${suffix}'
 
 resource acr 'Microsoft.ContainerRegistry/registries@2022-02-01-preview' = {
   name: acrName
@@ -725,6 +725,13 @@ resource acr 'Microsoft.ContainerRegistry/registries@2022-02-01-preview' = {
     publicNetworkAccess: 'Enabled'
   }
 }
+
+
+//
+// EXPERIMENTAL: CONTAINERIZATRION
+//
+
+
 
 // azure container app environment
 var acaEnvName = 'tailwindtradersacaenv${suffix}'
@@ -743,6 +750,7 @@ resource acaenv 'Microsoft.App/managedEnvironments@2022-06-01-preview' = {
 
 // azure container app
 var acaName = 'tailwind-traders-carts${suffix}'
+var acaSecretAcrPassword = 'acr-password'
 
 resource aca 'Microsoft.App/containerApps@2022-06-01-preview' = {
   name: acaName
@@ -767,14 +775,14 @@ resource aca 'Microsoft.App/containerApps@2022-06-01-preview' = {
       }
       registries: [
         {
-          passwordSecretRef: 'acr-password'
+          passwordSecretRef: acaSecretAcrPassword
           server: acr.properties.loginServer
           username: acr.name
         }
       ]
       secrets: [
         {
-          name: 'acr-password'
+          name: acaSecretAcrPassword
           value: acr.listCredentials().passwords[0].value
         }
       ]
@@ -800,23 +808,6 @@ resource aca 'Microsoft.App/containerApps@2022-06-01-preview' = {
     }
   }
 }
-
-
-
-// resource symbolicname 'Microsoft.App/containerApps@2022-06-01-preview' = {
-//   properties: {
-//     configuration: {
-//       registries: [
-//         {
-//           identity: 'string'
-//           passwordSecretRef: 'string'
-//           server: 'string'
-//           username: 'string'
-//         }
-//       ]
-//     }
-//   }
-// }
 
 // outputs
 ////////////////////////////////////////////////////////////////////////////////
