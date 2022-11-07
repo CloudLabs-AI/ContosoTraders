@@ -33,11 +33,6 @@ export default function Corousel(props)
                     color: '#000'
                 }
             }}
-            // navButtonsWrapperProps={{
-            //     style:{
-            //         margin: "auto",
-            //     }
-            // }}
             >
             {
                 items.map( (item, i) => <Item key={i} item={item} /> )
