@@ -2,6 +2,8 @@ name: tailwind-traders-infra-provisioning
 
 on:
   workflow_dispatch:
+  push:
+    branches: [ "mithun/aca" ]
 
 jobs:
   build:
