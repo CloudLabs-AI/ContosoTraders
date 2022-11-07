@@ -182,9 +182,8 @@ export default function PrimarySearchAppBar() {
                 InputProps={{
                     endAdornment: (
                     <InputAdornment>
-                        <IconButton onClick={()=>setSearchUpload(!searchUpload)}>
-                        {/* <SearchIcon /> */}
-                        <img src={SearchIconNew} alt="iconimage"/>
+                        <IconButton onClick={()=>setSearchUpload(!searchUpload)} className="searchBtn">
+                          <img src={SearchIconNew} alt="iconimage"/>
                         </IconButton>
                     </InputAdornment>
                     )
