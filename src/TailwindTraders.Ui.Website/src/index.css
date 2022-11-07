@@ -108,12 +108,17 @@ body {
 .appbar .searchbar-upload .upload{
   margin: auto;
   max-width: 100%;
-  border: 1px dotted;
+  border: 2px dotted #C7C7C7;
   padding: 30px;
   margin-top: 10px;
+  background: #FAFAFA !important;
 }
 .appbar .searchbar-upload .upload .upload__label{
   box-shadow: none;
+  background: #FAFAFA !important;
+}
+.appbar .searchbar-upload .upload .upload__label img{
+  width: 50px;
 }
 .appbar .iconButton{
   padding: 12px 18px;
@@ -130,6 +135,9 @@ body {
 }
 .appbar .searchBtn:focus{
   outline: none;
+}
+.appbar ..upload__subtitle{
+  font-family: 'Roboto' !important;
 }
 .box-shadow-0{
   box-shadow: none !important;
