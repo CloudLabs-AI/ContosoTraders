@@ -1,0 +1,17 @@
+name: tailwind-traders-infra-provisioning
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: checkout code
+      uses: actions/checkout@v3
+    - name: azure login
+      uses: azure/login@v1.1
+      with:
+        creds: ${{ secrets.TAILWINDTRADERS_TESTING_SERVICEPRINCIPAL }}
