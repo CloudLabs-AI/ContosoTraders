@@ -25,6 +25,19 @@ export default function Corousel(props)
 
     return (
         <Carousel
+            navButtonsAlwaysVisible={true} autoPlay={true} indicators={false}
+            navButtonsProps={{
+                style: {
+                    border: '1px solid #C4C4C4',
+                    background: 'rgba(255, 255, 255, 0.5)',
+                    color: '#000'
+                }
+            }}
+            // navButtonsWrapperProps={{
+            //     style:{
+            //         margin: "auto",
+            //     }
+            // }}
             >
             {
                 items.map( (item, i) => <Item key={i} item={item} /> )
@@ -39,13 +52,18 @@ function Item(props)
         <div className="slider-style">
             <Grid container spacing={1} className="slider-grid">
                 <Grid item xs={12}>
-                    <div className="LapHeadSection">
-                        <div className="LapHead">Explore Awesome Products</div>
-                        <div className="LapHeadmain">RECOMMENTED FOR YOU</div>
+                    <div className='topSection'>
+                        <div className="LapHeadSection">
+                            <div className="LapHead">Explore Awesome Products</div>
+                            <div className="LapHeadmain">RECOMMENTED FOR YOU</div>
+                        </div>
+                        <div className='LapButtonSection'>
+                            <button className='outlined-primary-btn'>See All</button>
+                        </div>
                     </div>
                     <div className="LapSectionContent">
                         {props.item.page === 1 ?
-                        <Grid container justifyContent="center" spacing={1}>
+                        <Grid container justifyContent="center" spacing={5}>
                             <Grid item xs={3}>
                                 <Product prodImg={productImg1}/>
                             </Grid>
@@ -61,15 +79,15 @@ function Item(props)
                         </Grid>
                         :null}
                         {props.item.page === 2 ?
-                        <Grid container justifyContent="center" spacing={1}>
+                        <Grid container justifyContent="center" spacing={5}>
                             <Grid item xs={3}>
                                 <Product prodImg={productImg5}/>
                             </Grid>
-                            <Grid item xs={3}>
-                                <Product prodImg={productImg2}/>
-                            </Grid>
                             <Grid item xs={3} >
                                 <Product prodImg={productImg3}/>
+                            </Grid>
+                            <Grid item xs={3}>
+                                <Product prodImg={productImg2}/>
                             </Grid>
                             <Grid item xs={3}>
                                 <Product prodImg={productImg4}/>
