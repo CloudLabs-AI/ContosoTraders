@@ -1,10 +1,10 @@
 import React from 'react'
-
+import { Link } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
 
 import phoneLogo from '../../assets/images/original/Contoso_Assets/Icons/telephone_icon.svg'
 import emailLogo from '../../assets/images/original/Contoso_Assets/Icons/email_icon.svg'
-
+import { ReactComponent as Logo } from '../../assets/images/logo-horizontal.svg';
 
 
 const Footer = () => {
@@ -12,8 +12,10 @@ const Footer = () => {
     <div className='footer-container'>
     <Grid container className='footer-grid-container'>
         <Grid item xs={4} className='section-1'>
-            <h1>CONTOSO</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <Link to="/">
+                <Logo />
+            </Link>
+            <p  className='mt-2'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
         </Grid>
         <Grid item xs={2.5} className='section-2'>
             <ul>

@@ -37,7 +37,7 @@ export default function Product({prodImg}) {
   const classes = useStyles();
 
   return (
-    <Card className={classes.root}>
+    <Card className="productCard">
       <CardHeader/>
       <CardMedia
         className={classes.media}
