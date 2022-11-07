@@ -63,7 +63,7 @@ var productImagesStgAccName = 'tailwindtradersimg${suffix}'
 var productImagesProductDetailsContainerName = 'product-details'
 var productImagesProductListContainerName = 'product-list'
 
-// storage account (main website)
+// storage account (old website)
 var uiStgAccName = 'tailwindtradersui${suffix}'
 
 // storage account (new website)
@@ -77,6 +77,7 @@ var imageClassifierWebsiteUploadsContainerName = 'website-uploads'
 var cdnProfileName = 'tailwind-traders-cdn${suffix}'
 var cdnImagesEndpointName = 'tailwind-traders-images${suffix}'
 var cdnUiEndpointName = 'tailwind-traders-ui${suffix}'
+var cdnUi2EndpointName = 'tailwind-traders-ui2${suffix}'
 
 // redis cache
 var redisCacheName = 'tailwind-traders-cache${suffix}'
@@ -739,7 +740,7 @@ resource cdnprofile_imagesendpoint 'Microsoft.Cdn/profiles/endpoints@2022-05-01-
   }
 }
 
-// endpoint (ui / main website)
+// endpoint (ui / old website)
 resource cdnprofile_uiendpoint 'Microsoft.Cdn/profiles/endpoints@2022-05-01-preview' = {
   name: cdnUiEndpointName
   location: 'global'
@@ -797,6 +798,70 @@ resource cdnprofile_uiendpoint 'Microsoft.Cdn/profiles/endpoints@2022-05-01-prev
         properties: {
           hostName: '${uiStgAccName}.z13.web.core.windows.net' // @TODO: Hack, fix later
           originHostHeader: '${uiStgAccName}.z13.web.core.windows.net' // @TODO: Hack, fix later
+        }
+      }
+    ]
+  }
+}
+
+// endpoint (ui / new website)
+resource cdnprofile_ui2endpoint 'Microsoft.Cdn/profiles/endpoints@2022-05-01-preview' = {
+  name: cdnUi2EndpointName
+  location: 'global'
+  tags: resourceTags
+  parent: cdnprofile
+  properties: {
+    isCompressionEnabled: true
+    contentTypesToCompress: [
+      'application/eot'
+      'application/font'
+      'application/font-sfnt'
+      'application/javascript'
+      'application/json'
+      'application/opentype'
+      'application/otf'
+      'application/pkcs7-mime'
+      'application/truetype'
+      'application/ttf'
+      'application/vnd.ms-fontobject'
+      'application/xhtml+xml'
+      'application/xml'
+      'application/xml+rss'
+      'application/x-font-opentype'
+      'application/x-font-truetype'
+      'application/x-font-ttf'
+      'application/x-httpd-cgi'
+      'application/x-javascript'
+      'application/x-mpegurl'
+      'application/x-opentype'
+      'application/x-otf'
+      'application/x-perl'
+      'application/x-ttf'
+      'font/eot'
+      'font/ttf'
+      'font/otf'
+      'font/opentype'
+      'image/svg+xml'
+      'text/css'
+      'text/csv'
+      'text/html'
+      'text/javascript'
+      'text/js'
+      'text/plain'
+      'text/richtext'
+      'text/tab-separated-values'
+      'text/xml'
+      'text/x-script'
+      'text/x-component'
+      'text/x-java-source'
+    ]
+    originHostHeader: '${ui2StgAccName}.z13.web.core.windows.net' // @TODO: Hack, fix later
+    origins: [
+      {
+        name: '${ui2StgAccName}-z13-web-core-windows-net' // @TODO: Hack, fix later
+        properties: {
+          hostName: '${ui2StgAccName}.z13.web.core.windows.net' // @TODO: Hack, fix later
+          originHostHeader: '${ui2StgAccName}.z13.web.core.windows.net' // @TODO: Hack, fix later
         }
       }
     ]
