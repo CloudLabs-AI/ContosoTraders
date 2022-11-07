@@ -53,10 +53,10 @@ var productsApiAppSvcPlanName = 'tailwind-traders-products${suffix}'
 var productsApiAppSvcName = 'tailwind-traders-products${suffix}'
 var productsApiSettingNameKeyVaultEndpoint = 'KeyVaultEndpoint'
 
-// app service plan (carts api)
-var cartsApiAppSvcPlanName = 'tailwind-traders-carts${suffix}'
-var cartsApiAppSvcName = 'tailwind-traders-carts${suffix}'
-var cartsApiSettingNameKeyVaultEndpoint = 'KeyVaultEndpoint'
+// azure container app (carts api)
+var cartsApiAcaName = 'tailwind-traders-carts${suffix}'
+var cartsApiAcaEnvName = 'tailwindtradersacaenv${suffix}'
+var cartsApiAcaSecretAcrPassword = 'acr-password'
 
 // storage account (product images)
 var productImagesStgAccName = 'tailwindtradersimg${suffix}'
@@ -171,7 +171,7 @@ resource kv 'Microsoft.KeyVault/vaults@2022-07-01' = {
         }
         {
           tenantId: tenantId
-          objectId: cartsapiappsvc.identity.principalId
+          objectId: cartsapiaca.identity.principalId
           permissions: {
             secrets: [ 'get', 'list' ]
           }
@@ -410,39 +410,71 @@ resource productsapiappsvc 'Microsoft.Web/sites@2022-03-01' = {
 // carts api
 //
 
-// app service plan (linux)
-resource cartsapiappsvcplan 'Microsoft.Web/serverfarms@2022-03-01' = {
-  name: cartsApiAppSvcPlanName
+// aca environment
+resource cartsapiacaenv 'Microsoft.App/managedEnvironments@2022-06-01-preview' = {
+  name: cartsApiAcaEnvName
   location: resourceLocation
   tags: resourceTags
   sku: {
-    name: 'B1'
+    name: 'Consumption'
   }
   properties: {
-    reserved: true
+    zoneRedundant: false
   }
-  kind: 'linux'
 }
 
-// app service
-resource cartsapiappsvc 'Microsoft.Web/sites@2022-03-01' = {
-  name: cartsApiAppSvcName
+// aca
+resource cartsapiaca 'Microsoft.App/containerApps@2022-06-01-preview' = {
+  name: cartsApiAcaName
   location: resourceLocation
   tags: resourceTags
   identity: {
     type: 'SystemAssigned'
   }
   properties: {
-    clientAffinityEnabled: false
-    httpsOnly: true
-    serverFarmId: cartsapiappsvcplan.id
-    siteConfig: {
-      linuxFxVersion: 'DOTNETCORE|6.0'
-      alwaysOn: true
-      appSettings: [
+    configuration: {
+      activeRevisionsMode: 'Single'
+      ingress: {
+        external: true
+        allowInsecure: false
+        targetPort: 80
+        traffic: [
+          {
+            latestRevision: true
+            weight: 100
+          }
+        ]
+      }
+      registries: [
         {
-          name: cartsApiSettingNameKeyVaultEndpoint
-          value: kv.properties.vaultUri
+          passwordSecretRef: cartsApiAcaSecretAcrPassword
+          server: acr.properties.loginServer
+          username: acr.name
+        }
+      ]
+      secrets: [
+        {
+          name: cartsApiAcaSecretAcrPassword
+          value: acr.listCredentials().passwords[0].value
+        }
+      ]
+    }
+    environmentId: cartsapiacaenv.id
+    template: {
+      containers: [
+        {
+          env: [
+            {
+              name: 'KeyVaultEndpoint'
+              value: kv.properties.vaultUri
+            }
+          ]
+          image: 'mcr.microsoft.com/azuredocs/containerapps-helloworld:latest'
+          name: 'todotempchangelater'
+          resources: {
+            cpu: json('0.5')
+            memory: '1.0Gi'
+          }
         }
       ]
     }
@@ -723,89 +755,6 @@ resource acr 'Microsoft.ContainerRegistry/registries@2022-02-01-preview' = {
   properties: {
     adminUserEnabled: true
     publicNetworkAccess: 'Enabled'
-  }
-}
-
-
-//
-// EXPERIMENTAL: CONTAINERIZATRION
-//
-
-
-
-// azure container app environment
-var acaEnvName = 'tailwindtradersacaenv${suffix}'
-
-resource acaenv 'Microsoft.App/managedEnvironments@2022-06-01-preview' = {
-  name: acaEnvName
-  location: resourceLocation
-  tags: resourceTags
-  sku: {
-    name: 'Consumption'
-  }
-  properties: {
-    zoneRedundant: false
-  }
-}
-
-// azure container app
-var acaName = 'tailwind-traders-carts${suffix}'
-var acaSecretAcrPassword = 'acr-password'
-
-resource aca 'Microsoft.App/containerApps@2022-06-01-preview' = {
-  name: acaName
-  location: resourceLocation
-  tags: resourceTags
-  identity: {
-    type: 'SystemAssigned'
-  }
-  properties: {
-    configuration: {
-      activeRevisionsMode: 'Single'
-      ingress: {
-        external: true
-        allowInsecure: false
-        targetPort: 80
-        traffic: [
-          {
-            latestRevision: true
-            weight: 100
-          }
-        ]
-      }
-      registries: [
-        {
-          passwordSecretRef: acaSecretAcrPassword
-          server: acr.properties.loginServer
-          username: acr.name
-        }
-      ]
-      secrets: [
-        {
-          name: acaSecretAcrPassword
-          value: acr.listCredentials().passwords[0].value
-        }
-      ]
-    }
-    environmentId: acaenv.id
-    template: {
-      containers: [
-        {
-          env: [
-            {
-              name: 'KeyVaultEndpoint'
-              value: kv.properties.vaultUri
-            }
-          ]
-          image: 'mcr.microsoft.com/azuredocs/containerapps-helloworld:latest'
-          name: 'todotempchangelater'
-          resources: {
-            cpu: json('0.5')
-            memory: '1.0Gi'
-          }
-        }
-      ]
-    }
   }
 }
 
