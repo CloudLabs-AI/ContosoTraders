@@ -36,12 +36,13 @@ namespace TailwindTraders.Api.Core.Services.Implementations
                         VisualFeatureTypes.Color, VisualFeatureTypes.Brands,
                         VisualFeatureTypes.Objects
                 };
-                ImageAnalysis results;
-                using (Stream imageStream = File.OpenRead(imageUrl))
-                {
-                    results = await client.AnalyzeImageInStreamAsync(imageStream, visualFeatures: features);
-                    //imageStream.Close();    
-                }
+               // ImageAnalysis results;
+                ImageAnalysis results = await client.AnalyzeImageAsync(imageUrl, visualFeatures: features);
+                //using (Stream imageStream = File.OpenRead(imageUrl))
+                //{
+                //  results = await client.AnalyzeImageInStreamAsync(imageStream, visualFeatures: features);
+                //imageStream.Close();    
+                //}
                 ImageAnalysisViewModel imageAnalysis = new ImageAnalysisViewModel();
                 imageAnalysis.imageAnalysisResult = results;
                 return imageAnalysis;
