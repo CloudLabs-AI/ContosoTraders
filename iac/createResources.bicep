@@ -962,5 +962,37 @@ resource acr 'Microsoft.ContainerRegistry/registries@2022-02-01-preview' = {
   }
 }
 
+//
+// portal dashboard
+//
+
+var dashboardName = 'portal123'
+
+resource dashboard 'Microsoft.Portal/dashboards@2020-09-01-preview' = {
+  name: dashboardName
+  location: resourceLocation
+  tags: resourceTags
+  properties: {
+    lenses: [
+      {
+        order: 0
+        parts: [
+          {
+            position: {
+              x: 0
+              y: 0
+              rowSpan: 4
+              colSpan: 2
+            }
+            metadata: {
+              type: 'Extension/HubsExtension/PartType/MonitorChartPart'
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
+
 // outputs
 ////////////////////////////////////////////////////////////////////////////////
