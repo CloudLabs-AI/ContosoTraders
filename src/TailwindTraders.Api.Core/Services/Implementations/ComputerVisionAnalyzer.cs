@@ -1,8 +1,8 @@
 ﻿namespace TailwindTraders.Api.Core.Services.Implementations;
-public class ComputerVisionAnalyzer : IComputerVisionAnalyzer
+internal class ComputerVisionAnalyzer : TailwindTradersServiceBase, IComputerVisionAnalyzer
 { 
-    private string subscriptionKey = "e355a2abe59048afad1b8045f14b8909";
-    private string endpoint = "https://eastus.api.cognitive.microsoft.com/";
+
+    public ComputerVisionAnalyzer(IMapper mapper, IConfiguration configuration):base(mapper, configuration) { }
 
     public async Task<IEnumerable<string>> AnalyzeImageAsync(Stream imageStream, CancellationToken cancellationToken = default)
     {
@@ -17,9 +17,9 @@ public class ComputerVisionAnalyzer : IComputerVisionAnalyzer
 
     private ComputerVisionClient Authenticate()
     {
-        ComputerVisionClient client = new ComputerVisionClient(new ApiKeyServiceClientCredentials(subscriptionKey))
+        ComputerVisionClient client = new ComputerVisionClient(new ApiKeyServiceClientCredentials(Configuration[KeyVaultConstants.SecretNameCognitiveServicesAccountKey]))
         {
-            Endpoint = endpoint
+            Endpoint = Configuration[KeyVaultConstants.SecretNameCognitiveServicesEndpoint]
         };
         return client;
     }
