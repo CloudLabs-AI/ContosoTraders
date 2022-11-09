@@ -4,6 +4,8 @@ global using MediatR;
 global using Microsoft.AspNetCore.Hosting;
 global using Microsoft.AspNetCore.Http;
 global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.Azure.CognitiveServices.Vision.ComputerVision;
+global using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
 global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.Logging;
 global using Microsoft.ML.OnnxRuntime;

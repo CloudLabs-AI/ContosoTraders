@@ -85,7 +85,7 @@ public class DependencyInjection : FunctionsStartup
             .AddSingleton<IProductService, ProductService>()
             .AddSingleton<IStockService, StockService>()
             .AddSingleton<IProfileService, ProfileService>()
-            .AddSingleton<IComputerVisionService, ComputerVisionService>()
+            .AddSingleton<IComputerVisionAnalyzer, ComputerVisionAnalyzer>()
             .AddSingleton<IImageSearchService, ImageSearchService>()
             .AddSingleton<IImageSearchTermPredictor, OnnxImageSearchTermPredictor>();
 

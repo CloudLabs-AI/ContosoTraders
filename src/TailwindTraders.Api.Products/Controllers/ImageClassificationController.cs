@@ -15,12 +15,11 @@ namespace TailwindTraders.Api.Products.Controllers
         [HttpPost("imageclassifier")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> PostImage(string imageFilePath)
+        public async Task<IActionResult> PostImage(IFormFile file)
         {
-            imageFilePath = @"https://tailwindtradersimg987654.blob.core.windows.net/product-details/102013777.jpg";
-            var request = new PostImagesRequest
+            var request = new PostImageRequest
             {
-                imageFilePath = imageFilePath
+                File = file
             };
 
             return await ProcessHttpRequestAsync(request);
