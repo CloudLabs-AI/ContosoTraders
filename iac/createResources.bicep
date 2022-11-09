@@ -675,8 +675,6 @@ resource deploymentScript2 'Microsoft.Resources/deploymentScripts@2020-10-01' = 
   }
 }
 
-
-
 //
 // image classifier
 //
