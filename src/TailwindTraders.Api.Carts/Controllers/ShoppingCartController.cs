@@ -12,11 +12,12 @@ public class ShoppingCartController : TailwindTradersControllerBase
     /// <returns></returns>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetCart([FromHeader(Name = RequestHeaderConstants.HeaderNameUserEmail)] string userEmail)
+    public async Task<IActionResult> GetCart(/*[FromHeader(Name = RequestHeaderConstants.HeaderNameUserEmail)] string userEmail*/)
     {
         var request = new GetCartRequest
         {
-            Email = userEmail?.ToLowerInvariant()
+            // Email = userEmail?.ToLowerInvariant()
+            Email = "admin@tailwindtraders.com"
         };
 
         return await ProcessHttpRequestAsync(request);
