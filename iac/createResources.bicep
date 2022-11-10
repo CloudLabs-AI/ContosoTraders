@@ -994,5 +994,16 @@ resource dashboard 'Microsoft.Portal/dashboards@2020-09-01-preview' = {
   }
 }
 
+var loadTestSvcName = 'tailwind-traders-loadtest${suffix}'
+
+resource symbolicname 'Microsoft.LoadTestService/loadTests@2022-12-01' = {
+  name: loadTestSvcName
+  location: resourceLocation
+  tags: resourceTags
+  identity: {
+    type: 'SystemAssigned'
+  }
+}
+
 // outputs
 ////////////////////////////////////////////////////////////////////////////////
