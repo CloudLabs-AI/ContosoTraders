@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { alpha, makeStyles } from '@material-ui/core/styles';
 import {AppBar, InputAdornment, TextField} from '@material-ui/core';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -11,7 +11,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
-import { ReactComponent as Logo } from '../../assets/images/logo-horizontal.svg';
+import Logo from '../../assets/images/logo-horizontal.svg';
 import SearchIconNew from '../../assets/images/original/Contoso_Assets/Icons/image_search_icon.svg'
 import WishlistIcon from '../../assets/images/original/Contoso_Assets/Icons/wishlist_icon.svg'
 import ProfileIcon from '../../assets/images/original/Contoso_Assets/Icons/profile_icon.svg'
@@ -84,7 +84,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PrimarySearchAppBar() {
+function TopAppBar() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -171,17 +171,10 @@ export default function PrimarySearchAppBar() {
     <div className={classes.grow}>
       <AppBar color='inherit' className='appbar box-shadow-0' position="static">
         <Toolbar className='p-0'>
-            <Link to="/">
-                <Logo />
-            </Link>
-          <div className={classes.search} style={{marginLeft:'65px',position:'relative'}}>
-            <TextField
-                label="Search by product name or search by image"
-                variant="outlined"
-                fullWidth
-                InputProps={{
-                    endAdornment: (
-                    <InputAdornment>
+            <a href="/">
+                <img src={Logo} alt=""/>
+            </a>
+          </div>
                         <IconButton onClick={()=>setSearchUpload(!searchUpload)} className="searchBtn">
                           <img src={SearchIconNew} alt="iconimage"/>
                         </IconButton>
@@ -244,3 +237,4 @@ export default function PrimarySearchAppBar() {
     </div>
   );
 }
+export default withRouter(TopAppBar);

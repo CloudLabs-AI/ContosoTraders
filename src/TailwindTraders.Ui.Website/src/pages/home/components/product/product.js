@@ -1,10 +1,8 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
@@ -33,23 +31,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Product({prodImg}) {
+export default function Product(props) {
   const classes = useStyles();
-
+  const  { prodImg, imageUrl, name } = props;
   return (
     <Card className="productCard">
-      <CardHeader/>
       <CardMedia
         className={classes.media}
-        image={prodImg}
-        title="Paella dish"
+        image={prodImg?prodImg:imageUrl}
+        title={name?name:''}
       />
       <CardContent>
         <div style={{display:'flex',alignItems:'center'}}>
-            <Typography variant="h6" color="initial" component="h6" style={{marginRight:'auto'}}>
-                Lunar Shift Special Edition
+            <Typography variant="h6" color="initial" component="h6" className='productName' style={{marginRight:'auto'}}>
+                {name?name:'Lunar Shift Special Edition'}
             </Typography>
-            <IconButton aria-label="add to favorites">
+            <IconButton className='wishlist_icon' aria-label="add to favorites">
                 {/* <FavoriteIcon /> */}
                 <img src={WishlistIcon} alt="like"/>
             </IconButton>
@@ -69,7 +66,6 @@ export default function Product({prodImg}) {
             </Typography>
         </div>
       </CardContent>
-      <CardActions></CardActions>
     </Card>
   );
 }
