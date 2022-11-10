@@ -8,22 +8,35 @@ internal class ImageAnalysisService : TailwindTradersServiceBase, IImageAnalysis
 
     public async Task<IEnumerable<string>> AnalyzeImageAsync(Stream imageStream, CancellationToken cancellationToken = default)
     {
-        var client = Authenticate();
+        var client = GetComputerVisionClient();
+
         var features = new List<VisualFeatureTypes?>
         {
             VisualFeatureTypes.Tags
         };
-        var results = await client.AnalyzeImageInStreamAsync(imageStream, features);
-        var searchTerms = results.Tags.Select(tag => tag.Name).ToList();
+
+        var results = await client.AnalyzeImageInStreamAsync(imageStream, features, cancellationToken: cancellationToken);
+
+        var searchTerms = results.Tags
+            .Select(tag => tag.Name)
+            .ToList();
+
         return searchTerms;
     }
 
-    private ComputerVisionClient Authenticate()
+    private ComputerVisionClient GetComputerVisionClient()
     {
-        var client = new ComputerVisionClient(new ApiKeyServiceClientCredentials(Configuration[KeyVaultConstants.SecretNameCognitiveServicesAccountKey]))
+        var accountKey = Configuration[KeyVaultConstants.SecretNameCognitiveServicesAccountKey];
+
+        var endpoint = Configuration[KeyVaultConstants.SecretNameCognitiveServicesEndpoint];
+
+        var credentials = new ApiKeyServiceClientCredentials(accountKey);
+
+        var client = new ComputerVisionClient(credentials)
         {
-            Endpoint = Configuration[KeyVaultConstants.SecretNameCognitiveServicesEndpoint]
+            Endpoint = endpoint
         };
+
         return client;
     }
 }
