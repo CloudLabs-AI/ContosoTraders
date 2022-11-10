@@ -87,6 +87,12 @@ var redisCacheName = 'tailwind-traders-cache${suffix}'
 var acrName = 'tailwindtradersacr${suffix}'
 var acrCartsApiRepositoryName = 'tailwindtradersapicarts'
 
+// load testing service
+var loadTestSvcName = 'tailwind-traders-loadtest${suffix}'
+
+// portal dashboard
+var portalDashboardName = 'tailwind-traders-dashboard' // @TODO: rename later with suffix
+
 // tags
 var resourceTags = {
   Product: 'tailwind-traders'
@@ -970,13 +976,24 @@ resource acr 'Microsoft.ContainerRegistry/registries@2022-02-01-preview' = {
 }
 
 //
+// load testing service
+//
+
+resource loadtestsvc 'Microsoft.LoadTestService/loadTests@2022-12-01' = {
+  name: loadTestSvcName
+  location: resourceLocation
+  tags: resourceTags
+  identity: {
+    type: 'SystemAssigned'
+  }
+}
+
+//
 // portal dashboard
 //
 
-var dashboardName = 'portal123'
-
 resource dashboard 'Microsoft.Portal/dashboards@2020-09-01-preview' = {
-  name: dashboardName
+  name: portalDashboardName
   location: resourceLocation
   tags: resourceTags
   properties: {
@@ -991,24 +1008,10 @@ resource dashboard 'Microsoft.Portal/dashboards@2020-09-01-preview' = {
               rowSpan: 4
               colSpan: 2
             }
-            metadata: {
-              type: 'Extension/HubsExtension/PartType/MonitorChartPart'
-            }
           }
         ]
       }
     ]
-  }
-}
-
-var loadTestSvcName = 'tailwind-traders-loadtest${suffix}'
-
-resource loadtestsvc 'Microsoft.LoadTestService/loadTests@2022-12-01' = {
-  name: loadTestSvcName
-  location: resourceLocation
-  tags: resourceTags
-  identity: {
-    type: 'SystemAssigned'
   }
 }
 
