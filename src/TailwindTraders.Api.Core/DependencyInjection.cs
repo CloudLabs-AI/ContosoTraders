@@ -81,12 +81,12 @@ public class DependencyInjection : FunctionsStartup
 
         // inject services
         services
-            .AddSingleton<ICartService, CartService>()
-            .AddSingleton<IProductService, ProductService>()
-            .AddSingleton<IStockService, StockService>()
-            .AddSingleton<IProfileService, ProfileService>()
-            .AddSingleton<IComputerVisionAnalyzer, ComputerVisionAnalyzer>()
-            .AddSingleton<IImageSearchService, ImageSearchService>();
+            .AddScoped<ICartService, CartService>()
+            .AddScoped<IProductService, ProductService>()
+            .AddScoped<IStockService, StockService>()
+            .AddScoped<IProfileService, ProfileService>()
+            .AddScoped<IImageAnalysisService, ImageAnalysisService>()
+            .AddScoped<IImageSearchService, ImageSearchService>();
 
         // inject repositories
         services

@@ -1,9 +1,8 @@
 namespace TailwindTraders.Api.Core.Services.Interfaces;
 
-public interface IImageSearchService
+internal interface IImageSearchService
 {
     /// <summary>
-    /// 
     /// </summary>
     /// <param name="imageStream"></param>
     /// <param name="cancellationToken"></param>
