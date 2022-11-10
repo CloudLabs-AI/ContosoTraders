@@ -12,12 +12,11 @@ public class ShoppingCartController : TailwindTradersControllerBase
     /// <returns></returns>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetCart(/*[FromHeader(Name = RequestHeaderConstants.HeaderNameUserEmail)] string userEmail*/)
+    public async Task<IActionResult> GetCart([FromHeader(Name = RequestHeaderConstants.HeaderNameUserEmail)] string userEmail)
     {
         var request = new GetCartRequest
         {
-            // Email = userEmail?.ToLowerInvariant()
-            Email = "admin@tailwindtraders.com"
+            Email = userEmail?.ToLowerInvariant()
         };
 
         return await ProcessHttpRequestAsync(request);
@@ -58,4 +57,20 @@ public class ShoppingCartController : TailwindTradersControllerBase
 
         return await ProcessHttpRequestAsync(request);
     }
+
+    #region Load testing // @TODO: Remove this later and replace with JMeter/JMX tests
+
+    [HttpGet("loadtest")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> LoadTest()
+    {
+        var request = new GetCartRequest
+        {
+            Email = "testuser@tailwindtraders.com"
+        };
+
+        return await ProcessHttpRequestAsync(request);
+    }
+
+    #endregion
 }
