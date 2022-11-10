@@ -1,0 +1,24 @@
+name: tailwind-traders-load-testing
+
+on:
+  workflow_dispatch:
+
+env:
+  ACR_NAME: tailwindtradersacr
+  ACR_REPOSITORY_NAME: tailwindtradersapicarts
+  WEBAPP_NAME: tailwind-traders-carts
+  ACA_NAME: tailwind-traders-carts
+  ACA_RESOURCE_GROUP: tailwind-traders-rg
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: checkout code
+      uses: actions/checkout@v3
+    - name: azure login
+      uses: azure/login@v1.1
+      with:
+        creds: ${{ secrets.TAILWINDTRADERS_TESTING_SERVICEPRINCIPAL }}
