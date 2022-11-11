@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Product(props) {
   const classes = useStyles();
-  const  { prodImg, imageUrl, name } = props;
+  const  { prodImg, imageUrl, name, price } = props;
   return (
     <Card className="productCard">
       <CardMedia
@@ -42,12 +42,11 @@ export default function Product(props) {
         title={name?name:''}
       />
       <CardContent>
-        <div style={{display:'flex',alignItems:'center'}}>
+        <div style={{display:'flex',alignItems:'center',marginBottom:'8.25px'}}>
             <Typography variant="h6" color="initial" component="h6" className='productName' style={{marginRight:'auto'}}>
                 {name?name:'Lunar Shift Special Edition'}
             </Typography>
             <IconButton className='wishlist_icon' aria-label="add to favorites">
-                {/* <FavoriteIcon /> */}
                 <img src={WishlistIcon} alt="like"/>
             </IconButton>
         </div>
@@ -55,8 +54,8 @@ export default function Product(props) {
           Controller
         </Typography>
         <div style={{display:'flex',alignItems:'center',paddingTop:'10px'}}>
-            <Typography variant="h6" color="initial" component="h6" style={{marginRight:'auto'}} className="m-0 mr-1">
-                $39.49
+            <Typography variant="h6" color="initial" component="h6" style={{marginRight:'auto'}} className="productOrgPrice m-0 mr-1">
+                ${price?price+'.00':'39.49'}
             </Typography>
             <Typography paragraph color="textSecondary" className="m-0 mr-1">
                 $78.46

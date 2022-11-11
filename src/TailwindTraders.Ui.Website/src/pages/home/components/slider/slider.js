@@ -59,7 +59,7 @@ function Item(props)
                     </div>
                     <div className="LapSectionContent">
                         {props.item.page === 1 ?
-                        <Grid container justifyContent="center" spacing={3}>
+                        <Grid container justifyContent="center" spacing={4}>
                             <Grid item xs={3}>
                                 <Product prodImg={productImg1}/>
                             </Grid>
@@ -78,7 +78,7 @@ function Item(props)
                         </Grid>
                         :null}
                         {props.item.page === 2 ?
-                        <Grid container justifyContent="center" spacing={5}>
+                        <Grid container justifyContent="center" spacing={4}>
                             <Grid item xs={3}>
                                 <Product prodImg={productImg5}/>
                             </Grid>

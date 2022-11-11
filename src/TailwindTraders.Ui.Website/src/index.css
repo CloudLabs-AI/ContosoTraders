@@ -1,6 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
-@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
-
+/* @import url('https://fonts.googleapis.com/css2?family=Heebo&family=Inter&family=Poppins&family=Roboto&display=swap');
+@font-face {
+  font-family: 'Inter';
+  src: local('Inter'), url('./fonts/Inter/static/Inter-Regular.ttf') format('truetype');
+} */
 body {
   margin: 0;
   padding: 0;
@@ -125,10 +127,10 @@ body {
   box-shadow:none !important;
 }
 .productCard:hover{
-  /* border: 1px solid #0000001A !important; */
   cursor: pointer;
-  box-shadow: 1px 5px 5px #aaaaaa !important;
-  /* box-shadow: 0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%) !important; */
+  box-shadow: 0px 3px 6px #00000029 !important;
+  border: 1px solid #E5E5E5;
+  border-radius: 4px;
 }
 .productCard .MuiCardMedia-root{
   width: auto;
@@ -136,10 +138,10 @@ body {
   margin: auto;
 }
 .productCard .MuiCardContent-root{
-  padding: 6px 8px 0 8px !important;
+  padding: 8px 8px 0 8px !important;
 }
 .productCard .wishlist_icon{
-  padding-bottom: 8.75px;
+  padding: 0;
 }
 /* mainHeader */
 .mainHeader{
@@ -158,6 +160,21 @@ body {
   padding-left: 70px;
   padding-right: 70px;
   padding-top: 31px;
+}
+.appbar .searchBar input{
+  font-family: 'Roboto' !important;
+  font-size: 14px !important;
+  font-weight: 300 !important;
+}
+.appbar .searchBar .MuiOutlinedInput-adornedEnd{
+  height: 48px;
+  padding-right: 8px;
+}
+.appbar .searchBar input::placeholder{
+  font-family: 'Roboto' !important;
+  font-size: 14px !important;
+  font-weight: 300 !important;
+  color: #686868 !important;
 }
 .appbar .searchbar-upload{
   position: absolute;
@@ -192,7 +209,6 @@ body {
 .appbar .headerLogo{
   height: 71px;
   width: 195px;
-  padding: 10px;
 }
 .appbar svg {
   fill: #2f4b66;
@@ -200,6 +216,7 @@ body {
 }
 .appbar .searchBtn{
   border-radius: 5px;
+  padding: 5px;
 }
 .appbar .searchBtn:focus{
   outline: none;
@@ -207,14 +224,8 @@ body {
 .appbar ..upload__subtitle{
   font-family: 'Roboto' !important;
 }
-.box-shadow-0{
-  box-shadow: none !important;
-}
-.justify-content-end{
-  justify-content: end;
-}
-.text-transform-capitalize{
-  text-transform: capitalize !important;
+.main-nav{
+  margin-left: 63px;
 }
 .main-nav__item{
   text-decoration: none!important;
@@ -336,7 +347,7 @@ button[aria-label='Next'] {
 }
 .slider-style .topSection{
   display: flex;
-  padding-bottom: 30px;
+  margin-bottom: 30px;
   align-items: center;
 }
 .slider-style .LapHeadSection{
@@ -345,7 +356,7 @@ button[aria-label='Next'] {
 .slider-style .LapButtonSection{
   display: flex;
 }
-.slider-style .LapSectionContent {
+.slider-style .MuiGrid-root {
   overflow: hidden;
 }
 .slider-style .LapSectionContent > div{
@@ -364,24 +375,24 @@ button[aria-label='Next'] {
 }
 .slider-style .LapHeadmain {
   font: normal normal 600 25px/56px "Poppins";
-  letter-spacing: -1.44px;
   color: #111111;
   text-transform: uppercase;
   opacity: 1;
+  margin-bottom: 0;
 }
 .slider-style .productCard{
   box-shadow: none !important;
 }
 .slider-style .productCard .MuiCardMedia-root{
   width: auto !important;
-  height: 306px !important;
+  height: 270px !important;
   margin: auto;
 }
 .slider-style .productCard:hover{
-  border: 1px solid #0000001A !important;
+  box-shadow: 0px 3px 6px #00000029 !important;
+  border: 1px solid #E5E5E5;
+  border-radius: 4px;
   cursor: pointer;
-  /* box-shadow: 1px 5px 5px #aaaaaa !important; */
-  /* box-shadow: 0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%) !important; */
 }
 .productName{
   font-family: 'Inter' !important;
