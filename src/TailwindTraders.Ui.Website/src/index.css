@@ -221,7 +221,7 @@ body {
 .appbar .searchBtn:focus{
   outline: none;
 }
-.appbar ..upload__subtitle{
+.appbar .upload__subtitle{
   font-family: 'Roboto' !important;
 }
 .main-nav{
