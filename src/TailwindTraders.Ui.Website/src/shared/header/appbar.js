@@ -46,6 +46,8 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       marginLeft: 63,
       width: '50%',
+      maxWidth: '650px',
+      maxHeight: '48px'
     },
   },
   searchIcon: {
@@ -171,10 +173,20 @@ function TopAppBar() {
     <div className={classes.grow}>
       <AppBar color='inherit' className='appbar box-shadow-0' position="static">
         <Toolbar className='p-0'>
+          <div className='headerLogo'>
             <a href="/">
                 <img src={Logo} alt=""/>
             </a>
           </div>
+          <div className={`${classes.search} searchBar`}>
+            <TextField
+                // label="Search by product name or search by image"
+                placeholder='Search by product name or search by image'
+                variant="outlined"
+                fullWidth
+                InputProps={{
+                    endAdornment: (
+                    <InputAdornment>
                         <IconButton onClick={()=>setSearchUpload(!searchUpload)} className="searchBtn">
                           <img src={SearchIconNew} alt="iconimage"/>
                         </IconButton>
