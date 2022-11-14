@@ -6,12 +6,16 @@ import App from "./App";
 import './i18n';
 import store from './store';
 import ConfigService from './services/configService';
-
+import { Route, Router, withRouter } from "react-router-dom";
+import { createBrowserHistory } from "history";
+// import { ai } from "./services/telemetryClient";
+// add appinsights
+const history = createBrowserHistory({ basename: "" });
 (async () => {
     await ConfigService.loadSettings();
 
     ReactDOM.render(
-        <Provider store={store}><App /></Provider>,
+        <Provider store={store}><Router history={history}><App /></Router></Provider>,
         document.getElementById('root')
     );
 })();
