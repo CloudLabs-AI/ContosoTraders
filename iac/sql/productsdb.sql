@@ -37,6 +37,13 @@ Values
     (6,'Additional Content','Additional Content: Series X console, One Wireless Controller, A high-speed HDMI Cable and Power Cable.',3),
     (7,'Model Number','Model Number: Xbox Series X',4),
     (8,'Additional Content','Additional Content: Series X console, One Wireless Controller, A high-speed HDMI Cable and Power Cable.',4),
+    (9,'Model Number','Model Number: Xbox Series X',5),
+    (10,'Additional Content','Additional Content: Series X console, One Wireless Controller, A high-speed HDMI Cable and Power Cable.',5),
+    (11,'Series','Series : Surface Pro 7',6),
+    (12,'Specifications','Specifications : Touchscreen 2-in-1 Laptop (10th Gen Intel Core i5/8GB/256GB SSD/Windows 10 Home/Intel Iris Plus Graphics, 25% Off on Microsoft 365), Black',6),
+    (13,'Series','Series : Surface Pro 7',7),
+    (14,'Specifications','Specifications : Touchscreen Laptop (8GB/256GB SSD/Windows 11 Home /Radeon Graphics/Platinum/1.265 kg) - 5PB-00023',7),
+
   
 
 DROP TABLE IF EXISTS Tags
@@ -91,5 +98,7 @@ VALUES
     (2,'Xbox Wireless Controller Mineral Camo Special Edition',112,'PID2-1.jpg',1,1,NULL),
     (3,'Xbox Elite Wireless Controller Series 2 Core (White)',139,'PID3-1.jpg',1,1,NULL),
     (4,'Xbox Wireless Controller 20th Anniversary Special Edition',89,'PID4-1.jpg',1,1,NULL),
-    (5,'Xbox Elite Wireless Controller Series 2 Halo Infinite Limited Edition',139,'PID5-1.jpg',1,1,NULL)
+    (5,'Xbox Elite Wireless Controller Series 2 Halo Infinite Limited Edition',139,'PID5-1.jpg',1,1,NULL),
+    (6,'Microsoft Surface Pro 7 PUV-00028 12.3" Black',249,'PID6-1.jpg',1,2,NULL),
+    (7,'Xbox Elite Wireless Controller Series 2 Halo Infinite Limited Edition',299,'PID7-1.jpg',1,1,NULL)
  
