@@ -1,4 +1,4 @@
-import React,{ useEffect } from "react";
+import React from "react";
 import productdetailimg1 from "../../assets/images/original/Contoso_Assets/product_page_assets/product_image_main.jpg";
 import productdetailimg2 from "../../assets/images/original/Contoso_Assets/product_page_assets/image_2.jpg";
 import productdetailimg3 from "../../assets/images/original/Contoso_Assets/product_page_assets/image_3.jpg";
@@ -9,44 +9,40 @@ import { Button } from "@material-ui/core";
 function ImageSlider(props) {
   const [min, setMin] = React.useState(0)
   const [max, setMax] = React.useState(4)
-  const [sliderImages, setSliderImages] = React.useState(null);
-
-  useEffect(() => {
-    setSliderImages([
-      {
-        id : 1,
-        img : productdetailimg1
-      },
-      {
-        id : 2,
-        img : props.imageUrl
-      },
-      {
-        id : 3,
-        img : productdetailimg3
-      },
-      {
-        id : 4,
-        img : productdetailimg4
-      },
-      {
-        id : 2,
-        img : productdetailimg2
-      },
-      {
-        id : 1,
-        img : productdetailimg1
-      },
-      {
-        id : 4,
-        img : productdetailimg4
-      },
-      {
-        id : 3,
-        img : productdetailimg3
-      },
-    ])
-  }, [props.imageUrl]);
+  const sliderImages = [
+    {
+      id : 1,
+      img : productdetailimg1
+    },
+    {
+      id : 2,
+      img : props.imageUrl
+    },
+    {
+      id : 3,
+      img : productdetailimg3
+    },
+    {
+      id : 4,
+      img : productdetailimg4
+    },
+    {
+      id : 2,
+      img : productdetailimg2
+    },
+    {
+      id : 1,
+      img : productdetailimg1
+    },
+    {
+      id : 4,
+      img : productdetailimg4
+    },
+    {
+      id : 3,
+      img : productdetailimg3
+    },
+  ];
 
   const decrementMinMax = () => {
     setMin(min-4)
