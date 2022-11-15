@@ -11,13 +11,14 @@ internal class PostImageRequestHandler : IRequestPreProcessor<PostImageRequest>,
         _imageSearchService = imageSearchService;
     }
 
-    public async Task<IActionResult> Handle(PostImageRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> Handle(PostImageRequest request, CancellationToken cancellationToken = default)
     {
-        var products = await _imageSearchService.GetProductsAsync(request.File.OpenReadStream(), cancellationToken);
+        if(!request.File.ContentType.Contains("image"))
+            return new BadRequestObjectResult("Invalid file type.");
 
-        return products.SearchResults.Any()
-            ? new OkObjectResult(products.SearchResults)
-            : new ObjectResult($"No results found matching : {products.PredictedSearchTerm}") {StatusCode = 404};
+        var products = await _imageSearchService.GetSimilarProductsAsync(request.File.OpenReadStream(), cancellationToken);
+
+        return new OkObjectResult(products);
     }
 
     public async Task Process(PostImageRequest request, CancellationToken cancellationToken)

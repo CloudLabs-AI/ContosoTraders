@@ -67,17 +67,17 @@ public class DependencyInjection : FunctionsStartup
 
         // inject ef-core dbcontexts (after fetching connection string from azure keyvault).
         var productsDbConnectionString = configuration[KeyVaultConstants.SecretNameProductsDbConnectionString];
-        services.AddDbContext<ProductsDbContext>(options => options.UseSqlServer(productsDbConnectionString), ServiceLifetime.Scoped);
+        services.AddDbContext<ProductsDbContext>(options => options.UseSqlServer(productsDbConnectionString));
 
         var profilesDbConnectionString = configuration[KeyVaultConstants.SecretNameProfilesDbConnectionString];
-        services.AddDbContext<ProfilesDbContext>(options => options.UseSqlServer(profilesDbConnectionString), ServiceLifetime.Scoped);
+        services.AddDbContext<ProfilesDbContext>(options => options.UseSqlServer(profilesDbConnectionString));
 
         // injecting the cosmosdb clients
         var stocksDbConnectionString = configuration[KeyVaultConstants.SecretNameStocksDbConnectionString];
-        services.AddScoped<Database>(_ => new CosmosClient(stocksDbConnectionString).GetDatabase(CosmosConstants.DatabaseNameStocks));
+        services.AddScoped(_ => new CosmosClient(stocksDbConnectionString).GetDatabase(CosmosConstants.DatabaseNameStocks));
 
         var cartsDbConnectionString = configuration[KeyVaultConstants.SecretNameCartsDbConnectionString];
-        services.AddScoped<Database>(_ => new CosmosClient(cartsDbConnectionString).GetDatabase(CosmosConstants.DatabaseNameCarts));
+        services.AddScoped(_ => new CosmosClient(cartsDbConnectionString).GetDatabase(CosmosConstants.DatabaseNameCarts));
 
         // inject services
         services
@@ -85,8 +85,8 @@ public class DependencyInjection : FunctionsStartup
             .AddScoped<IProductService, ProductService>()
             .AddScoped<IStockService, StockService>()
             .AddScoped<IProfileService, ProfileService>()
-            .AddScoped<IImageSearchService, ImageSearchService>()
-            .AddScoped<IImageSearchTermPredictor, OnnxImageSearchTermPredictor>();
+            .AddScoped<IImageAnalysisService, ImageAnalysisService>()
+            .AddScoped<IImageSearchService, ImageSearchService>();
 
         // inject repositories
         services
@@ -100,6 +100,9 @@ public class DependencyInjection : FunctionsStartup
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
+
+        var appInsightsConnectionString = configuration[KeyVaultConstants.SecretNameAppInsightsConnectionString];
+        services.AddApplicationInsightsTelemetry(options => options.ConnectionString = appInsightsConnectionString);
 
         // @TODO: Temporary. Fix later.
         services.AddCors(options =>

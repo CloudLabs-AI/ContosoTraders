@@ -1,9 +1,8 @@
 import React from 'react';
 import Carousel from 'react-material-ui-carousel'
 import { Button, Grid } from '@material-ui/core'
-// import LocalMallIcon from '@material-ui/icons/LocalMall';
-import heroBg from '../../../../assets/images/original/Contoso_Assets/Slider_section/hero_banner.jpg'
 import LocalMallIcon from '../../../../assets/images/original/Contoso_Assets/Icons/cart-icon-copy.svg'
+import heroBg from '../../../../assets/images/original/Contoso_Assets/Slider_section/hero_banner.jpg'
 export default function Corousel(props)
 {
     var items = [
@@ -17,17 +16,6 @@ export default function Corousel(props)
             description: "Elevate your game with the all-new Xbox Wireless Controller - Lunar Shift Special Edition",
             bg: heroBg
         },
-        {
-            name: "The Fastest, Most Powerful Xbox Ever.",
-            description: "Elevate your game with the all-new Xbox Wireless Controller - Lunar Shift Special Edition",
-            bg: heroBg
-        },
-        {
-            name: "The Fastest, Most Powerful Xbox Ever.",
-            description: "Elevate your game with the all-new Xbox Wireless Controller - Lunar Shift Special Edition",
-            bg: heroBg
-        },
-        
     ]
 
     return (

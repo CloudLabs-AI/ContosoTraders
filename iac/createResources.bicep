@@ -25,6 +25,9 @@ var kvSecretNameProfilesDbConnStr = 'profilesDbConnectionString'
 var kvSecretNameStocksDbConnStr = 'stocksDbConnectionString'
 var kvSecretNameCartsDbConnStr = 'cartsDbConnectionString'
 var kvSecretNameImagesEndpoint = 'imagesEndpoint'
+var kvSecretNameCognitiveServicesEndpoint = 'cognitiveServicesEndpoint'
+var kvSecretNameCognitiveServicesAccountKey = 'cognitiveServicesAccountKey'
+var kvSecretNameAppInsightsConnStr = 'appInsightsConnectionString'
 
 // cosmos db (stocks db)
 var stocksDbAcctName = 'tailwind-traders-stocks${suffix}'
@@ -57,6 +60,7 @@ var productsApiSettingNameKeyVaultEndpoint = 'KeyVaultEndpoint'
 var cartsApiAcaName = 'tailwind-traders-carts${suffix}'
 var cartsApiAcaEnvName = 'tailwindtradersacaenv${suffix}'
 var cartsApiAcaSecretAcrPassword = 'acr-password'
+var cartsApiAcaContainerDetailsName = 'tailwind-traders-carts${suffix}'
 
 // storage account (product images)
 var productImagesStgAccName = 'tailwindtradersimg${suffix}'
@@ -73,6 +77,9 @@ var ui2StgAccName = 'tailwindtradersui2${suffix}'
 var imageClassifierStgAccName = 'tailwindtradersic${suffix}'
 var imageClassifierWebsiteUploadsContainerName = 'website-uploads'
 
+// cognitive service (image recognition)
+var cognitiveServiceName = 'tailwind-traders-cs${suffix}'
+
 // cdn
 var cdnProfileName = 'tailwind-traders-cdn${suffix}'
 var cdnImagesEndpointName = 'tailwind-traders-images${suffix}'
@@ -84,7 +91,17 @@ var redisCacheName = 'tailwind-traders-cache${suffix}'
 
 // azure container registry
 var acrName = 'tailwindtradersacr${suffix}'
-var acrCartsApiRepositoryName = 'tailwindtradersapicarts'
+// var acrCartsApiRepositoryName = 'tailwindtradersapicarts' // @TODO: unused, probably remove later
+
+// load testing service
+var loadTestSvcName = 'tailwind-traders-loadtest${suffix}'
+
+// application insights
+var logAnalyticsWorkspaceName = 'tailwind-traders-loganalytics${suffix}'
+var appInsightsName = 'tailwind-traders-ai${suffix}'
+
+// portal dashboard
+var portalDashboardName = 'tailwind-traders-dashboard' // @TODO: rename later with suffix
 
 // tags
 var resourceTags = {
@@ -107,12 +124,17 @@ resource kv 'Microsoft.KeyVault/vaults@2022-07-01' = {
     // @TODO: Hack to enable temporary access to devs during local development/debugging.
     accessPolicies: [
       {
-        objectId: '6524d577-ed94-42a0-8465-b99d8e0250ac'
+        objectId: '70667219-36e5-4217-be0a-3a5cd0eba66d'
         tenantId: tenantId
         permissions: {
           secrets: [
             'get'
             'list'
+            'delete'
+            'set'
+            'recover'
+            'backup'
+            'restore'
           ]
         }
       }
@@ -200,6 +222,37 @@ resource kv 'Microsoft.KeyVault/vaults@2022-07-01' = {
     }
   }
 
+  // secret
+  resource kv_secretCognitiveServicesEndpoint 'secrets' = {
+    name: kvSecretNameCognitiveServicesEndpoint
+    tags: resourceTags
+    properties: {
+      contentType: 'endpoint url of the cognitive services'
+      value: cognitiveservice.properties.endpoint
+    }
+  }
+
+  // secret
+  resource kv_secretCognitiveServicesAccountKey 'secrets' = {
+    name: kvSecretNameCognitiveServicesAccountKey
+    tags: resourceTags
+    properties: {
+      contentType: 'account key of the cognitive services'
+      value: cognitiveservice.listKeys().key1
+    }
+  }
+
+  // secret
+  resource kv_secretAppInsightsConnStr 'secrets' = {
+    name: kvSecretNameAppInsightsConnStr
+    tags: resourceTags
+    properties: {
+      contentType: 'connection string to the app insights instance'
+      value: appinsights.properties.ConnectionString
+    }
+  }
+
+  // access policies
   resource kv_accesspolicies 'accessPolicies' = {
     name: 'replace'
     properties: {
@@ -214,6 +267,13 @@ resource kv 'Microsoft.KeyVault/vaults@2022-07-01' = {
         {
           tenantId: tenantId
           objectId: cartsapiaca.identity.principalId
+          permissions: {
+            secrets: [ 'get', 'list' ]
+          }
+        }
+        {
+          tenantId: tenantId
+          objectId: loadtestsvc.identity.principalId
           permissions: {
             secrets: [ 'get', 'list' ]
           }
@@ -525,8 +585,11 @@ resource cartsapiaca 'Microsoft.App/containerApps@2022-06-01-preview' = {
               value: kv.properties.vaultUri
             }
           ]
-          image: '${acr.properties.loginServer}/${acrCartsApiRepositoryName}:latest'
-          name: 'todotempchangelater'
+          // using a public image initially because no images have been pushed to our private ACR yet
+          // at this point. At a later point, our github workflow will update the ACA app to use the 
+          // images from our private ACR.
+          image: 'mcr.microsoft.com/azuredocs/containerapps-helloworld:latest'
+          name: cartsApiAcaContainerDetailsName
           resources: {
             cpu: json('0.5')
             memory: '1.0Gi'
@@ -755,6 +818,23 @@ resource imageclassifierstgacc 'Microsoft.Storage/storageAccounts@2022-05-01' = 
 }
 
 //
+// cognitive services (image recognition)
+// 
+
+resource cognitiveservice 'Microsoft.CognitiveServices/accounts@2022-10-01' = {
+  name: cognitiveServiceName
+  location: resourceLocation
+  tags: resourceTags
+  sku: {
+    name: 'S0'
+  }
+  kind: 'CognitiveServices'
+  properties: {
+    publicNetworkAccess: 'Enabled'
+  }
+}
+
+//
 // cdn
 //
 
@@ -778,6 +858,25 @@ resource cdnprofile_imagesendpoint 'Microsoft.Cdn/profiles/endpoints@2022-05-01-
     contentTypesToCompress: [
       'image/svg+xml'
     ]
+    deliveryPolicy: {
+      rules: [
+        {
+          name: 'Global'
+          order: 0
+          actions: [
+            {
+              name: 'CacheExpiration'
+              parameters: {
+                typeName: 'DeliveryRuleCacheExpirationActionParameters'
+                cacheBehavior: 'SetIfMissing'
+                cacheType: 'All'
+                cacheDuration: '10:00:00'
+              }
+            }
+          ]
+        }
+      ]
+    }
     originHostHeader: '${productImagesStgAccName}.blob.core.windows.net' // @TODO: Hack, fix later
     origins: [
       {
@@ -842,6 +941,25 @@ resource cdnprofile_uiendpoint 'Microsoft.Cdn/profiles/endpoints@2022-05-01-prev
       'text/x-component'
       'text/x-java-source'
     ]
+    deliveryPolicy: {
+      rules: [
+        {
+          name: 'Global'
+          order: 0
+          actions: [
+            {
+              name: 'CacheExpiration'
+              parameters: {
+                typeName: 'DeliveryRuleCacheExpirationActionParameters'
+                cacheBehavior: 'SetIfMissing'
+                cacheType: 'All'
+                cacheDuration: '10:00:00'
+              }
+            }
+          ]
+        }
+      ]
+    }
     originHostHeader: '${uiStgAccName}.z13.web.core.windows.net' // @TODO: Hack, fix later
     origins: [
       {
@@ -906,6 +1024,54 @@ resource cdnprofile_ui2endpoint 'Microsoft.Cdn/profiles/endpoints@2022-05-01-pre
       'text/x-component'
       'text/x-java-source'
     ]
+    deliveryPolicy: {
+      rules: [
+        {
+          name: 'Global'
+          order: 0
+          actions: [
+            {
+              name: 'CacheExpiration'
+              parameters: {
+                typeName: 'DeliveryRuleCacheExpirationActionParameters'
+                cacheBehavior: 'SetIfMissing'
+                cacheType: 'All'
+                cacheDuration: '02:00:00'
+              }
+            }
+          ]
+        }
+        {
+          name: 'EnforceHttps'
+          order: 1
+          conditions: [
+            {
+              name: 'RequestScheme'
+              parameters: {
+                typeName: 'DeliveryRuleRequestSchemeConditionParameters'
+                matchValues: [
+                  'HTTP'
+                ]
+                operator: 'Equal'
+                negateCondition: false
+                transforms: []
+              }
+            }
+          ]
+          actions: [
+            {
+              name: 'UrlRedirect'
+              parameters: {
+                typeName: 'DeliveryRuleUrlRedirectActionParameters'
+                redirectType: 'Found'
+                destinationProtocol: 'Https'
+                customHostname: 'www.contosotraders.com'
+              }
+            }
+          ]
+        }
+      ]
+    }
     originHostHeader: '${ui2StgAccName}.z13.web.core.windows.net' // @TODO: Hack, fix later
     origins: [
       {
@@ -950,6 +1116,76 @@ resource acr 'Microsoft.ContainerRegistry/registries@2022-02-01-preview' = {
   properties: {
     adminUserEnabled: true
     publicNetworkAccess: 'Enabled'
+  }
+}
+
+//
+// load testing service
+//
+
+resource loadtestsvc 'Microsoft.LoadTestService/loadTests@2022-12-01' = {
+  name: loadTestSvcName
+  location: resourceLocation
+  tags: resourceTags
+  identity: {
+    type: 'SystemAssigned'
+  }
+}
+
+//
+// application insights
+//
+
+// log analytics workspace
+resource loganalyticsworkspace 'Microsoft.OperationalInsights/workspaces@2022-10-01' = {
+  name: logAnalyticsWorkspaceName
+  location: resourceLocation
+  tags: resourceTags
+  properties: {
+    publicNetworkAccessForIngestion: 'Enabled'
+    publicNetworkAccessForQuery: 'Enabled'
+    sku: {
+      name: 'PerGB2018' // pay-as-you-go
+    }
+  }
+}
+
+// app insights instance
+resource appinsights 'Microsoft.Insights/components@2020-02-02' = {
+  name: appInsightsName
+  location: resourceLocation
+  tags: resourceTags
+  kind: 'web'
+  properties: {
+    Application_Type: 'web'
+    WorkspaceResourceId: loganalyticsworkspace.id
+  }
+}
+
+//
+// portal dashboard
+//
+
+resource dashboard 'Microsoft.Portal/dashboards@2020-09-01-preview' = {
+  name: portalDashboardName
+  location: resourceLocation
+  tags: resourceTags
+  properties: {
+    lenses: [
+      {
+        order: 0
+        parts: [
+          {
+            position: {
+              x: 0
+              y: 0
+              rowSpan: 4
+              colSpan: 2
+            }
+          }
+        ]
+      }
+    ]
   }
 }
 

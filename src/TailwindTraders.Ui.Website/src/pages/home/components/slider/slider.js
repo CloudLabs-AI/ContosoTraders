@@ -25,6 +25,7 @@ export default function Slider(props)
 
     return (
         <Carousel
+            className='product-slider-corousel'
             navButtonsAlwaysVisible={true} autoPlay={true} indicators={false}
             navButtonsProps={{
                 style: {
@@ -58,7 +59,7 @@ function Item(props)
                     </div>
                     <div className="LapSectionContent">
                         {props.item.page === 1 ?
-                        <Grid container justifyContent="center" spacing={5}>
+                        <Grid container justifyContent="center" spacing={4}>
                             <Grid item xs={3}>
                                 <Product prodImg={productImg1}/>
                             </Grid>
@@ -71,10 +72,13 @@ function Item(props)
                             <Grid item xs={3}>
                                 <Product prodImg={productImg4}/>
                             </Grid>
+                            <Grid item xs={3}>
+                                <Product prodImg={productImg5}/>
+                            </Grid>
                         </Grid>
                         :null}
                         {props.item.page === 2 ?
-                        <Grid container justifyContent="center" spacing={5}>
+                        <Grid container justifyContent="center" spacing={4}>
                             <Grid item xs={3}>
                                 <Product prodImg={productImg5}/>
                             </Grid>
@@ -86,6 +90,9 @@ function Item(props)
                             </Grid>
                             <Grid item xs={3}>
                                 <Product prodImg={productImg4}/>
+                            </Grid>
+                            <Grid item xs={3}>
+                                <Product prodImg={productImg1}/>
                             </Grid>
                         </Grid>
                         :null}

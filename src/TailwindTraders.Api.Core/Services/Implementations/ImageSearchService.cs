@@ -2,26 +2,43 @@ namespace TailwindTraders.Api.Core.Services.Implementations;
 
 internal class ImageSearchService : IImageSearchService
 {
-    private readonly IImageSearchTermPredictor _predictor;
+    private readonly IImageAnalysisService _imageAnalysisService;
 
     private readonly IProductService _productService;
 
-    public ImageSearchService(IImageSearchTermPredictor predictor, IProductService productService)
+    public ImageSearchService(IProductService productService, IImageAnalysisService imageAnalysisService)
     {
-        _predictor = predictor;
         _productService = productService;
+        _imageAnalysisService = imageAnalysisService;
     }
 
-    public async Task<ImageSearchResult> GetProductsAsync(Stream imageStream, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<ProductDto>> GetSimilarProductsAsync(Stream imageStream, CancellationToken cancellationToken = default)
     {
-        var searchTerm = await _predictor.PredictSearchTermAsync(imageStream, cancellationToken);
+        var searchTerms = await _imageAnalysisService.AnalyzeImageAsync(imageStream, cancellationToken);
 
-        var result = new ImageSearchResult
+        var products = new List<ProductDto>();
+
+        foreach (var term in searchTerms)
         {
-            PredictedSearchTerm = searchTerm,
-            SearchResults = _productService.GetProducts(searchTerm)
-        };
+            var matchingProducts = _productService.GetProducts(term);
 
-        return result;
+            if (matchingProducts.Any())
+                products.AddRange(matchingProducts);
+        }
+
+        if (!products.Any())
+        {
+            var searchTags = string.Empty;
+
+            searchTerms.ToList().ForEach(tag => { searchTags += $"{tag}, "; });
+
+            searchTags = searchTags.Remove(searchTags.Length - 2, 2) + '.';
+
+            throw new MatchingProductsNotFoundException(searchTags);
+        }
+
+        products = products.Distinct().ToList();
+
+        return products;
     }
 }
