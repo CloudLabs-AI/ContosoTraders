@@ -23,7 +23,7 @@
   }
   .ProductDetailsSection {
     font-family: "Inter";
-    padding: 16px 0;
+    padding-top: 16px;
     .productdetailsimagediv{
       width: 518px;
       height: 518px;
@@ -289,6 +289,10 @@
       font-family: "Heebo";
       font-size: 14px;
       font-weight: 400;
+      .detail_feature p{
+        font-family: 'Heebo';
+        font-size: 14px;
+      }
     }
     
     .AccordionSection .descpAttributes {

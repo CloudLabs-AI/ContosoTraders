@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { Route, Router, withRouter } from "react-router-dom";
+import { Route, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { CartService } from "./services";
 import Meeting from './pages/home/components/videoCall/Meeting';
@@ -19,18 +19,6 @@ import {
 import "./i18n";
 import "./main.scss";
 
-import { createBrowserHistory } from "history";
-// import { ai } from "./services/telemetryClient";
-// add appinsights
-const history = createBrowserHistory({ basename: "" });
-// (async () => {
-//   await ConfigService.loadSettings();
-//   if (ConfigService._applicationInsightsIntrumentationKey) {
-//     ai.initialize(ConfigService._applicationInsightsIntrumentationKey, {
-//       history,
-//     });
-//   }
-// })();
 
 class App extends Component {
   constructor() {
