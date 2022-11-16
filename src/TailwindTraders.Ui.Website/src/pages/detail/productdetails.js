@@ -33,8 +33,8 @@ function ProductDetails(props) {
             {name ? name : 'Xbox Series S Fortnite & Rocket League Bundle 512 GB (White)'}
           </div>
           <div >
-            <span className="newprice">{price ? '$'+price+'.00' : '$54.00'}</span>
-            <span className="oldprice">$108.00</span>
+            <span className="newprice">{'$'+price.toFixed(2)}</span>
+            <span className="oldprice">{'$'+price.toFixed(2)}</span>
             <span className="newoffer">50%Off</span>
           </div>
           <div className="pincodebar">
