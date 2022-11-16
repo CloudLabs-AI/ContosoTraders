@@ -16,7 +16,7 @@ spec:
         "kubernetes.io/os": linux
       containers:
         - name: tailwind-traders-products
-          image: mcr.microsoft.com/dotnet/samples:aspnetapp
+          image: tailwindtradersacr111222.azurecr.io/tailwindtradersapiproducts:latest
           resources:
             requests:
               cpu: 100m
