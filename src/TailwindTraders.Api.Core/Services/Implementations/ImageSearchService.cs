@@ -1,12 +1,11 @@
 namespace TailwindTraders.Api.Core.Services.Implementations;
 
-internal class ImageSearchService : IImageSearchService
+internal class ImageSearchService : TailwindTradersServiceBase, IImageSearchService
 {
     private readonly IImageAnalysisService _imageAnalysisService;
-
     private readonly IProductService _productService;
 
-    public ImageSearchService(IProductService productService, IImageAnalysisService imageAnalysisService)
+    public ImageSearchService(IProductService productService, IImageAnalysisService imageAnalysisService, IMapper mapper, ILogger logger, IConfiguration configuration): base(logger, mapper, configuration)
     {
         _productService = productService;
         _imageAnalysisService = imageAnalysisService;

@@ -6,7 +6,7 @@ internal class ProfileService : TailwindTradersServiceBase, IProfileService
 {
     private readonly ProfilesDbContext _profileRepository;
 
-    public ProfileService(ProfilesDbContext profileRepository, IMapper mapper, IConfiguration configuration) : base(mapper, configuration)
+    public ProfileService(ProfilesDbContext profileRepository, ILogger logger, IMapper mapper, IConfiguration configuration) : base(logger, mapper, configuration)
     {
         _profileRepository = profileRepository;
     }

@@ -2,7 +2,7 @@
 
 internal class ImageAnalysisService : TailwindTradersServiceBase, IImageAnalysisService
 {
-    public ImageAnalysisService(IMapper mapper, IConfiguration configuration) : base(mapper, configuration)
+    public ImageAnalysisService(IMapper mapper, ILogger logger, IConfiguration configuration) : base(logger, mapper, configuration)
     {
     }
 

@@ -4,7 +4,7 @@ internal class StockService : TailwindTradersServiceBase, IStockService
 {
     private readonly IStockRepository _stockRepository;
 
-    public StockService(IStockRepository stockRepository, IMapper mapper, IConfiguration configuration) : base(mapper, configuration)
+    public StockService(IStockRepository stockRepository, ILogger logger, IMapper mapper, IConfiguration configuration) : base(logger, mapper, configuration)
     {
         _stockRepository = stockRepository;
     }

@@ -7,7 +7,7 @@ internal class ProductService : TailwindTradersServiceBase, IProductService
 {
     private readonly ProductsDbContext _productRepository;
 
-    public ProductService(ProductsDbContext productDbContext, IMapper mapper, IConfiguration configuration) : base(mapper, configuration)
+    public ProductService(ProductsDbContext productDbContext,ILogger logger, IMapper mapper, IConfiguration configuration) : base(logger, mapper, configuration)
     {
         _productRepository = productDbContext;
     }

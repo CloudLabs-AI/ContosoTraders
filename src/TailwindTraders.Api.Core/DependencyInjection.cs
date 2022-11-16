@@ -104,6 +104,15 @@ public class DependencyInjection : FunctionsStartup
         var appInsightsConnectionString = configuration[KeyVaultConstants.SecretNameAppInsightsConnectionString];
         services.AddApplicationInsightsTelemetry(options => options.ConnectionString = appInsightsConnectionString);
 
+        services.AddLogging(builder =>
+        {
+            // Only Application Insights is registered as a logger provider
+            builder.AddApplicationInsights(
+                configureTelemetryConfiguration: (config) => config.ConnectionString = appInsightsConnectionString,
+                configureApplicationInsightsLoggerOptions: (options) => { options.TrackExceptionsAsExceptionTelemetry = true;  }
+            );
+        });
+
         // @TODO: Temporary. Fix later.
         services.AddCors(options =>
             options.AddPolicy(_allowSpecificOrigins,

@@ -1,10 +1,12 @@
-﻿namespace TailwindTraders.Api.Core.Services.Implementations;
+﻿using Microsoft.Extensions.Logging;
+
+namespace TailwindTraders.Api.Core.Services.Implementations;
 
 internal class CartService : TailwindTradersServiceBase, ICartService
 {
     private readonly ICartRepository _cartRepository;
 
-    public CartService(ICartRepository cartRepository, IMapper mapper, IConfiguration configuration) : base(mapper, configuration)
+    public CartService(ICartRepository cartRepository, ILogger logger, IMapper mapper, IConfiguration configuration) : base(logger, mapper, configuration)
     {
         _cartRepository = cartRepository;
     }

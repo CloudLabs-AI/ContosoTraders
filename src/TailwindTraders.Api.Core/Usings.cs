@@ -6,6 +6,7 @@ global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.Azure.CognitiveServices.Vision.ComputerVision;
 global using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
 global using Microsoft.Extensions.Configuration;
+global using Microsoft.Extensions.Logging;
 global using TailwindTraders.Api.Core;
 global using TailwindTraders.Api.Core.Constants;
 global using TailwindTraders.Api.Core.Exceptions;
