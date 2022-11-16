@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid, Button,TextField,InputAdornment } from "@material-ui/core";
 import CustomizedAccordions from "./accordion";
-import ImageSlider from "./imageslider";
+// import ImageSlider from "./imageslider";
 import QuantityPicker from "./productcounter";
 import add_to_bag_icon from "../../assets/images/original/Contoso_Assets/product_page_assets/add_to_bag_icon.svg";
 import add_to_wishlist_icon from "../../assets/images/original/Contoso_Assets/product_page_assets/add_to_wishlist_icon.svg";
@@ -13,17 +13,17 @@ function ProductDetails(props) {
 
   // const relatedDetailProducts = props.relatedDetailProducts;
   // const hasRelatedDetailProducts = relatedDetailProducts && relatedDetailProducts.length;
-  const [sliderImg, setSliderImg] = React.useState(imageUrl)
+  // const [sliderImg, setSliderImg] = React.useState(imageUrl)
   return (
     <div className="ProductDetailsSection">
       <Grid container>
         <Grid item xs={6} className="ProductImagesSection">
           <Grid container>
-            <Grid item xs={2}>
+            {/* <Grid item xs={2}>
              <ImageSlider setSliderImg={setSliderImg} sliderImg={sliderImg} imageUrl={imageUrl}/>
-            </Grid>
+            </Grid> */}
             <Grid item xs={10} className="productdetailsimagediv">
-              <img src={sliderImg} className="productdetailsimage" alt=""/>
+              <img src={imageUrl} className="productdetailsimage" alt=""/>
             </Grid>
           </Grid>
         </Grid>
