@@ -17,6 +17,9 @@ spec:
       containers:
         - name: tailwind-traders-products
           image: tailwindtradersacr111222.azurecr.io/tailwindtradersapiproducts:latest
+          env:
+            - name: KeyVaultEndpoint
+              value: https://tailwindtraderskv111222.vault.azure.net/
           resources:
             requests:
               cpu: 100m
