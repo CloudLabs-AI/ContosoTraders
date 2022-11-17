@@ -15,6 +15,9 @@ param resourceLocation string = resourceGroup().location
 // tenant
 param tenantId string = subscription().tenantId
 
+// aks
+param aksLinuxAdminUsername string // value supplied via parameters file
+
 // variables
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -103,6 +106,10 @@ var appInsightsName = 'tailwind-traders-ai${suffix}'
 // portal dashboard
 var portalDashboardName = 'tailwind-traders-dashboard' // @TODO: rename later with suffix
 
+// aks cluster
+var aksClusterName = 'tailwind-traders-aks${suffix}'
+var aksClusterDnsPrefix = 'tailwind-traders-aks${suffix}'
+
 // tags
 var resourceTags = {
   Product: 'tailwind-traders'
@@ -124,7 +131,7 @@ resource kv 'Microsoft.KeyVault/vaults@2022-07-01' = {
     // @TODO: Hack to enable temporary access to devs during local development/debugging.
     accessPolicies: [
       {
-        objectId: '70667219-36e5-4217-be0a-3a5cd0eba66d'
+        objectId: '31de563b-fc1a-43a2-9031-c47630038328'
         tenantId: tenantId
         permissions: {
           secrets: [
@@ -139,7 +146,7 @@ resource kv 'Microsoft.KeyVault/vaults@2022-07-01' = {
         }
       }
       {
-        objectId: 'd56edb65-a0c3-40c2-8e92-77556c99a996'
+        objectId: '934b38ce-5fb9-4c3d-9dbe-b621ffecd34c'
         tenantId: tenantId
         permissions: {
           secrets: [
@@ -149,17 +156,12 @@ resource kv 'Microsoft.KeyVault/vaults@2022-07-01' = {
         }
       }
       {
-        objectId: 'e9c72dae-7ea1-483d-be9c-f629f6641f7e'
+        objectId: '55694e57-8acc-40cf-bad2-a8a7a37a905c'
         tenantId: tenantId
         permissions: {
           secrets: [
             'get'
             'list'
-            'delete'
-            'set'
-            'recover'
-            'backup'
-            'restore'
           ]
         }
       }
@@ -274,6 +276,13 @@ resource kv 'Microsoft.KeyVault/vaults@2022-07-01' = {
         {
           tenantId: tenantId
           objectId: loadtestsvc.identity.principalId
+          permissions: {
+            secrets: [ 'get', 'list' ]
+          }
+        }
+        {
+          tenantId: tenantId
+          objectId: aks.identity.principalId
           permissions: {
             secrets: [ 'get', 'list' ]
           }
@@ -419,10 +428,19 @@ resource productsdbsrv 'Microsoft.Sql/servers@2022-05-01-preview' = {
   }
 
   // sql azure firewall rule (allow access from all azure resources/services)
-  resource productsdbsrv_db_fwl 'firewallRules' = {
+  resource productsdbsrv_db_fwlallowazureresources 'firewallRules' = {
     name: 'AllowAllWindowsAzureIps'
     properties: {
       endIpAddress: '0.0.0.0'
+      startIpAddress: '0.0.0.0'
+    }
+  }
+
+  // @TODO: Hack to enable temporary access to devs during local development/debugging.
+  resource productsdbsrv_db_fwllocaldev 'firewallRules' = {
+    name: 'AllowLocalDevelopment'
+    properties: {
+      endIpAddress: '255.255.255.255'
       startIpAddress: '0.0.0.0'
     }
   }
@@ -1186,6 +1204,42 @@ resource dashboard 'Microsoft.Portal/dashboards@2020-09-01-preview' = {
         ]
       }
     ]
+  }
+}
+
+//
+// aks cluster
+//
+
+resource aks 'Microsoft.ContainerService/managedClusters@2022-09-02-preview' = {
+  name: aksClusterName
+  location: resourceLocation
+  tags: resourceTags
+  identity: {
+    type: 'SystemAssigned'
+  }
+  properties: {
+    dnsPrefix: aksClusterDnsPrefix
+    agentPoolProfiles: [
+      {
+        name: 'agentpool'
+        osDiskSizeGB: 0 // Specifying 0 will apply the default disk size for that agentVMSize.
+        count: 3
+        vmSize: 'standard_d2s_v3'
+        osType: 'Linux'
+        mode: 'System'
+      }
+    ]
+    linuxProfile: {
+      adminUsername: aksLinuxAdminUsername
+      ssh: {
+        publicKeys: [
+          {
+            keyData: loadTextContent('rsa.pub') // @TODO: temporary hack, until we autogen the keys
+          }
+        ]
+      }
+    }
   }
 }
 
