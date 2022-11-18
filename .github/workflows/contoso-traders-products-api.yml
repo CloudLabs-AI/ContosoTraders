@@ -5,7 +5,11 @@ on:
   push:
     branches: ["master"]
     paths:
-      ["src/TailwindTraders.Api.Products/**", "src/TailwindTraders.Api.Core/**"]
+      [
+        "src/TailwindTraders.Api.Products/**",
+        "src/TailwindTraders.Api.Core/**",
+        "src/TailwindTraders.Api.Images/**",
+      ]
 
 env:
   ACR_NAME: tailwindtradersacr
@@ -17,14 +21,40 @@ env:
   AKS_SECRET_NAME_KV_ENDPOINT: tailwind-traders-kv-endpoint
   KV_NAME: tailwindtraderskv
   WEBAPP_NAME: tailwind-traders-products
+  PRODUCT_DETAILS_CONTAINER_NAME: product-details
+  PRODUCT_LIST_CONTAINER_NAME: product-list
+  CDN_PROFILE_NAME: tailwind-traders-cdn
+  CDN_ENDPOINT_NAME: tailwind-traders-images
+  CDN_RESOURCE_GROUP_NAME: tailwind-traders-rg
 
 jobs:
-  build:
+  deploy-products-api:
     runs-on: ubuntu-latest
-
     steps:
       - name: checkout code
         uses: actions/checkout@v3
+      - name: azure login
+        uses: azure/login@v1.1
+        with:
+          creds: ${{ secrets.CONTOSOTRADERS_TESTING_SERVICEPRINCIPAL }}
+      - name: seed products db
+        uses: azure/sql-action@v2
+        with:
+          connection-string: ${{ secrets.CONTOSOTRADERS_PRODUCTSDB_CONNECTION_STRING }}
+          path: ./src/TailwindTraders.Api.Products/Migration/productsdb.sql
+      - name: seed product image (product details)
+        uses: azure/CLI@v1
+        with:
+          inlineScript: az storage blob sync --account-name '${{ env.STORAGE_ACCOUNT_NAME }}${{ secrets.CONTOSOTRADERS_SUFFIX }}' -c '${{ env.PRODUCT_DETAILS_CONTAINER_NAME }}' -s 'src/TailwindTraders.Api.Images/product-details'
+      - name: seed product image (product list)
+        uses: azure/CLI@v1
+        with:
+          inlineScript: az storage blob sync --account-name '${{ env.STORAGE_ACCOUNT_NAME }}${{ secrets.CONTOSOTRADERS_SUFFIX }}' -c '${{ env.PRODUCT_LIST_CONTAINER_NAME }}' -s 'src/TailwindTraders.Api.Images/product-list'
+      - name: purge CDN endpoint
+        uses: azure/CLI@v1
+        with:
+          inlineScript: az cdn endpoint purge --no-wait --content-paths '/*' -n '${{ env.CDN_ENDPOINT_NAME }}${{ secrets.CONTOSOTRADERS_SUFFIX }}' -g '${{ env.CDN_RESOURCE_GROUP_NAME }}' --profile-name '${{ env.CDN_PROFILE_NAME }}${{ secrets.CONTOSOTRADERS_SUFFIX }}'
+
       - name: azure container registry login
         uses: azure/docker-login@v1
         with:
@@ -35,10 +65,6 @@ jobs:
         run: docker build src -f ./src/TailwindTraders.Api.Carts/Dockerfile -t ${{ env.ACR_NAME }}${{ secrets.CONTOSOTRADERS_SUFFIX }}.azurecr.io/${{ env.ACR_REPOSITORY_NAME }}:latest -t ${{ env.ACR_NAME }}${{ secrets.CONTOSOTRADERS_SUFFIX }}.azurecr.io/${{ env.ACR_REPOSITORY_NAME }}:${{ github.sha }}
       - name: docker push (to acr)
         run: docker push --all-tags ${{ env.ACR_NAME }}${{ secrets.CONTOSOTRADERS_SUFFIX }}.azurecr.io/${{ env.ACR_REPOSITORY_NAME }}
-      - name: azure login
-        uses: azure/login@v1.1
-        with:
-          creds: ${{ secrets.CONTOSOTRADERS_TESTING_SERVICEPRINCIPAL }}
       # @TODO: This next step really needs to go into the bicep provisioning script
       - name: kv access policy for agentpool managed identity
         uses: azure/CLI@v1
@@ -61,7 +87,7 @@ jobs:
       - name: create kubernetes secret (kv endpoint)
         uses: Azure/k8s-create-secret@v3.0
         with:
-          secret-type: 'generic'
+          secret-type: "generic"
           secret-name: ${{ env.AKS_SECRET_NAME_KV_ENDPOINT }}
           string-data: '{ "${{ env.AKS_SECRET_NAME_KV_ENDPOINT }}" : "https://${{ env.KV_NAME }}${{ secrets.CONTOSOTRADERS_SUFFIX }}.vault.azure.net/" }'
       - name: lint manifest
