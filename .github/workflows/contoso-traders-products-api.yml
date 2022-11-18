@@ -2,14 +2,6 @@ name: contoso-traders-products-api
 
 on:
   workflow_dispatch:
-  push:
-    branches: ["master"]
-    paths:
-      [
-        "src/TailwindTraders.Api.Products/**",
-        "src/TailwindTraders.Api.Core/**",
-        "src/TailwindTraders.Api.Images/**",
-      ]
 
 env:
   ACR_NAME: tailwindtradersacr
