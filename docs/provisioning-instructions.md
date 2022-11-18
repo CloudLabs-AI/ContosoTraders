@@ -3,9 +3,10 @@
 ## Setting up ContosoTraders
 
 1. Git clone this repository to your machine.
-2. Create the necessary github secrets ([instructions here](../.github/workflows/secrets.md)).
-3. First, provision the infrastructure on Azure by running the `contoso-traders-infra-provisioning` github workflow. You can do this by going to the github repo's `Actions` tab, selecting the workflow, and clicking on the `Run workflow` button.
-4. Next, deploy the apps, by running the rest of the github workflows.
+2. Create the `CONTOSOTRADERS_TESTING_SERVICEPRINCIPAL` github secret ([instructions here](./github-secrets.md)).
+3. Next, provision the infrastructure on Azure by running the `contoso-traders-infra-provisioning` github workflow. You can do this by going to the github repo's `Actions` tab, selecting the workflow, and clicking on the `Run workflow` button.
+4. Next, create the rest of the github secrets ([instructions here](./github-secrets.md)).
+5. Next, deploy the apps, by running the `contoso-traders-app-deployment` workflow.
 
 ## Setting up ContosoTraders in a lab
 
