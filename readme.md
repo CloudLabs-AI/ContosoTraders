@@ -1,12 +1,10 @@
 # Tailwind Traders Enhancements
 
-## Status
+## Pipeline Status
 
-| Pipeline                                                                                                                                                                                                                                                              |
-| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [![contoso-traders-app-deployment](https://github.com/CloudLabs-AI/TailwindTraders/actions/workflows/contoso-traders-app-deployment.yml/badge.svg)](https://github.com/CloudLabs-AI/TailwindTraders/actions/workflows/contoso-traders-app-deployment.yml)             |
-| [![contoso-traders-load-testing](https://github.com/CloudLabs-AI/TailwindTraders/actions/workflows/contoso-traders-load-testing.yml/badge.svg)](https://github.com/CloudLabs-AI/TailwindTraders/actions/workflows/contoso-traders-load-testing.yml)                   |
-| [![contoso-traders-infra-provisioning](https://github.com/CloudLabs-AI/TailwindTraders/actions/workflows/contoso-traders-infra-provisioning.yml/badge.svg)](https://github.com/CloudLabs-AI/TailwindTraders/actions/workflows/contoso-traders-infra-provisioning.yml) |
+* [![contoso-traders-app-deployment](https://github.com/CloudLabs-AI/TailwindTraders/actions/workflows/contoso-traders-app-deployment.yml/badge.svg)](https://github.com/CloudLabs-AI/TailwindTraders/actions/workflows/contoso-traders-app-deployment.yml)
+* [![contoso-traders-load-testing](https://github.com/CloudLabs-AI/TailwindTraders/actions/workflows/contoso-traders-load-testing.yml/badge.svg)](https://github.com/CloudLabs-AI/TailwindTraders/actions/workflows/contoso-traders-load-testing.yml)
+* [![contoso-traders-infra-provisioning](https://github.com/CloudLabs-AI/TailwindTraders/actions/workflows/contoso-traders-infra-provisioning.yml/badge.svg)](https://github.com/CloudLabs-AI/TailwindTraders/actions/workflows/contoso-traders-infra-provisioning.yml)
 
 ## Application Links
 
@@ -22,4 +20,4 @@
 
 ## Documentation
 
-- [Setup Instructions](./docs/setup-instructions.md)
+* [Setup Instructions](./docs/setup-instructions.md)
