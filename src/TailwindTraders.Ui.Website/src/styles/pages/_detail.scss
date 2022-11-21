@@ -18,24 +18,35 @@
           font-family: 'Heebo';
           font-size: 14px;
           font-weight: 500;
+          a{
+            color: #000000;
+            &:hover{
+              color: #2974f0 !important;
+              text-decoration: none;
+            }
+          }
       }
     }
   }
   .ProductDetailsSection {
     font-family: "Inter";
     padding-top: 16px;
+    .MuiGrid-container{
+      align-items: center;
+      justify-content: center;
     .productdetailsimagediv{
-      width: 518px;
-      height: 518px;
+      // width: 518px;
+      // height: 518px;
       .productdetailsimage {
         // width: 100%;
         margin: auto;
         display: block;
         mix-blend-mode: darken;
         opacity: 1;
-        height: 100%;
+        width: 100%;
       }
     }
+  }
     .CartButton {
       background: #2874f0 0% 0% no-repeat padding-box;
       border-radius: 8px;
@@ -51,6 +62,7 @@
       font: normal normal 600 14px/24px Inter;
       letter-spacing: 0px;
       opacity: 1;
+      margin-right: 16px;
       .MuiButton-startIcon{
         margin-right: 10px;
       }
@@ -63,7 +75,7 @@
       opacity: 1;
       width: 309px;
       height: 56px;
-      margin-left: 16px;
+      // margin-left: 16px;
       text-transform: none;
       margin-top: 30px;
       text-align: center;

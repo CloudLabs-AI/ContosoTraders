@@ -1,13 +1,18 @@
 # Tailwind Traders Enhancements
 
-## Status
+## Application Links
 
-| Pipeline                                                                                                                                                                                                                                                              | Endpoint                                                                                                                |
-| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| [![contoso-traders-carts-api](https://github.com/CloudLabs-AI/TailwindTraders/actions/workflows/contoso-traders-carts-api.yml/badge.svg)](https://github.com/CloudLabs-AI/TailwindTraders/actions/workflows/contoso-traders-carts-api.yml)                            | [LINK](https://tailwind-traders-carts111222.azurewebsites.net/swagger/)                                                 |
-| [![contoso-traders-infra-provisioning](https://github.com/CloudLabs-AI/TailwindTraders/actions/workflows/contoso-traders-infra-provisioning.yml/badge.svg)](https://github.com/CloudLabs-AI/TailwindTraders/actions/workflows/contoso-traders-infra-provisioning.yml) | N/A                                                                                                                     |
-| [![contoso-traders-products-api](https://github.com/CloudLabs-AI/TailwindTraders/actions/workflows/contoso-traders-products-api.yml/badge.svg)](https://github.com/CloudLabs-AI/TailwindTraders/actions/workflows/contoso-traders-products-api.yml)                   | [LINK](https://tailwind-traders-products111222.azurewebsites.net/swagger/)                                              |
-| [![contoso-traders-ui](https://github.com/CloudLabs-AI/TailwindTraders/actions/workflows/contoso-traders-ui.yml/badge.svg)](https://github.com/CloudLabs-AI/TailwindTraders/actions/workflows/contoso-traders-ui.yml)                                                 | [OLD UI](https://tailwind-traders-ui111222.azureedge.net) \| [NEW UI](https://tailwind-traders-ui2111222.azureedge.net) |
+| Application  | Link                                                                                                 |
+| ------------ | ---------------------------------------------------------------------------------------------------- |
+| UI           | [NEW UI](https://www.contosotraders.com/) \| [OLD UI](https://tailwind-traders-uitest.azureedge.net) |
+| Carts API    | [LINK](https://tailwind-traders-cartstest.orangehill-9509f55e.eastus.azurecontainerapps.io/swagger/) |
+| Products API | [LINK](http://tailwind-traders-productstest.eastus.cloudapp.azure.com/swagger/)                      |
+
+## Pipeline Status
+
+* [![contoso-traders-app-deployment](https://github.com/CloudLabs-AI/TailwindTraders/actions/workflows/contoso-traders-app-deployment.yml/badge.svg)](https://github.com/CloudLabs-AI/TailwindTraders/actions/workflows/contoso-traders-app-deployment.yml)
+* [![contoso-traders-load-testing](https://github.com/CloudLabs-AI/TailwindTraders/actions/workflows/contoso-traders-load-testing.yml/badge.svg)](https://github.com/CloudLabs-AI/TailwindTraders/actions/workflows/contoso-traders-load-testing.yml)
+* [![contoso-traders-infra-provisioning](https://github.com/CloudLabs-AI/TailwindTraders/actions/workflows/contoso-traders-infra-provisioning.yml/badge.svg)](https://github.com/CloudLabs-AI/TailwindTraders/actions/workflows/contoso-traders-infra-provisioning.yml)
 
 ## Proposed Architecture
 
@@ -15,4 +20,4 @@
 
 ## Documentation
 
-- [Setup Instructions](./docs/setup.md)
+* [Setup Instructions](./docs/setup-instructions.md)

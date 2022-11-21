@@ -5,10 +5,14 @@ targetScope = 'resourceGroup'
 ////////////////////////////////////////////////////////////////////////////////
 
 // common
-@minLength(4)
+@minLength(3)
 @maxLength(6)
-@description('A per-lab suffix, required for grouping the resources by lab.')
-param suffix string // value supplied via parameters file
+@description('A unique environment name (max 6 characters, alphanumeric only).')
+param environment string
+
+@secure()
+@description('A password which will be set on all SQL Azure DBs.')
+param sqlPassword string // @TODO: Obviously, we need to fix this!
 
 param resourceLocation string = resourceGroup().location
 
@@ -22,10 +26,11 @@ param aksLinuxAdminUsername string // value supplied via parameters file
 ////////////////////////////////////////////////////////////////////////////////
 
 // key vault
-var kvName = 'tailwindtraderskv${suffix}'
+var kvName = 'tailwindtraderskv${environment}'
 var kvSecretNameProductsDbConnStr = 'productsDbConnectionString'
 var kvSecretNameProfilesDbConnStr = 'profilesDbConnectionString'
 var kvSecretNameStocksDbConnStr = 'stocksDbConnectionString'
+var kvSecretNameCartsApiEndpoint = 'cartsApiEndpoint'
 var kvSecretNameCartsDbConnStr = 'cartsDbConnectionString'
 var kvSecretNameImagesEndpoint = 'imagesEndpoint'
 var kvSecretNameCognitiveServicesEndpoint = 'cognitiveServicesEndpoint'
@@ -33,82 +38,83 @@ var kvSecretNameCognitiveServicesAccountKey = 'cognitiveServicesAccountKey'
 var kvSecretNameAppInsightsConnStr = 'appInsightsConnectionString'
 
 // cosmos db (stocks db)
-var stocksDbAcctName = 'tailwind-traders-stocks${suffix}'
+var stocksDbAcctName = 'tailwind-traders-stocks${environment}'
 var stocksDbName = 'stocksdb'
 var stocksDbStocksContainerName = 'stocks'
 
 // cosmos db (carts db)
-var cartsDbAcctName = 'tailwind-traders-carts${suffix}'
+var cartsDbAcctName = 'tailwind-traders-carts${environment}'
 var cartsDbName = 'cartsdb'
 var cartsDbStocksContainerName = 'carts'
 
 // sql azure (products db)
-var productsDbServerName = 'tailwind-traders-products${suffix}'
+var productsDbServerName = 'tailwind-traders-products${environment}'
 var productsDbName = 'productsdb'
 var productsDbServerAdminLogin = 'localadmin'
-var productsDbServerAdminPassword = 'Password123!'
+var productsDbServerAdminPassword = sqlPassword
 
 // sql azure (profiles db)
-var profilesDbServerName = 'tailwind-traders-profiles${suffix}'
+var profilesDbServerName = 'tailwind-traders-profiles${environment}'
 var profilesDbName = 'profilesdb'
 var profilesDbServerAdminLogin = 'localadmin'
-var profilesDbServerAdminPassword = 'Password123!'
+var profilesDbServerAdminPassword = sqlPassword
 
 // app service plan (products api)
-var productsApiAppSvcPlanName = 'tailwind-traders-products${suffix}'
-var productsApiAppSvcName = 'tailwind-traders-products${suffix}'
+var productsApiAppSvcPlanName = 'tailwind-traders-products${environment}'
+var productsApiAppSvcName = 'tailwind-traders-products${environment}'
 var productsApiSettingNameKeyVaultEndpoint = 'KeyVaultEndpoint'
 
 // azure container app (carts api)
-var cartsApiAcaName = 'tailwind-traders-carts${suffix}'
-var cartsApiAcaEnvName = 'tailwindtradersacaenv${suffix}'
+var cartsApiAcaName = 'tailwind-traders-carts${environment}'
+var cartsApiAcaEnvName = 'tailwindtradersacaenv${environment}'
 var cartsApiAcaSecretAcrPassword = 'acr-password'
-var cartsApiAcaContainerDetailsName = 'tailwind-traders-carts${suffix}'
+var cartsApiAcaContainerDetailsName = 'tailwind-traders-carts${environment}'
 
 // storage account (product images)
-var productImagesStgAccName = 'tailwindtradersimg${suffix}'
+var productImagesStgAccName = 'tailwindtradersimg${environment}'
 var productImagesProductDetailsContainerName = 'product-details'
 var productImagesProductListContainerName = 'product-list'
 
 // storage account (old website)
-var uiStgAccName = 'tailwindtradersui${suffix}'
+var uiStgAccName = 'tailwindtradersui${environment}'
 
 // storage account (new website)
-var ui2StgAccName = 'tailwindtradersui2${suffix}'
+var ui2StgAccName = 'tailwindtradersui2${environment}'
 
 // storage account (image classifier)
-var imageClassifierStgAccName = 'tailwindtradersic${suffix}'
+var imageClassifierStgAccName = 'tailwindtradersic${environment}'
 var imageClassifierWebsiteUploadsContainerName = 'website-uploads'
 
 // cognitive service (image recognition)
-var cognitiveServiceName = 'tailwind-traders-cs${suffix}'
+var cognitiveServiceName = 'tailwind-traders-cs${environment}'
 
 // cdn
-var cdnProfileName = 'tailwind-traders-cdn${suffix}'
-var cdnImagesEndpointName = 'tailwind-traders-images${suffix}'
-var cdnUiEndpointName = 'tailwind-traders-ui${suffix}'
-var cdnUi2EndpointName = 'tailwind-traders-ui2${suffix}'
+var cdnProfileName = 'tailwind-traders-cdn${environment}'
+var cdnImagesEndpointName = 'tailwind-traders-images${environment}'
+var cdnUiEndpointName = 'tailwind-traders-ui${environment}'
+var cdnUi2EndpointName = 'tailwind-traders-ui2${environment}'
 
 // redis cache
-var redisCacheName = 'tailwind-traders-cache${suffix}'
+var redisCacheName = 'tailwind-traders-cache${environment}'
 
 // azure container registry
-var acrName = 'tailwindtradersacr${suffix}'
+var acrName = 'tailwindtradersacr${environment}'
 // var acrCartsApiRepositoryName = 'tailwindtradersapicarts' // @TODO: unused, probably remove later
 
 // load testing service
-var loadTestSvcName = 'tailwind-traders-loadtest${suffix}'
+var loadTestSvcName = 'tailwind-traders-loadtest${environment}'
 
 // application insights
-var logAnalyticsWorkspaceName = 'tailwind-traders-loganalytics${suffix}'
-var appInsightsName = 'tailwind-traders-ai${suffix}'
+var logAnalyticsWorkspaceName = 'tailwind-traders-loganalytics${environment}'
+var appInsightsName = 'tailwind-traders-ai${environment}'
 
 // portal dashboard
-var portalDashboardName = 'tailwind-traders-dashboard' // @TODO: rename later with suffix
+var portalDashboardName = 'tailwind-traders-dashboard${environment}'
 
 // aks cluster
-var aksClusterName = 'tailwind-traders-aks${suffix}'
-var aksClusterDnsPrefix = 'tailwind-traders-aks${suffix}'
+var aksClusterName = 'tailwind-traders-aks${environment}'
+var aksClusterDnsPrefix = 'tailwind-traders-aks${environment}'
+var aksClusterNodeResourceGroup = 'tailwind-traders-aks-nodes-rg'
 
 // tags
 var resourceTags = {
@@ -205,6 +211,16 @@ resource kv 'Microsoft.KeyVault/vaults@2022-07-01' = {
   }
 
   // secret
+  resource kv_secretCartsApiEndpoint 'secrets' = {
+    name: kvSecretNameCartsApiEndpoint
+    tags: resourceTags
+    properties: {
+      contentType: 'endpoint url (fqdn) of the carts api'
+      value: cartsapiaca.properties.latestRevisionFqdn
+    }
+  }
+
+  // secret
   resource kv_secretCartsDbConnStr 'secrets' = {
     name: kvSecretNameCartsDbConnStr
     tags: resourceTags
@@ -258,6 +274,8 @@ resource kv 'Microsoft.KeyVault/vaults@2022-07-01' = {
   resource kv_accesspolicies 'accessPolicies' = {
     name: 'replace'
     properties: {
+      // @TODO: I was unable to figure out how to assign an access policy to the AKS cluster's agent pool's managed identity.
+      // Hence, that specific access policy will be assigned from a github workflow (using AZ CLI).
       accessPolicies: [
         {
           tenantId: tenantId
@@ -1213,6 +1231,7 @@ resource aks 'Microsoft.ContainerService/managedClusters@2022-09-02-preview' = {
   }
   properties: {
     dnsPrefix: aksClusterDnsPrefix
+    nodeResourceGroup: aksClusterNodeResourceGroup
     agentPoolProfiles: [
       {
         name: 'agentpool'

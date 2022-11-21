@@ -5,13 +5,15 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
-import SendIcon from '@material-ui/icons/Send';
 import MenuIcon from '@material-ui/icons/Menu';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-
+// import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import { useHistory } from 'react-router-dom';
+import laptopsImg from '../../assets/images/original/Contoso_Assets/Mega_menu_dropdown_assets/laptop_icon.svg';
+import controllersImg from '../../assets/images/original/Contoso_Assets/Mega_menu_dropdown_assets/controllers_icon.svg';
+import desktopsImg from '../../assets/images/original/Contoso_Assets/Mega_menu_dropdown_assets/desktops_icon.svg';
+import mobilesImg from '../../assets/images/original/Contoso_Assets/Mega_menu_dropdown_assets/mobiles_icon.svg';
+import monitorImg from '../../assets/images/original/Contoso_Assets/Mega_menu_dropdown_assets/monitor_icon.svg';
 const StyledMenu = withStyles({
   paper: {
     border: '1px solid #d3d4d5',
@@ -35,15 +37,19 @@ const StyledMenu = withStyles({
 const StyledMenuItem = withStyles((theme) => ({
   root: {
     '&:focus': {
-      backgroundColor: theme.palette.primary.main,
+      backgroundColor: '#fff',
       '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
-        color: theme.palette.common.white,
+        color: '#000',
       },
     },
+    '&:hover' : {
+      backgroundColor: '#f8f8f8'
+    }
   },
 }))(MenuItem);
 
 export default function CustomizedMenus() {
+  const history  = useHistory();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
@@ -53,6 +59,10 @@ export default function CustomizedMenus() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const redirectUrl = (url) => {
+    history.push(url)
+  }
 
   return (
     <div>
@@ -76,31 +86,47 @@ export default function CustomizedMenus() {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <StyledMenuItem>
+        <StyledMenuItem onClick={() => redirectUrl('/list/laptops')}>
           <ListItemIcon>
-            <SendIcon fontSize="small" />
+            <img src={laptopsImg} alt=""/>
           </ListItemIcon>
           <ListItemText primary="Laptops" />
+          <ListItemIcon className='justify-content-end'></ListItemIcon>
+        </StyledMenuItem>
+        <StyledMenuItem onClick={() => redirectUrl('/list/controllers')}>
+          <ListItemIcon>
+            <img src={controllersImg} alt=""/>
+          </ListItemIcon>
+          <ListItemText primary="Controllers" />
           <ListItemIcon className='justify-content-end'>
-            <ArrowForwardIosIcon fontSize="small"/>
+            {/* <ArrowForwardIosIcon fontSize="small"/> */}
           </ListItemIcon>
         </StyledMenuItem>
-        <StyledMenuItem>
+        <StyledMenuItem onClick={() => redirectUrl('/list/desktops')}>
           <ListItemIcon>
-            <DraftsIcon fontSize="small" />
+            <img src={desktopsImg} alt=""/>
           </ListItemIcon>
-          <ListItemText primary="Gaming & Accessories" />
+          <ListItemText primary="Desktops" />
           <ListItemIcon className='justify-content-end'>
-            <ArrowForwardIosIcon fontSize="small"/>
+            {/* <ArrowForwardIosIcon fontSize="small"/> */}
           </ListItemIcon>
         </StyledMenuItem>
-        <StyledMenuItem>
+        <StyledMenuItem onClick={() => redirectUrl('/list/mobiles')}>
           <ListItemIcon>
-            <InboxIcon fontSize="small" />
+            <img src={mobilesImg} alt=""/>
           </ListItemIcon>
-          <ListItemText primary="Tablets" />
+          <ListItemText primary="Mobiles" />
           <ListItemIcon className='justify-content-end'>
-            <ArrowForwardIosIcon fontSize="small"/>
+            {/* <ArrowForwardIosIcon fontSize="small"/> */}
+          </ListItemIcon>
+        </StyledMenuItem>
+        <StyledMenuItem onClick={() => redirectUrl('/list/monitors')}>
+          <ListItemIcon>
+            <img src={monitorImg} alt=""/>
+          </ListItemIcon>
+          <ListItemText primary="Monitor" />
+          <ListItemIcon className='justify-content-end'>
+            {/* <ArrowForwardIosIcon fontSize="small"/> */}
           </ListItemIcon>
         </StyledMenuItem>
       </StyledMenu>

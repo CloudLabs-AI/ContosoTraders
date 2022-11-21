@@ -6,7 +6,7 @@ import CardContent from '@material-ui/core/CardContent';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
-import WishlistIcon from '../../../../assets/images/original/Contoso_Assets/Icons/wishlist_icon.svg'
+// import WishlistIcon from '../../../../assets/images/original/Contoso_Assets/Icons/wishlist_icon.svg'
 import { useHistory } from 'react-router-dom';
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Product(props) {
   const classes = useStyles();
   const history = useHistory()
-  const  { prodImg, imageUrl, name, price, id } = props;
+  const  { prodImg, imageUrl, name, price, id, type } = props;
   const productDetailPage = (id = 1) => {
     history.push('/product/detail/'+id)
   }
@@ -51,15 +51,15 @@ export default function Product(props) {
                 {name?name:'Lunar Shift Special Edition'}
             </Typography>
             <IconButton className='wishlist_icon' aria-label="add to favorites">
-                <img src={WishlistIcon} alt="like"/>
+                {/* <img src={WishlistIcon} alt="like"/> */}
             </IconButton>
         </div>
         <Typography variant="body2" color="textSecondary" className='productType' component="p">
-          Controller
+          {type?type.name:'Controller'}
         </Typography>
         <div style={{display:'flex',alignItems:'center',paddingTop:'10px'}}>
             <Typography variant="h6" color="initial" component="h6" style={{marginRight:'auto'}} className="productOrgPrice m-0 mr-1">
-                ${price?price+'.00':'39.49'}
+                ${price?price.toFixed(2):'39.49'}
             </Typography>
             <Typography paragraph color="textSecondary" className="productOldPrice m-0 mr-1">
                 $78.46
