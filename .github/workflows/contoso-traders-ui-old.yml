@@ -19,10 +19,10 @@ jobs:
         ref: old-ui # Branch created from commit bed687acc55374cf9f166ba8d518a046c1791724 (last commit having old ui)
     - name: npm install
       run: npm install
-      working-directory: src/TailwindTraders.Ui.Website
+      working-directory: src/ContosoTraders.Ui.Website
     - name: npm run build
       run: npm run build
-      working-directory: src/TailwindTraders.Ui.Website
+      working-directory: src/ContosoTraders.Ui.Website
     - name: azure login
       uses: azure/login@v1
       with:
@@ -30,7 +30,7 @@ jobs:
     - name: deploy to storage
       uses: azure/CLI@v1
       with:
-        inlineScript: az storage blob sync --account-name '${{ env.STORAGE_ACCOUNT_NAME }}${{ secrets.ENVIRONMENT }}' -c '$web' -s 'src/TailwindTraders.Ui.Website/build'
+        inlineScript: az storage blob sync --account-name '${{ env.STORAGE_ACCOUNT_NAME }}${{ secrets.ENVIRONMENT }}' -c '$web' -s 'src/ContosoTraders.Ui.Website/build'
     - name: purge CDN endpoint
       uses: azure/CLI@v1
       with:
