@@ -4,10 +4,10 @@ on:
   workflow_dispatch:
 
 env:
-  STORAGE_ACCOUNT_NAME: tailwindtradersui
-  CDN_PROFILE_NAME: tailwind-traders-cdn
-  CDN_ENDPOINT_NAME: tailwind-traders-ui
-  CDN_RESOURCE_GROUP_NAME: tailwind-traders-rg
+  STORAGE_ACCOUNT_NAME: contosotradersui
+  CDN_PROFILE_NAME: contoso-traders-cdn
+  CDN_ENDPOINT_NAME: contoso-traders-ui
+  CDN_RESOURCE_GROUP_NAME: contoso-traders-rg
 
 jobs:
   deploy-ui:

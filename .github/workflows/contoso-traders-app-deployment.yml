@@ -14,20 +14,19 @@ on:
       ]
 
 env:
-  ACR_NAME: tailwindtradersacr
-  AKS_CLUSTER_NAME: tailwind-traders-aks
-  AKS_NODES_RESOURCE_GROUP_NAME: tailwind-traders-aks-nodes-rg
-  AKS_SECRET_NAME_ACR_PASSWORD: tailwind-traders-acr-password
-  AKS_SECRET_NAME_KV_ENDPOINT: tailwind-traders-kv-endpoint
-  CARTS_ACA_NAME: tailwind-traders-carts
-  CARTS_ACR_REPOSITORY_NAME: tailwindtradersapicarts
-  CDN_PROFILE_NAME: tailwind-traders-cdn
-  KV_NAME: tailwindtraderskv
-  PRODUCTS_ACR_REPOSITORY_NAME: tailwindtradersapiproducts
-  PRODUCTS_WEBAPP_NAME: tailwind-traders-products
-  RESOURCE_GROUP_NAME: tailwind-traders-rg
-  UI_CDN_ENDPOINT_NAME: tailwind-traders-ui2
-  UI_STORAGE_ACCOUNT_NAME: tailwindtradersui2
+  ACR_NAME: contosotradersacr
+  AKS_CLUSTER_NAME: contoso-traders-aks
+  AKS_NODES_RESOURCE_GROUP_NAME: contoso-traders-aks-nodes-rg
+  AKS_SECRET_NAME_ACR_PASSWORD: contoso-traders-acr-password
+  AKS_SECRET_NAME_KV_ENDPOINT: contoso-traders-kv-endpoint
+  CARTS_ACA_NAME: contoso-traders-carts
+  CARTS_ACR_REPOSITORY_NAME: contosotradersapicarts
+  CDN_PROFILE_NAME: contoso-traders-cdn
+  KV_NAME: contosotraderskv
+  PRODUCTS_ACR_REPOSITORY_NAME: contosotradersapiproducts
+  RESOURCE_GROUP_NAME: contoso-traders-rg
+  UI_CDN_ENDPOINT_NAME: contoso-traders-ui2
+  UI_STORAGE_ACCOUNT_NAME: contosotradersui2
 
 jobs:
   deploy-carts-api:
@@ -129,21 +128,6 @@ jobs:
         uses: azure/CLI@v1
         with:
           inlineScript: az keyvault secret set --vault-name ${{ env.KV_NAME }}${{ secrets.ENVIRONMENT }} --name productsApiEndpoint --value ${{ steps.get-productsApiEndpoint.outputs.productsApiEndpoint }} --description "endpoint url (fqdn) of the products api"
-      # @TODO: REMOVE EVERYTHING BELOW THIS LINE AFTER AKS INTEGRATION IS DONE
-      - name: install dotnet
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: 6.0.x
-      - name: dotnet publish
-        run: dotnet publish -o ../Publish/TailwindTraders.Api.Products -c release
-        working-directory: src/TailwindTraders.Api.Products
-      - name: diagnostic output
-        run: ls -la ./src/Publish/TailwindTraders.Api.Products
-      - name: deploy to app service
-        uses: Azure/webapps-deploy@v2
-        with:
-          app-name: ${{ env.PRODUCTS_WEBAPP_NAME }}${{ secrets.ENVIRONMENT }}
-          package: ./src/Publish/TailwindTraders.Api.Products
 
   deploy-ui:
     runs-on: ubuntu-latest
