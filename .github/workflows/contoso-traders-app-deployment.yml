@@ -84,7 +84,7 @@ jobs:
         uses: azure/CLI@v1
         with:
           inlineScript: |
-            REGISTRY_NAME=${{ env.ACR_NAME}${{ secrets.ENVIRONMENT }}
+            REGISTRY_NAME=${{ env.ACR_NAME }}${{ secrets.ENVIRONMENT }}
             SOURCE_REGISTRY=k8s.gcr.io
             CONTROLLER_IMAGE=ingress-nginx/controller
             CONTROLLER_TAG=v1.2.1
