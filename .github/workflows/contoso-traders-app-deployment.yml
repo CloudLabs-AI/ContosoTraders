@@ -78,6 +78,8 @@ jobs:
         run: docker build src -f ./src/ContosoTraders.Api.Products/Dockerfile -t ${{ env.ACR_NAME }}${{ secrets.ENVIRONMENT }}.azurecr.io/${{ env.PRODUCTS_ACR_REPOSITORY_NAME }}:latest -t ${{ env.ACR_NAME }}${{ secrets.ENVIRONMENT }}.azurecr.io/${{ env.PRODUCTS_ACR_REPOSITORY_NAME }}:${{ github.sha }}
       - name: docker push (to acr)
         run: docker push --all-tags ${{ env.ACR_NAME }}${{ secrets.ENVIRONMENT }}.azurecr.io/${{ env.PRODUCTS_ACR_REPOSITORY_NAME }}
+      - name: install helm
+        uses: Azure/setup-helm@v3
       # create the ingress controller
       # Note: This needs to be in the provisioning script/workflow. But since there we don't have access to the ACR password, we need to do it here.
       - name: create ingress controller
