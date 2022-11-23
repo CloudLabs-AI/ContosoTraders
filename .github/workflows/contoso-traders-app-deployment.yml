@@ -84,12 +84,10 @@ jobs:
       # create the ingress controller
       # Note: This needs to be in the provisioning script/workflow. But since there we don't have access to the ACR password, we need to do it here.
       - name: create ingress controller
-        uses: azure/CLI@v1
-        with:
-          inlineScript: |
-            ${{ steps.install-helm.outputs.helm-path }} repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
-            ${{ steps.install-helm.outputs.helm-path }} repo update
-            ${{ steps.install-helm.outputs.helm-path }} install ingress-nginx ingress-nginx/ingress-nginx --set controller.service.annotations."service\.beta\.kubernetes\.io/azure-load-balancer-health-probe-request-path"=/healthz
+        run: |
+          ${{ steps.install-helm.outputs.helm-path }} repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+          ${{ steps.install-helm.outputs.helm-path }} repo update
+          ${{ steps.install-helm.outputs.helm-path }} install ingress-nginx ingress-nginx/ingress-nginx --set controller.service.annotations."service\.beta\.kubernetes\.io/azure-load-balancer-health-probe-request-path"=/healthz
       - name: set aks context
         uses: azure/aks-set-context@v3
         with:
