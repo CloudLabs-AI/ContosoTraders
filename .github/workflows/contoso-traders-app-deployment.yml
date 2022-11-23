@@ -80,15 +80,16 @@ jobs:
         run: docker push --all-tags ${{ env.ACR_NAME }}${{ secrets.ENVIRONMENT }}.azurecr.io/${{ env.PRODUCTS_ACR_REPOSITORY_NAME }}
       - name: install helm
         uses: Azure/setup-helm@v3
+        id: install-helm
       # create the ingress controller
       # Note: This needs to be in the provisioning script/workflow. But since there we don't have access to the ACR password, we need to do it here.
       - name: create ingress controller
         uses: azure/CLI@v1
         with:
           inlineScript: |
-            helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
-            helm repo update
-            helm install ingress-nginx ingress-nginx/ingress-nginx --set controller.service.annotations."service\.beta\.kubernetes\.io/azure-load-balancer-health-probe-request-path"=/healthz
+            ${{ steps.install-helm.outputs.helm-path }} repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+            ${{ steps.install-helm.outputs.helm-path }} repo update
+            ${{ steps.install-helm.outputs.helm-path }} install ingress-nginx ingress-nginx/ingress-nginx --set controller.service.annotations."service\.beta\.kubernetes\.io/azure-load-balancer-health-probe-request-path"=/healthz
       - name: set aks context
         uses: azure/aks-set-context@v3
         with:
