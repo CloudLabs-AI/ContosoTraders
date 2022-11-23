@@ -78,6 +78,23 @@ jobs:
         run: docker build src -f ./src/ContosoTraders.Api.Products/Dockerfile -t ${{ env.ACR_NAME }}${{ secrets.ENVIRONMENT }}.azurecr.io/${{ env.PRODUCTS_ACR_REPOSITORY_NAME }}:latest -t ${{ env.ACR_NAME }}${{ secrets.ENVIRONMENT }}.azurecr.io/${{ env.PRODUCTS_ACR_REPOSITORY_NAME }}:${{ github.sha }}
       - name: docker push (to acr)
         run: docker push --all-tags ${{ env.ACR_NAME }}${{ secrets.ENVIRONMENT }}.azurecr.io/${{ env.PRODUCTS_ACR_REPOSITORY_NAME }}
+      # create the ingress controller
+      # Note: This needs to be in the provisioning script/workflow. But since there we don't have access to the ACR password, we need to do it here.
+      - name: create ingress controller
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            REGISTRY_NAME=${{ env.ACR_NAME}${{ secrets.ENVIRONMENT }}
+            SOURCE_REGISTRY=k8s.gcr.io
+            CONTROLLER_IMAGE=ingress-nginx/controller
+            CONTROLLER_TAG=v1.2.1
+            PATCH_IMAGE=ingress-nginx/kube-webhook-certgen
+            PATCH_TAG=v1.1.1
+            DEFAULTBACKEND_IMAGE=defaultbackend-amd64
+            DEFAULTBACKEND_TAG=1.5
+            az acr import --name $REGISTRY_NAME --source $SOURCE_REGISTRY/$CONTROLLER_IMAGE:$CONTROLLER_TAG --image $CONTROLLER_IMAGE:$CONTROLLER_TAG
+            az acr import --name $REGISTRY_NAME --source $SOURCE_REGISTRY/$PATCH_IMAGE:$PATCH_TAG --image $PATCH_IMAGE:$PATCH_TAG
+            az acr import --name $REGISTRY_NAME --source $SOURCE_REGISTRY/$DEFAULTBACKEND_IMAGE:$DEFAULTBACKEND_TAG --image $DEFAULTBACKEND_IMAGE:$DEFAULTBACKEND_TAG
       - name: set aks context
         uses: azure/aks-set-context@v3
         with:
