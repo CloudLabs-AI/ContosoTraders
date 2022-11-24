@@ -5,10 +5,14 @@ targetScope = 'resourceGroup'
 ////////////////////////////////////////////////////////////////////////////////
 
 // common
-@minLength(4)
+@minLength(3)
 @maxLength(6)
-@description('A per-lab suffix, required for grouping the resources by lab.')
-param suffix string // value supplied via parameters file
+@description('A unique environment name (max 6 characters, alphanumeric only).')
+param environment string
+
+@secure()
+@description('A password which will be set on all SQL Azure DBs.')
+param sqlPassword string // @TODO: Obviously, we need to fix this!
 
 param resourceLocation string = resourceGroup().location
 
@@ -18,14 +22,20 @@ param tenantId string = subscription().tenantId
 // aks
 param aksLinuxAdminUsername string // value supplied via parameters file
 
+param prefix string = 'contosotraders'
+
+param prefixHyphenated string = 'contoso-traders'
+
 // variables
 ////////////////////////////////////////////////////////////////////////////////
 
 // key vault
-var kvName = 'tailwindtraderskv${suffix}'
+var kvName = '${prefix}kv${environment}'
+var kvSecretNameProductsApiEndpoint = 'productsApiEndpoint'
 var kvSecretNameProductsDbConnStr = 'productsDbConnectionString'
 var kvSecretNameProfilesDbConnStr = 'profilesDbConnectionString'
 var kvSecretNameStocksDbConnStr = 'stocksDbConnectionString'
+var kvSecretNameCartsApiEndpoint = 'cartsApiEndpoint'
 var kvSecretNameCartsDbConnStr = 'cartsDbConnectionString'
 var kvSecretNameImagesEndpoint = 'imagesEndpoint'
 var kvSecretNameCognitiveServicesEndpoint = 'cognitiveServicesEndpoint'
@@ -33,87 +43,87 @@ var kvSecretNameCognitiveServicesAccountKey = 'cognitiveServicesAccountKey'
 var kvSecretNameAppInsightsConnStr = 'appInsightsConnectionString'
 
 // cosmos db (stocks db)
-var stocksDbAcctName = 'tailwind-traders-stocks${suffix}'
+var stocksDbAcctName = '${prefixHyphenated}-stocks${environment}'
 var stocksDbName = 'stocksdb'
 var stocksDbStocksContainerName = 'stocks'
 
 // cosmos db (carts db)
-var cartsDbAcctName = 'tailwind-traders-carts${suffix}'
+var cartsDbAcctName = '${prefixHyphenated}-carts${environment}'
 var cartsDbName = 'cartsdb'
 var cartsDbStocksContainerName = 'carts'
 
-// sql azure (products db)
-var productsDbServerName = 'tailwind-traders-products${suffix}'
-var productsDbName = 'productsdb'
-var productsDbServerAdminLogin = 'localadmin'
-var productsDbServerAdminPassword = 'Password123!'
-
-// sql azure (profiles db)
-var profilesDbServerName = 'tailwind-traders-profiles${suffix}'
-var profilesDbName = 'profilesdb'
-var profilesDbServerAdminLogin = 'localadmin'
-var profilesDbServerAdminPassword = 'Password123!'
-
 // app service plan (products api)
-var productsApiAppSvcPlanName = 'tailwind-traders-products${suffix}'
-var productsApiAppSvcName = 'tailwind-traders-products${suffix}'
+var productsApiAppSvcPlanName = '${prefixHyphenated}-products${environment}'
+var productsApiAppSvcName = '${prefixHyphenated}-products${environment}'
 var productsApiSettingNameKeyVaultEndpoint = 'KeyVaultEndpoint'
 
+// sql azure (products db)
+var productsDbServerName = '${prefixHyphenated}-products${environment}'
+var productsDbName = 'productsdb'
+var productsDbServerAdminLogin = 'localadmin'
+var productsDbServerAdminPassword = sqlPassword
+
+// sql azure (profiles db)
+var profilesDbServerName = '${prefixHyphenated}-profiles${environment}'
+var profilesDbName = 'profilesdb'
+var profilesDbServerAdminLogin = 'localadmin'
+var profilesDbServerAdminPassword = sqlPassword
+
 // azure container app (carts api)
-var cartsApiAcaName = 'tailwind-traders-carts${suffix}'
-var cartsApiAcaEnvName = 'tailwindtradersacaenv${suffix}'
+var cartsApiAcaName = '${prefixHyphenated}-carts${environment}'
+var cartsApiAcaEnvName = '${prefix}acaenv${environment}'
 var cartsApiAcaSecretAcrPassword = 'acr-password'
-var cartsApiAcaContainerDetailsName = 'tailwind-traders-carts${suffix}'
+var cartsApiAcaContainerDetailsName = '${prefixHyphenated}-carts${environment}'
 
 // storage account (product images)
-var productImagesStgAccName = 'tailwindtradersimg${suffix}'
+var productImagesStgAccName = '${prefix}img${environment}'
 var productImagesProductDetailsContainerName = 'product-details'
 var productImagesProductListContainerName = 'product-list'
 
 // storage account (old website)
-var uiStgAccName = 'tailwindtradersui${suffix}'
+var uiStgAccName = '${prefix}ui${environment}'
 
 // storage account (new website)
-var ui2StgAccName = 'tailwindtradersui2${suffix}'
+var ui2StgAccName = '${prefix}ui2${environment}'
 
 // storage account (image classifier)
-var imageClassifierStgAccName = 'tailwindtradersic${suffix}'
+var imageClassifierStgAccName = '${prefix}ic${environment}'
 var imageClassifierWebsiteUploadsContainerName = 'website-uploads'
 
 // cognitive service (image recognition)
-var cognitiveServiceName = 'tailwind-traders-cs${suffix}'
+var cognitiveServiceName = '${prefixHyphenated}-cs${environment}'
 
 // cdn
-var cdnProfileName = 'tailwind-traders-cdn${suffix}'
-var cdnImagesEndpointName = 'tailwind-traders-images${suffix}'
-var cdnUiEndpointName = 'tailwind-traders-ui${suffix}'
-var cdnUi2EndpointName = 'tailwind-traders-ui2${suffix}'
+var cdnProfileName = '${prefixHyphenated}-cdn${environment}'
+var cdnImagesEndpointName = '${prefixHyphenated}-images${environment}'
+var cdnUiEndpointName = '${prefixHyphenated}-ui${environment}'
+var cdnUi2EndpointName = '${prefixHyphenated}-ui2${environment}'
 
 // redis cache
-var redisCacheName = 'tailwind-traders-cache${suffix}'
+var redisCacheName = '${prefixHyphenated}-cache${environment}'
 
 // azure container registry
-var acrName = 'tailwindtradersacr${suffix}'
-// var acrCartsApiRepositoryName = 'tailwindtradersapicarts' // @TODO: unused, probably remove later
+var acrName = '${prefix}acr${environment}'
+// var acrCartsApiRepositoryName = '${prefix}apicarts' // @TODO: unused, probably remove later
 
 // load testing service
-var loadTestSvcName = 'tailwind-traders-loadtest${suffix}'
+var loadTestSvcName = '${prefixHyphenated}-loadtest${environment}'
 
 // application insights
-var logAnalyticsWorkspaceName = 'tailwind-traders-loganalytics${suffix}'
-var appInsightsName = 'tailwind-traders-ai${suffix}'
+var logAnalyticsWorkspaceName = '${prefixHyphenated}-loganalytics${environment}'
+var appInsightsName = '${prefixHyphenated}-ai${environment}'
 
 // portal dashboard
-var portalDashboardName = 'tailwind-traders-dashboard' // @TODO: rename later with suffix
+var portalDashboardName = '${prefixHyphenated}-dashboard${environment}'
 
 // aks cluster
-var aksClusterName = 'tailwind-traders-aks${suffix}'
-var aksClusterDnsPrefix = 'tailwind-traders-aks${suffix}'
-var aksClusterNodeResourceGroup = 'tailwind-traders-aks-nodes-rg'
+var aksClusterName = '${prefixHyphenated}-aks${environment}'
+var aksClusterDnsPrefix = '${prefixHyphenated}-aks${environment}'
+var aksClusterNodeResourceGroup = '${prefixHyphenated}-aks-nodes-rg'
 
 // tags
 var resourceTags = {
-  Product: 'tailwind-traders'
+  Product: prefixHyphenated
   Environment: 'testing'
 }
 
@@ -146,26 +156,6 @@ resource kv 'Microsoft.KeyVault/vaults@2022-07-01' = {
           ]
         }
       }
-      {
-        objectId: '934b38ce-5fb9-4c3d-9dbe-b621ffecd34c'
-        tenantId: tenantId
-        permissions: {
-          secrets: [
-            'get'
-            'list'
-          ]
-        }
-      }
-      {
-        objectId: '55694e57-8acc-40cf-bad2-a8a7a37a905c'
-        tenantId: tenantId
-        permissions: {
-          secrets: [
-            'get'
-            'list'
-          ]
-        }
-      }
     ]
     sku: {
       family: 'A'
@@ -173,6 +163,16 @@ resource kv 'Microsoft.KeyVault/vaults@2022-07-01' = {
     }
     softDeleteRetentionInDays: 7
     tenantId: tenantId
+  }
+
+  // secret
+  resource kv_secretProductsApiEndpoint 'secrets' = {
+    name: kvSecretNameProductsApiEndpoint
+    tags: resourceTags
+    properties: {
+      contentType: 'endpoint url (fqdn) of the products api'
+      value: 'placeholder' // Note: This will be set via github worfklow
+    }
   }
 
   // secret 
@@ -202,6 +202,16 @@ resource kv 'Microsoft.KeyVault/vaults@2022-07-01' = {
     properties: {
       contentType: 'connection string to the stocks db'
       value: stocksdba.listConnectionStrings().connectionStrings[0].connectionString
+    }
+  }
+
+  // secret
+  resource kv_secretCartsApiEndpoint 'secrets' = {
+    name: kvSecretNameCartsApiEndpoint
+    tags: resourceTags
+    properties: {
+      contentType: 'endpoint url (fqdn) of the carts api'
+      value: cartsapiaca.properties.configuration.ingress.fqdn
     }
   }
 
@@ -397,6 +407,49 @@ resource cartsdba 'Microsoft.DocumentDB/databaseAccounts@2022-02-15-preview' = {
 }
 
 //
+// products api
+//
+
+// app service plan (linux)
+resource productsapiappsvcplan 'Microsoft.Web/serverfarms@2022-03-01' = {
+  name: productsApiAppSvcPlanName
+  location: resourceLocation
+  tags: resourceTags
+  sku: {
+    name: 'B1'
+  }
+  properties: {
+    reserved: true
+  }
+  kind: 'linux'
+}
+
+// app service
+resource productsapiappsvc 'Microsoft.Web/sites@2022-03-01' = {
+  name: productsApiAppSvcName
+  location: resourceLocation
+  tags: resourceTags
+  identity: {
+    type: 'SystemAssigned'
+  }
+  properties: {
+    clientAffinityEnabled: false
+    httpsOnly: true
+    serverFarmId: productsapiappsvcplan.id
+    siteConfig: {
+      linuxFxVersion: 'DOTNETCORE|6.0'
+      alwaysOn: true
+      appSettings: [
+        {
+          name: productsApiSettingNameKeyVaultEndpoint
+          value: kv.properties.vaultUri
+        }
+      ]
+    }
+  }
+}
+
+//
 // products db
 //
 
@@ -475,49 +528,6 @@ resource profilesdbsrv 'Microsoft.Sql/servers@2022-05-01-preview' = {
     properties: {
       endIpAddress: '0.0.0.0'
       startIpAddress: '0.0.0.0'
-    }
-  }
-}
-
-//
-// products api
-//
-
-// app service plan (linux)
-resource productsapiappsvcplan 'Microsoft.Web/serverfarms@2022-03-01' = {
-  name: productsApiAppSvcPlanName
-  location: resourceLocation
-  tags: resourceTags
-  sku: {
-    name: 'B1'
-  }
-  properties: {
-    reserved: true
-  }
-  kind: 'linux'
-}
-
-// app service
-resource productsapiappsvc 'Microsoft.Web/sites@2022-03-01' = {
-  name: productsApiAppSvcName
-  location: resourceLocation
-  tags: resourceTags
-  identity: {
-    type: 'SystemAssigned'
-  }
-  properties: {
-    clientAffinityEnabled: false
-    httpsOnly: true
-    serverFarmId: productsapiappsvcplan.id
-    siteConfig: {
-      linuxFxVersion: 'DOTNETCORE|6.0'
-      alwaysOn: true
-      appSettings: [
-        {
-          name: productsApiSettingNameKeyVaultEndpoint
-          value: kv.properties.vaultUri
-        }
-      ]
     }
   }
 }
@@ -1079,7 +1089,6 @@ resource cdnprofile_ui2endpoint 'Microsoft.Cdn/profiles/endpoints@2022-05-01-pre
                 typeName: 'DeliveryRuleUrlRedirectActionParameters'
                 redirectType: 'Found'
                 destinationProtocol: 'Https'
-                customHostname: 'www.contosotraders.com'
               }
             }
           ]
@@ -1237,6 +1246,15 @@ resource aks 'Microsoft.ContainerService/managedClusters@2022-09-02-preview' = {
         ]
       }
     }
+    // Note: Commented out due to github issue #84: https://github.com/CloudLabs-AI/ContosoTraders/issues/84
+    // addonProfiles: {
+    //   omsagent: {
+    //     enabled: true
+    //     config: {
+    //       logAnalyticsWorkspaceResourceID: loganalyticsworkspace.id
+    //     }
+    //   }
+    // }
   }
 }
 
