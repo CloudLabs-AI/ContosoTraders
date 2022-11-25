@@ -21,8 +21,15 @@ const ProductService = {
     async getFilteredProducts(filters = {}) {
         await ConfigService.loadSettings();
 
+        let newParams;
+        if(type.type.type){
+            newParams =  { type : type.type.type, brand : type.brand }
+        }else{
+            newParams =  { type : type.type, brand : type.brand }
+        }
+
         const params = {
-            'params': filters,
+            'params': newParams,
             'paramsSerializer': function (params) {
                 return qs.stringify(params, { arrayFormat: 'repeat' })
             }
