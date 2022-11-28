@@ -765,7 +765,7 @@ button[aria-label='Next'] {
 .refund-policy-section{
   margin-top: 137px;
   padding: 0 70px 36px 70px;
-  font-weight: var(--fontInter);
+  font-family: var(--fontInter);
 }
 .refund-policy-section .breadcrump{
   padding: 24px 0;
@@ -805,10 +805,11 @@ button[aria-label='Next'] {
 .refund-policy .paragraph{
   font-size: 14px;
 }
-.refund-policy .paragraph p{
+.refund-policy .paragraph b{
   font-family: var(--fontInter);
-  font-weight: 700;
-  font-size: 14px;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 2;
 }
 
 .ErrorSection {
