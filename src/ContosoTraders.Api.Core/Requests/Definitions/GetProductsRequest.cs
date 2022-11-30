@@ -5,4 +5,5 @@ public class GetProductsRequest : IRequest<IActionResult>
     public int[] Brands { get; set; }
 
     public string[] Types { get; set; }
+    public string SearchTerm { get; set; }
 }

@@ -1,4 +1,5 @@
 ﻿using MediatR.Pipeline;
+using Microsoft.EntityFrameworkCore;
 
 namespace ContosoTraders.Api.Core.Requests.Handlers;
 
@@ -29,7 +30,7 @@ internal class GetProductsRequestHandler : RequestHandler<GetProductsRequest, IA
             .Select(t => t.Id)
             .ToArray();
 
-        var productDtos = _productService.GetProducts(request.Brands, typeIds);
+        var productDtos = _productService.GetProducts(request.Brands, typeIds,request.SearchTerm);
 
         if (!productDtos.Any()) return new NoContentResult();
 
@@ -39,6 +40,7 @@ internal class GetProductsRequestHandler : RequestHandler<GetProductsRequest, IA
             Brands = brands,
             Types = types
         };
+       
 
         return new OkObjectResult(aggregateResponse);
     }

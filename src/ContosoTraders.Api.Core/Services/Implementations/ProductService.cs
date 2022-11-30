@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ContosoTraders.Api.Core.Models.Implementations.Dao;
+using Microsoft.EntityFrameworkCore;
 using Type = ContosoTraders.Api.Core.Models.Implementations.Dao.Type;
 
 namespace ContosoTraders.Api.Core.Services.Implementations;
@@ -33,15 +34,16 @@ internal class ProductService : ContosoTradersServiceBase, IProductService
     /// <remarks>
     ///     @TODO: Just a placeholder implementation for now. Fix this later.
     /// </remarks>
-    public IEnumerable<ProductDto> GetProducts(int[] brands, int[] typeIds)
+    public IEnumerable<ProductDto> GetProducts(int[] brands, int[] typeIds,string searchterm)
     {
-        var responseDaos = brands.Any() || typeIds.Any()
-            ? GetProductsByFilter(brands, typeIds)
+        var responseDaos = brands.Any() || typeIds.Any() || !String.IsNullOrEmpty(searchterm)
+            ? GetProductsByFilter(brands, typeIds, searchterm)
             : GetAllProducts();
 
         var allBrands = _productRepository.Brands.ToArray();
         var allTypes = _productRepository.Types.ToArray();
         var allFeatures = _productRepository.Features.ToArray();
+
 
         var responseDtos = responseDaos.ToArray()
             .Select(dao => CustomMapping(dao, allBrands, allTypes, allFeatures));
@@ -79,13 +81,15 @@ internal class ProductService : ContosoTradersServiceBase, IProductService
         return _productRepository.Products.ToList();
     }
 
-    private IEnumerable<Product> GetProductsByFilter(int[] brands, int[] typeIds)
+    private IEnumerable<Product> GetProductsByFilter(int[] brands, int[] typeIds,string searchterm)
     {
         var filteredProducts = _productRepository.Products
             .ToList()
             .Where(p =>
-                (brands.Any() ? brands.Contains(p.BrandId.GetValueOrDefault()) : true) &&
-                (typeIds.Any() ? typeIds.Contains(p.TypeId.GetValueOrDefault()) : true));
+            ((brands.Any() ? brands.Contains(p.BrandId.GetValueOrDefault()) : false) &&
+            (typeIds.Any() ? typeIds.Contains(p.TypeId.GetValueOrDefault()) : false)) ||
+                  (searchterm.Any() ? searchterm.Contains(p.Name) : true)
+                );
 
         return filteredProducts;
     }

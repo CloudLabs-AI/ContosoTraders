@@ -13,12 +13,14 @@ public class ProductsController : ContosoTradersControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetProducts(
         [FromQuery(Name = "brand")] int[] brands,
-        [FromQuery(Name = "type")] string[] types)
+        [FromQuery(Name = "type")] string[] types,
+        [FromQuery(Name = "searchterm")] string searchterm)
     {
         var request = new GetProductsRequest
         {
             Brands = brands,
-            Types = types
+            Types = types,
+            SearchTerm= searchterm
         };
 
         return await ProcessHttpRequestAsync(request);

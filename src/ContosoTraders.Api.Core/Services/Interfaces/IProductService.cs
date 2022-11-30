@@ -16,7 +16,7 @@ public interface IProductService
     /// <param name="brands"></param>
     /// <param name="typeIds"></param>
     /// <returns></returns>
-    IEnumerable<ProductDto> GetProducts(int[] brands, int[] typeIds);
+    IEnumerable<ProductDto> GetProducts(int[] brands, int[] typeIds,string searchterm);
 
     /// <summary>
     /// </summary>
