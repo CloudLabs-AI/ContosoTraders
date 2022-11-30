@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ContosoTraders.Api.Core.Models.Implementations.Dto;
+using Microsoft.EntityFrameworkCore;
 using Type = ContosoTraders.Api.Core.Models.Implementations.Dao.Type;
 
 namespace ContosoTraders.Api.Core.Services.Implementations;
@@ -51,10 +52,12 @@ internal class ProductService : ContosoTradersServiceBase, IProductService
 
     public IEnumerable<ProductDto> GetProducts(string searchTerm)
     {
-        var responseDaos = _productRepository.Products
-            .Where(product => EF.Functions.Like(product.Name, $"%{searchTerm}%"));
-
         var allTypes = _productRepository.Types.ToArray();
+
+        var responseDaos = _productRepository.Products.AsEnumerable()
+            .Where(product => searchTerm.Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                .Any(term => product.Name.ToLower().Contains(term) || 
+                    allTypes.FirstOrDefault(type => type.Id == product.TypeId).Name.ToLower().Contains(term)));        
 
         var responseDtos = responseDaos.ToArray()
             .Select(dao => CustomMapping(dao, null, allTypes, null));
