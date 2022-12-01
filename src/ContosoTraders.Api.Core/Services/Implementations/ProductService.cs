@@ -1,5 +1,4 @@
-﻿using ContosoTraders.Api.Core.Models.Implementations.Dao;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Type = ContosoTraders.Api.Core.Models.Implementations.Dao.Type;
 
 namespace ContosoTraders.Api.Core.Services.Implementations;
@@ -81,15 +80,14 @@ internal class ProductService : ContosoTradersServiceBase, IProductService
         return _productRepository.Products.ToList();
     }
 
-    private IEnumerable<Product> GetProductsByFilter(int[] brands, int[] typeIds,string searchterm)
+    private IEnumerable<Product> GetProductsByFilter(int[] brands, int[] typeIds, string searchTerm)
     {
         var filteredProducts = _productRepository.Products
             .ToList()
             .Where(p =>
-            ((brands.Any() ? brands.Contains(p.BrandId.GetValueOrDefault()) : false) &&
-            (typeIds.Any() ? typeIds.Contains(p.TypeId.GetValueOrDefault()) : false)) ||
-                  (searchterm.Any() ? searchterm.Contains(p.Name) : true)
-                );
+                (brands.Any() ? brands.Contains(p.BrandId.GetValueOrDefault()) : true) &&
+                (typeIds.Any() ? typeIds.Contains(p.TypeId.GetValueOrDefault()) : true) &&
+                (!string.IsNullOrEmpty(searchTerm) ? p.Name.Contains(searchTerm) : true));
 
         return filteredProducts;
     }
