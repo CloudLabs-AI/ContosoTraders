@@ -355,11 +355,13 @@ function TopAppBar(props) {
                 variant="outlined"
                 fullWidth
                 onBlur={()=>setTextSearch()}
+                onChange={()=>setSearchUpload(false)}
+                onFocus={()=>setSearchUpload(true)}
                 inputRef={searchRef}
                 InputProps={{
                     endAdornment: (
                     <InputAdornment position='end'>
-                        <IconButton onClick={()=>setSearchUpload(!searchUpload)} className="searchBtn">
+                        <IconButton onClick={()=>searchRef.current.value.length === 0 ? setSearchUpload(!searchUpload) : null} className="searchBtn">
                           <img src={SearchIconNew} alt="iconimage"/>
                         </IconButton>
                     </InputAdornment>
