@@ -40,8 +40,6 @@ Azure's Computer Vision service gives you access to advanced algorithms that pro
 
 4.  In the search bar of the application type **Laptop** and this will return with the list of Laptop available from the list of products available for purchase.
 
-< Application should be updated to search the product with name >
-
 5. Select the **SerachImage (1)** icon in the right of the serach bar and click on **Drag an image or upload a file (2)**.
 
    ![image](https://user-images.githubusercontent.com/48020356/204916409-3c559023-64e1-4c7a-95d5-558a5743dbde.png)
@@ -56,10 +54,8 @@ This will take you to the **Suggested Product list** page as per the image provi
    The **Image Analysis service** extracts many visual features from images, such as objects, faces, adult content, and auto-generated text descriptions, it provides  you with AI algorithms for processing images and returning information on their visual features. 
 
    We can use **Vision Studio** for understanding the process of Image Analysis in cognitive service using and Computer Vsion features
-
-7. **Vision Studio** is a set of UI-based tools that lets you explore, build, and integrate features from Azure Computer Vision.
-
-Vision Studio provides you with a platform to try several service features and sample their returned data in a quick, straightforward manner. Using Studio, you can start experimenting with the services and learning what they offer without needing to write any code. Then, use the available client libraries and REST APIs to get started embedding these services into your own applications.
+**Vision Studio** is a set of UI-based tools that lets you explore, build, and integrate features from Azure Computer Vision.
+Vision Studio provides you with a platform to try several service features and sample their returned data in a quick, straightforward manner. Using Studio, you can   start experimenting with the services and learning what they offer without needing to write any code. Then, use the available client libraries and REST APIs to get   started embedding these services into your own applications.
 
 8. Sign in to Vision Studio from https://portal.vision.cognitive.azure.com/ with your Azure subscription and if it's your first time logging in, you'll see a popup window appear that prompts you to **Sign in to Azure** and then choose or create a Vision resource. You have the option to skip this step and do it later also.
    
